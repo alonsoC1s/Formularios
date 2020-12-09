@@ -1,0 +1,636 @@
+\documentclass[a4paper]{article}
+\usepackage{/home/alonso/Documents/Projects/formularios/styles}
+\usepackage{amssymb, amsthm}
+\usepackage{amsmath}
+\usepackage[landscape]{geometry}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{quattrocento}
+\usepackage[shortlabels]{enumitem}
+\usepackage{extarrows}
+\usepackage{dsfont} % Indicator 
+
+\newtheorem{definition}{DFN}
+\newtheoremstyle{mytheoremstyle} % name
+    {\topsep}                    % Space above
+    {\topsep}                    % Space below
+    {}                   % Body font
+    {}                           % Indent amount
+    {\bfseries\scshape}                   % Theorem head font
+    {:}                          % Punctuation after theorem head
+    {.5em}                       % Space after theorem head
+    {}  % Theorem head spec (can be left empty, meaning ‘normal’)
+\theoremstyle{mytheoremstyle}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{axiom}{Axioma}
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem*{obs}{Obs}
+    
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+
+\title{}
+\author{}
+
+% Macros útiles
+\newcommand{\IP}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{\mathds{1}}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\unif}{unif\!}
+\DeclareMathOperator{\Ber}{Ber}
+\DeclareMathOperator{\bin}{bin}
+\DeclareMathOperator{\geo}{geo}
+\DeclareMathOperator{\binneg}{bin\,neg}
+\DeclareMathOperator{\hipergeo}{hipergeo}
+\DeclareMathOperator{\Po}{Po}
+\DeclareMathOperator{\dgamma}{gamma}
+\DeclareMathOperator{\dbeta}{beta}
+\DeclareMathOperator{\Weibull}{Weibull}
+\DeclareMathOperator{\dnormal}{N}
+
+\begin{document}
+\formTitle{Cálculo de Probabilidades}
+\begin{multicols*}{3}
+
+\begin{roundbox}{Espacios de probabilidad}
+\begin{definition}[Espacio de probabilidad] 
+    Un espacio muestral es la terna $(\Omega, \F, \IP)$ donde
+    \begin{itemize}
+        \item $\Omega$ es el espacio muestral. Un conjunto no-vacío
+        \item $\F$ es la $\sigma$-álgebra, una colección de subconjuntos de $\Omega$ que contiene a $\Omega, \varnothing$ y es cerrada bajo complementos, e intersecciones \underline{contables}.
+        \item Una medida $\IP : \F \to [0,1]$ con $\IP(\varnothing) = 0$ y $\IP(\Omega) =1$, tal que $\IP$ es $\sigma$-aditiva.
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}[Propiedades de $\IP$]
+    Si $\IP$ es una medida de probabilidad válida se cumple: 
+    \begin{enumerate}
+        \item $\IP(A) \geq 0 \quad \forall A \in \F$.
+        \item $\IP(\Omega) = 1$. 
+        \item Si $A_1, A_2, \dots \in \F$ con $A_i \cap A_j = \varnothing \; \forall i \neq j$, entonces $\IP(\bigcup_{i} A_i) = \sum_{i} \IP(A_i)$. 
+    \end{enumerate}
+    Las propiedades 1 a 3 se conocen como los \underline{axiomas de Kolmogorov}.
+    \begin{enumerate}
+        \setcounter{enumi}{3}
+        \item Para cualquier $A \in \F$, $\IP(A) = 1 - \IP(A^c)$.
+        \item Si $A \subseteq B$ con $A,B \in \F \implies \IP(B \setminus A) = \IP(B) - \IP(A)$.
+        \item Si $A \subseteq B$ con $A,B \in \F \implies \IP(A) \leq \IP(B)$. Conocida como \textit{monotonicidad}.
+        \item Para cualesquiera $A_1, A_2 \in \F$ se cumple $\IP(A_1 \cup A_2) = \IP(A_1) + \IP(A_2) - \IP(A_1 \cap A_2)$. Conocido como \textit{inclusión exclusión}.
+        \item Para cualquier familia $\set{A_i}_{i \in I} \in \F$ se cumple que $\IP(\bigcup_i A_i) \leq \sum_{i} \IP(A_i)$. Conocida como la \textit{desigualdad de Boole}.
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\columnbreak
+
+\begin{roundbox}{Probabilidad condicional}
+El concepto de probabilidad condicional surge como una manera de medir probabilidades una vez que se ha reducido el espacio muestral.
+
+\begin{definition}[Probabilidad Condicional] 
+    Sea $(\Omega, \F, \IP)$ un espacio de probabilidad y sean $A, B \in \F$ tal que $\IP(B) > 0$. Entonces definimos
+    \[
+        \IP(A | B) = \frac{\IP(A \cap B)}{\IP(B)}.
+    \]
+\end{definition}
+
+\begin{theorem}
+    Sea $(\Omega, \F, \IP)$ un espacio de probabilidad. Sea $B \in \F$ tal que $\IP(B) > 0$. Sea $\mathbb{Q}: \F \to [0,1]$ definida como $\mathbb{Q}(A) \coloneqq \IP(A|B) = \frac{\IP(A \cap B)}{\IP(B)}$. Entonces $\mathbb{Q}$ es una medida válida de probabilidad sobre $(\Omega, \F)$.
+\end{theorem}
+
+\begin{theorem}[Probabilidad Total]
+    Sea $(\Omega, \F, \IP)$ un espacio de probabilidad. Sea $B_1, B_2, \dots, B_n \in \F$ una partición de $\Omega$. Entonces, para cualquier $A\in \F$, se satisface
+    \[
+        \IP(A) = \sum_{i=1}^{n} \IP(A|B) \cdot \IP(B).  
+    \] 
+\end{theorem}
+
+\begin{theorem}[Teorema de Bayes]
+    Sea $(\Omega, \F, \IP)$ un espacio de probabilidad. Sea $B_1, B_2, \dots, B_n \in \F$ una partición de $\Omega$. Sea $A \in \F$ tal que $\IP(A) > 0$. Entonces
+    \[
+        \IP(B_k | A) = \frac{\IP(A|B_k) \cdot \IP(B_k)}{\sum_{i=1}^{n} \IP(A|B_i) \cdot \IP(B_i)} .
+    \]
+\end{theorem}
+
+\begin{definition}[Eventos Independientes] 
+    Decimos que dos eventos $A, B \in \F$ son independientes si y solamente si $\IP(A\cap B) = \IP(A) \cdot \IP(B)$. En dado caso, denotamos que $A$ y $B$ son independientes como $A \perp B$.
+\end{definition}
+
+\begin{obs}
+    La independencia de eventos es un caso muy particular. No se puede asumir que es la norma.
+\end{obs}
+
+\begin{theorem}
+    Supongamos $A\perp B$ ($A,B \in \F$). Entonces se cumplen
+    \begin{enumerate}[a)]
+        \item $A^c \perp B$.
+        \item $A^c \perp B^c$.
+        \item $A \perp B^c$.
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Probabilidad condicional}
+    \begin{theorem}[Regla de la multiplicación]
+        Sean $A_1, A_2, \dots, A_n \in F$ cualesquiera tales que $\IP(A_1 \cap A_2 \cap \cdots \cap A_n) >0$. Entonces
+        \begin{equation*}
+            \begin{split}
+                \IP(\cap_{i=1}^{n} A_i) = \IP(A_1) \cdot \IP(A_2|A_1) \cdot \IP(A_3|A_1 \cap A_2) \cdots \\ \IP(A_n | \cap_{i=1}^{n-1}A_n).  
+            \end{split}
+        \end{equation*}
+    \end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Variables Aleatorias}
+    \begin{definition}[Variable Aleatoria] 
+        Sea $(\Omega, \F, \IP)$ un espacio de probabilidad. Se dice que $X:\Omega \to \R$ es una variable aleatoria (v.a) sobre el espacio si y solamente si 
+        \[
+            X^{-1}((-\infty, x]) = \set{\omega \in \Omega \mid X(\omega) \leq x} \in \F.  
+        \]
+        La definición garantiza la permanencia en conjuntos medibles. 
+    \end{definition}
+
+    Las Variables Aleatorias se pueden clasificar en contínuas o discretas.
+
+    \begin{definition}[Función de densidad de probabilidades] 
+        Asociada a toda v.a existe una función $f_{X} : \R \to [0,1]$ llamada función de densidad de probabilidades (f.d.p) dada por
+        \[
+            f_{X} (x) \coloneqq \IP[\set{\omega \in \Omega \mid X(\omega) = x}] .
+        \] 
+        Como \textit{azucar sintáctica} podemos escribir lo anterior como
+        \[
+            \IP[\set{\omega \in \Omega \mid X(\omega) = x}] \xlongequal{\text{\scshape not.}} \IP[X = x].
+        \]
+    \end{definition}
+
+    \begin{obs}
+        Con el símbolo $\xlongequal{\text{\scshape not.}}$ señalamos que es una notación convencional, no una igualdad en el sentido riguroso. 
+    \end{obs}
+
+    \begin{definition}[Soporte de la f.d.p] 
+        El conjunto $S \subseteq \R$ formado por los puntos con probabilidad no-cero es llamado el soporte de la función de densidad de probabilidades.  
+    \end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Variables Aleatorias}
+    \begin{theorem}[Propiedades de $f_X$]
+        Sea $f_X$ la f.d.p de $X$ una variable aleatoria. Entonces 
+    \begin{enumerate}
+        \item $f_X (x) \geq 0 \quad x \in \R$.
+        \item 
+        \begin{enumerate}
+            \item En el caso discreto: $\sum_{x \in \R} f_X (x) = 1$
+            \item En el caso contínuo: $\int_\R f_X (x) = 1$.
+        \end{enumerate}
+    \end{enumerate}
+    \end{theorem}
+
+    \begin{definition}[Función de distribución acumulada] 
+        Asociada a toda v.a se define una función $F_X : \R \to [0,1]$ llamada función de distribución acumulada (f.d.a) dada por 
+        \[
+            F_X (x) \coloneqq   \IP[\set{\omega \in \Omega \mid X(\omega) \leq x}].
+        \]
+        Una vez más, abreviamos como 
+        \[
+            F_X (x) \coloneqq   \IP[\set{\omega \in \Omega \mid X(\omega) \leq x}] \xlongequal{\text{\scshape not.}} \IP[X \leq x].
+        \]
+    \end{definition}
+
+    \begin{obs}
+        Vemos que 
+        \begin{itemize}
+            \item $F_X (x) = \sum_{t \leq x} f_X (t)$. En el caso discreto. 
+            \item $F_X (x) = \int_{-\infty}^{x} f_X(t) \, dt$. En el caso contínuo.
+        \end{itemize}
+    \end{obs}
+
+    \begin{theorem}[Propiedades de $F_X$]
+        Sea $F_X$ la f.d.a de una variable aleatoria. Entonces 
+        \begin{enumerate}
+            \item $F_X$ es monótona no-decreciente.
+            \item $F_X$ es contínua con la derecha. 
+            \item $\lim_{x \to -\infty} F_X (x) = 0$ \& $\lim_{x \to \infty} F_X (x) = 1$.
+        \end{enumerate}
+    \end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Características de una Variable Aleatoria}
+Estudiamos otras funciones asociadas a una v.a.
+\begin{definition}[Función de supervivencia] 
+    Se define la función de supervivencia de una v.a $X$ como 
+    \[
+        S_X (x) \coloneqq \IP[\omega \in \Omega \mid X(\omega) > x] .
+    \]
+\end{definition}
+
+\begin{theorem}[Propiedades de $S_X$]
+    La función de supervivencia $S_X$ cumple 
+    \begin{enumerate}
+        \item $S_X$ es monótona no-creciente. 
+        \item $S_X$ es contínua por la derecha. 
+        \item $S_X(0) = 1$ \& $\lim_{t \to \infty} S_X(t) = 0$. 
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\columnbreak
+
+\begin{roundbox}{Características de una Variable Aleatoria}
+% \begin{obs}
+%     Además de las propiedades anteriores, tenemos que $S_X(x) = \int_{x}^{\infty} f_x(t) \, dt$ \& $f_X (x) = - \frac{d}{dx} S_X (x)$.
+% \end{obs}
+
+\begin{definition}[Función de riesgo] 
+    Si $X$ es una variable aleatoria que modela el tiempo de falla de algún componente, definios la función o tasa de riesgo como 
+    \[
+        h_X(x) = \frac{f_X (x)}{S_X(x)}.  
+    \]
+\end{definition}
+
+Mostramos las definiciones únicamente para el caso contínuo por brevedad. 
+
+\begin{definition}[Esperanza] 
+    Sea $X$ una v.a con f.d.f $f_X(x)$. Supongamos que $\sum_x |x| \cdot f_X(x)$ está acotada (en el caso discreto, la integral). Entonces, se define la esperanza de $X$ como 
+    \[
+        \E[X] = \int_{\R} x \cdot f_X(x) \, dx
+    \]
+\end{definition}
+
+\begin{theorem}[Ley del estadístico inconsciente]
+    Sea $X$ una variable aleatoria contínua, y $g:\R\to\R$ una función. Entonces
+    \[
+        \E[g(X)] = \int_\R g(x) \cdot f_X(x) \, dx 
+    \]
+\end{theorem}
+
+\begin{definition}[Varianza] 
+    Sea $X$ una variable aleatoria con media $\mu$. Entonces se define la varianza de $X$ como 
+    \[
+        \Var(X) = \E[(X- \mu)^{2}].  
+    \]
+\end{definition}
+
+\begin{theorem}
+    $\Var(X) = \E[X^{2}] - \mu^{2}$.
+\end{theorem}
+
+\begin{definition}[$k$-ésimo momento de $X$] 
+    Definimos el $k$-ésimo momento de la variable aleatoria $X$ como 
+    \[
+        \E\left[X^k\right] = \int_{\R} x^k \cdot f_X(x) \, dx 
+    \]
+\end{definition}
+
+\begin{definition}[$k$-ésimo centrado momento de $X$] 
+    Definimos el $k$-ésimo momento de la variable aleatoria $X$ como 
+    \[
+        \E[(X-\mu)^k] = \int_{\R} (x-\mu)^k f_X(x)  
+    \]
+\end{definition}
+
+\begin{theorem}[Linealidad]
+    Se cumple
+    \begin{enumerate}
+        \item $\E[aX+b]=a\E[X]+b$,
+        \item $\Var(aX+b)=a^2\Var(X)$.
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\columnbreak
+
+\begin{roundbox}{Características de una Variable Aleatoria}
+    \begin{definition}[Funcion generadora de momentos] 
+        Definimos la función generadora de momentos de la variable aleatoria $X$ como
+        \[
+            M_X(t) = \E\left[ e^{tX} \right]  
+        \] 
+    \end{definition}
+    \begin{theorem}
+        Sea $X$ una v.a y sea $M_X$ su función generadora de momentos. Entonces 
+        \[
+            \frac{d^k}{dt^k} M_X(T) \bigg\lvert_{t=0} = \E\left[x^k\right]  
+        \]
+    \end{theorem}
+
+    \begin{definition}[Coeficiente de Asimetría] 
+        Se define el coef. de asimetría $\nu_3(X)$ como:
+        \[
+            \nu_3(X) = \frac{\E[(X - \mu)^{3}]}{\E[(X-\mu)^2]^{3/2}}.
+        \] 
+    \end{definition}
+
+    \begin{definition}[Coeficiente de Kurtosis] 
+        Se define el coef. de kurtosis $\nu_3(X)$ como:
+        \[
+            \nu_4(X) = \frac{\E[(X-\mu)^{4}]}{\E[(X-\mu)^2]^2}.
+        \]
+    \end{definition}
+\end{roundbox}
+
+\pagebreak
+
+\begin{roundbox}{Distribución Uniforme Discreta}
+    Decimos que una v.a $X$ se distribuye uniforme discreta ($X \sim \unif\set{x_1, \dots , x_n}$) si la probabilidad de que $X$ tome cualquiera de los valores en $\set{x_1, \dots , x_n}$ es constante e igual a $1/n$.
+
+    Su f.d.p es 
+    \[
+        f_X (x) = \frac{1}{n} \, \1_{\set{x_1, \dots, x_n}}(x)
+    \]
+    su f.d.a es 
+    \[
+        F_X (x) =
+        \begin{cases*}
+            0 & si  $x < 1$, \\
+            \frac{1}{n} & si $2 \leq x < 3$, \\
+            \frac{2}{n} & si $3 \leq x < 4$, \\
+            \vdotswithin{\frac{2}{n}} \\
+            \frac{n}{n} & si $x \geq n$. \\
+        \end{cases*} 
+    \]
+    Características:
+    \begin{align*}
+        \E[X] &= \frac{1}{n} \sum_{i=1}^{n} x_i = \mu\\
+        \Var[X] &= \frac{1}{n} \sum_{i=1}^{n} (x_i - \mu)^{2} \\
+        M_X(t) &= \frac{e^t(1-e^{nt})}{n(1-e^t)} .
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Bernoulli}
+    Decimos que $X$ se distribuye Bernoulli ($X \sim \Ber(p)$) si modela un experimento con dos resultados: exito y fracaso con probabilidad $p$ y $1-p$ respectivamente. 
+
+    Su f.d.p es 
+    \[
+        f_X(x) = p^x (1-p)^{1-x} \, \1_{\set{0,1}}(x)
+    \]
+    su f.d.a es
+    \[
+        F_X (x) = 
+       \begin{cases*}
+           0 &  si $x < 0$, \\
+           1-p & si $0 \leq x < 1$, \\
+           1 & si $x \geq 1$.
+       \end{cases*}   
+    \]
+    Características:
+    \begin{align*}
+        \E[X] &= p \\
+        \Var[X] &= p(1-p) \\
+        M_X(t) &= (1-p) pe^t.
+    \end{align*}
+\end{roundbox}
+
+\columnbreak
+
+\begin{roundbox}{Distribución binomial}
+    Decimos que $X$ se distribuye binomial ($X \sim \bin(n,p)$) si modela una serie de $n$ ensayos independientes Bernoulli.
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \binom{n}{x} p^x (1-p)^{n-x} \, \1_{\set{0, 1, \dots, n}} (x)
+    \]
+    su f.d.a no tiene una expresión reducida. 
+
+    Características:
+    \begin{align*}
+        \E[X] &= np \\
+        \Var[X] &= np(1-p) \\
+        M_X(t) &= (pe^t + (1-p))^n.
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Geométrica}
+    Decimos que $X$ se distribuye binomial ($X \sim \geo(p)$) si modela una sucesión infinita ensayos independientes Bernoulli.
+
+    Su f.d.p es 
+    \[
+        f_X(x) = p (1-p)^{x-1} \, \1_{\set{0,1, \dots}}(x)
+    \]
+    su f.d.a es
+    \[
+        F_X (x) = \sum_{u \leq x} f_X (u)
+       \begin{cases*}
+           0 & si $x<0$, \\
+           1 - (1-p)^{k+1} & si $k \leq x < k+1$.
+       \end{cases*}   
+    \]
+    Características:
+    \begin{align*}
+        \E[X] &= \frac{1-p}{p} \\
+        \Var[X] &= \frac{1-p}{p^2} \\
+        M_X(t) &= \frac{p}{1-(1-p)e^t}.
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Binomial Negativa}
+    Decimos que $X$ se distribuye binomial negativa ($X \sim \binneg(r,p)$) si modela el número de fracasos antes de obtener el $r$-ésimo éxito en una infinitos ensayos Bernoulli.
+    \[
+        f_X(x) = \binom{r+x-1}{x} p^r (1-p)^{x} \, \1_{\set{0,1, \dots}}(x)
+    \]
+\end{roundbox}
+
+\begin{roundbox}{Distribución Binomial Negativa}
+    Su f.d.a no tiene expresión reducida. 
+    
+    Características:
+    \begin{align*}
+        \E[X] &= \frac{r(1-p)}{p} \\
+        \Var[X] &= \frac{r(1-p)}{p^2} \\
+        M_X(t) &= \frac{p^{r}}{\left[1-(1-p) e^{t}\right]^{r}}
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Hipergeométrica}
+    Esta distribución modela la probabilidad de obtener un número particular de objetos en una muestra de tamaño $n$ de $N$ totales, con $K$ de interés. Escribimos $X \sim \hipergeo(N, K, n)$.
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \frac{\binom{K}{x}\binom{N-K}{n-x}}{\binom{N}{n}} \, \1_{\set{0,1, \dots}}(x)
+    \]
+    Su f.d.a no tiene expresión reducida. 
+
+    Sus primeros dos momentos son
+    \begin{align*}
+        \E[X] &= n \frac{K}{N}, \\
+        \Var[X] &= n \frac{K}{N} \frac{N-K}{N} \frac{N-n}{N-1}.
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Poisson}
+    Modela la el número de eventos que ocurren dentro de un intervalo de tiempo dado, conociendo la tasa media de ocurrencia $\lambda$. Escribimos $X \sim \Po(\lambda)$
+
+    Su f.d.p es 
+    \[
+        f_X(x) = e^{-\lambda} \frac{\lambda^x}{x!} \, \1_{\set{0,1, \dots}}(x)
+    \]
+
+    Características:
+    \begin{align*}
+        \E[X] &= \lambda \\
+        \Var[X] &= \lambda \\
+        M_X(t) &= e^{\lambda (e^t -1)}.
+    \end{align*}
+
+    \begin{obs}
+        Se puede aproximar una v.a $X \sim \bin(n,p)$ mediante otra $Y \sim \Po(\lambda)$ con $\lambda = np$.
+    \end{obs}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Uniforme Contínua}
+    Esta distribución modela un espacio equiprobable en el intervalo $(a,b)$. Escribimos $X \sim \unif(a,b)$.
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \frac{1}{b-a} \, \1_{(a,b)}(x)
+    \]
+    Su f.d.a es 
+    \[
+        F_X (x) = 
+        \begin{cases*}
+            0 & si $x \leq a$, \\
+            \frac{x-a}{b-a} & si $a < x <b$, \\
+            1 & si $x \geq b$.
+        \end{cases*}  
+    \]
+
+    Características:
+    \begin{align*}
+        \E[X] &= \frac{a+b}{2} \\
+        \Var[X] &= \frac{(b-a)^{2}}{12} \\
+        M_X(t) &= \frac{e^{tb} - e^{ta}}{t(b-a)}.
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Exponencial}
+    Decimos $X \sim \exp(\lambda)$ con $\lambda>0$.
+    Puede pensarse como la versión contínua de la distribución Poisson.
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \lambda e^{-\lambda x} \, \1_{(0,\infty)}(x)
+    \]
+    Su f.d.a es 
+    \[
+        F_X (x) = 1 - e^{-\lambda x} \, \1_{(0,\infty)}(x)
+    \]
+
+    Características:
+    \begin{align*}
+        \E[X] &= \frac{1}{\lambda} \\
+        \Var[X] &= \frac{1}{\lambda^2} \\
+        M_X(t) &= \frac{\lambda}{\lambda - t}.
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Gamma}
+    Decimos $X \sim \dgamma(\alpha, \lambda)$ con $\alpha > 0$, $\lambda>0$.
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \frac{(\lambda x)^{\alpha -1}}{\Gamma(\alpha)} \, \1_{(0,\infty)}(x)
+    \]
+    con 
+    \[
+        \Gamma(\alpha) = \int_{0}^{\infty} x^{\alpha-1} e^{-x} \, dx
+    \]
+    la función Gamma.
+
+    Su f.d.a no tiene expresión compacta.
+
+    Características:
+    \begin{align*}
+        \E[X] &= \frac{\alpha}{\lambda} \\
+        \Var[X] &= \frac{\alpha}{\lambda^2} \\
+        M_X(t) &= \left( \frac{\lambda}{\lambda -t} \right)^{\alpha}.
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Beta}
+    Decimos $X \sim \dbeta(a,b).$
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \frac{1}{B(a,b)} x^{a-1} \, \1_{(0,1)}(x)
+    \]
+    con 
+    \[
+        B(a,b) = \int_{0}^{1} t^{a-1} (1-t)^{b-1} \, dt  
+    \]
+    la función Beta.
+
+    Su f.d.a no tiene expresión compacta.
+
+    Características:
+    \begin{align*}
+        \E[X] &= \frac{a}{a+b} \\
+        \Var[X] &= \frac{ab}{(a+b+1)(a+b)^{2}} \\
+        M_{X}(t)&=\sum_{k=0}^{\infty} \frac{t^{k}}{k !} \frac{B(\alpha+k, \beta)}{B(\alpha, \beta)}
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Weibull}
+    Decimos $X \sim \Weibull(\alpha, \lambda)$
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \lambda \alpha (\lambda x)^{\alpha -1} e^{-(\lambda \alpha)^{a}} \, \1_{(0,\infty)}(x)
+    \]
+    Su f.d.a es
+    \[
+        F_X(x) = 1 - e^{-(\lambda x)^{a}} \, \1_{(0, \infty)}(x)  
+    \]
+
+    Sus primeros dos momentos son
+    \begin{align*}
+        \E[X] &= \frac{1}{\lambda} \Gamma\left(1 + \frac{1}{\lambda}\right), \\
+        \Var[X] &= \frac{1}{\lambda^2} \left[ \Gamma\left(1 + \frac{2}{\alpha}\right) - \Gamma^{2} \left( 1 + \frac{1}{\alpha}\right) \right].
+    \end{align*}
+\end{roundbox}
+
+\begin{roundbox}{Distribución Normal}
+    Decimos $X \sim \dnormal(\mu, \sigma^2)$
+
+    Su f.d.p es 
+    \[
+        f_X(x) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} e^{- \frac{(x-\mu)^{2}}{2 \sigma^2}}.
+    \]
+    Su f.d.a no tiene una forma compacta, y la integral que la describe no tiene forma cerrada.
+
+    Características:
+    \begin{align*}
+        \E[X] &= \mu \\
+        \Var[X] &= \sigma^2 \\
+        M_X(t) &= e^{\mu t} e^{\frac{1}{2} \sigma^2 t^2}.
+    \end{align*}
+
+    Para la mayoría de los cálculos es necesario tener en cuenta lo siguiente: 
+
+    Si $X \sim \dnormal(\mu, \sigma^2)$, entonces $Z = \frac{X-\mu}{\sigma} \sim N(0,1)$.
+    Por lo tanto, $\IP[X\leq x] =  \Phi\left( \frac{x-\mu}{\sigma} \right)$. 
+
+    Donde
+    \[
+        \Phi(z) = \int_{-\infty}^{z} \frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2} u^2} \, du.
+    \]
+
+    Para una normal estándar se cumple: 
+    \begin{align*}
+        \E[X] &= 0 \\
+        \Var[X] &= 1 \\
+        M_X(t) &= e^{\frac{1}{2} t^2}.
+    \end{align*}
+\end{roundbox}
+
+\end{multicols*}
+\end{document}

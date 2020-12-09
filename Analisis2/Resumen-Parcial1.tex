@@ -1,0 +1,1462 @@
+
+%\documentclass[xcolor=dvipsnames,10pt]{beamer}
+\documentclass[xcolor=dvipsnames,10pt,handout, draft]{beamer}
+
+\usetheme{Madrid}
+
+
+\definecolor{coulourname}{rgb}{.25,.5,.25}
+
+\usecolortheme[named=coulourname]{structure}
+
+
+%\usepackage[spanish]{babel}
+
+
+\DeclareMathOperator{\gene}{span}
+\DeclareMathOperator{\abs}{abs}
+\DeclareMathOperator{\sen}{sen}
+
+\usepackage{import}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{3.5in}
+    \import{./figuras/}{#1.pdf_tex}
+}
+
+\newcommand{\nz}{\mathbb N}
+\newcommand{\rz}{\mathbb R}
+\newcommand{\rzp}{\mathbb R^{p}}
+\newcommand{\rzq}{\mathbb R^{q}}
+\newcommand{\rzm}{\mathbb R^{m}}
+\newcommand{\qzp}{\mathbb Q^{p}}
+\newcommand{\intunit}{\mathbb I}
+
+
+\newtheorem*{afirma}{}
+\newtheorem*{vgr}{Ejemplo}
+\newtheorem*{teo}{Teorema}
+\newtheorem*{propi}{Propiedades}
+\newtheorem*{propo}{Proposici\'on}
+\newtheorem*{cor}{Corolario}
+
+\author[MAT24111]{An\'alisis Matem\'atico 2\\Prof. J. Rivera Noriega}
+\institute{ITAM}
+
+\title{Repaso Primer Parcial}
+
+\date{Otoño de 2020}
+
+\begin{document}
+
+
+\frame{\titlepage}
+
+
+\begin{frame}{Otro modo de ver continuidad puntual}
+
+Recordemos la definici\'on de continuidad de una funci\'on en un punto que funciona en cualquier espacio m\'etrico $(X,d)$. \pause\\
+Sean $f:D(f)\subseteq X\to X$ y $a\in D(f)$. \pause
+
+\begin{afirma}
+$f$ es continua en $a\in D(f)\subseteq X$ si para toda $\epsilon>0$ existe $\delta>0$ tal que 
+$$x\in D(f)\cap B_\delta(a)\quad\text{implica}\quad f(x)\in B_\epsilon(f(a))$$
+\end{afirma}\pause
+Esta definici\'on puede escribirse usando im\'agenes inversas:\pause
+\begin{afirma}
+$f$ es continua en $a$ si para toda $\epsilon>0$ existe $\delta>0$ tal que 
+$$f^{-1}\big(B_\epsilon(f(a))\big)\supseteq D(f)\cap B_\delta(a).$$
+\end{afirma}\pause
+Este \'ultimo punto de vista tiene la ventaja de usar propiedades de abiertos en el dominio y en la imagen.
+
+\end{frame}
+
+
+\begin{frame}
+
+\begin{figure}[ht]
+    \centering
+    % \incfig{ContinuidadPuntual}
+    \caption{\em $x\in D(f)\cap B_\delta(a)$ implica que $f(x)\in B_\epsilon(f(a))$}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Continuidad global}
+
+La observaci\'on anterior es \'util cuando consideramos la continuidad de la funci\'on {\color{red!77!black} en todo punto} de $D(f)$.
+\vskip4pt\pause
+Se dice que $f$ es {\color{red!77!black} continua en su dominio} si es continua en todo punto de $D(f)$.\pause
+
+\begin{teo}[de continuidad global - Versi\'on 1]
+Para $f:D(f)\subseteq\rzp\to\rzq$ son equivalentes las siguientes condiciones:
+\begin{itemize}
+\item[(a)] $f$ es continua en su dominio;\pause
+\item[(b)] Si $G\subseteq\rzq$ es abierto, existe $G_1\subseteq\rzp$ abierto tal que $\displaystyle f^{-1}(G)=D(f)\cap G_1$;\pause
+\item[(c)] Si $H\subseteq\rzq$ es cerrado, existe $H_1\subseteq\rzp$ cerrado tal que $\displaystyle f^{-1}(H)=D(f)\cap H_1$;\pause
+\end{itemize}
+\end{teo}
+Existe tambi\'en una versi\'on en la que el dominio de $f$ es todo $\rzp$.
+
+\end{frame}
+
+
+\begin{frame}{Continuidad global}
+
+\begin{teo}[de continuidad global - Versi\'on 2]
+Para $f:\rzp\to\rzq$ son equivalentes las siguientes condiciones:
+\begin{itemize}
+\item $f$ es continua en $\rzp$;\pause
+\item Si $G\subseteq\rzq$ es abierto entonces $\displaystyle f^{-1}(G)$ es abierto en $\rzp$;\pause
+\item Si $H\subseteq\rzq$ es cerrado entonces $\displaystyle f^{-1}(H)$ es cerrado en $\rzp$;\pause
+\end{itemize}
+\end{teo}
+
+Debe observarse que este teorema es consecuencia inmediata del anterior, por lo que usualmente se demuestra la {\em Versi\'on 1} del teorema.
+\vskip4pt\pause
+La demostraci\'on est\'a en [Bartle, Section 22]
+\end{frame}
+
+
+
+\begin{frame}{Demostraci\'on del Teorema de Continuidad Global}
+
+{\color{green!59!black} $\text{(a)}\,\Rightarrow\,\text{(b)}\quad$} Sea $G\subseteq\rzq$ abierto y $a\in f^{-1}(G)$. \pause\vskip4pt Como $G$ es {\em vecindad} de $f(a)$, sabemos que existe $\epsilon>0$ tal que $B_\epsilon(f(a))\subseteq G$, \pause\vskip4pt Por continuidad de $f$ en $a$ existe $\delta_a>0$ tal que 
+$$f^{-1}(G)\supseteq f^{-1}\big(B_\epsilon(f(a))\big)\supseteq B_{\delta_a}(a)\cap D(f) \pause$$
+Denotemos por $U_a=B_{\delta_a}(a)$ y repitamos el procedimiento para toda $a\in f^{-1}(G)$. \pause\vskip4pt Definimos $\displaystyle G_1=\bigcup_{a\in f^{-1}(G)}U_a$ que es abierto y que cumple $f^{-1}(G)=G_1\cap D(f)$:
+\pause\vskip8pt
+{\color{green!59!black} $\subseteq\quad$} es directo por construcci\'on.\pause\vskip4pt
+{\color{green!59!black} $\supseteq\quad$} Si $x\in G_1\cap D(f)$ entonces $x\in U_{a_0}$ para alg\'un $a_0\in f^{-1}(G)$. \pause Pero como se vi\'o antes tendr\'\i amos
+$$x\in U_{a_0}\cap D(f)\pause\subseteq f^{-1}(G)$$
+\hfill$\square$
+
+\end{frame}
+
+
+\begin{frame}
+
+\begin{figure}[ht]
+    \centering
+    % \incfig{ContinuidadGlobal}
+    \caption{\em El procedimiento anterior se repite para toda $a \in f^{-1}(G)$}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Continuidad Global}
+
+{\color{green!59!black} $\text{(b)}\,\Rightarrow\,\text{(a)}\quad$} 
+Sean $a\in D(f)$ y $\epsilon>0$, de manera que con $G=B_\epsilon(f(a))\subseteq\rzq$ abierto, por hip\'otesis existe $G_1\subseteq\rzp$ abierto tal que $\displaystyle f^{-1}(G)=D(f)\cap G_1$.
+\vskip4pt\pause
+\'Esto implica que $a\in G_1$, por lo que existe $\delta>0$ tal que $B_\delta(a)\subseteq G_1$.
+\vskip4pt\pause
+Pero \'esto significa que 
+$\displaystyle f^{-1}\big(B_\epsilon(f(a)\big)=f^{-1}(G)\pause=D(f)\cap G_1\pause\supseteq D(f)\cap B_\delta(a)$\hfill$\square$
+\vskip8pt\pause
+Se deja de ejercicio probar que (b) es equivalente con (c).\hfill$\blacksquare$
+
+\vskip6pt\pause
+N\'otese que este teorema se refiere a {\em imágenes inversas} de abiertos y cerrados. \pause\vskip4pt El siguiente ejemplo muestra que las {\em im\'agenes directas} de abiertos bajo funciones continuas no siempre dan lugar a un abierto:\pause
+$$f(x)=\frac{1}{1+x^2},\qquad\pause G=(-1,1),\qquad\pause f(G)=(1/2,1]\pause$$ 
+Cabe entonces preguntar cuáles propiedades son preservadas a trav\'es de imagen directa de funciones continuas.
+
+\end{frame}
+
+
+
+\begin{frame}{Preservaci\'on de la conexidad}
+
+\begin{teo}
+Sean $f:D(f)\subseteq\rzp\to\rzq$ y $H\subseteq D(f)$ conexo en $\rzp$. Si $f$ es continua en $H$, entonces $f(H)$ es conexo en $\rzq$.
+\end{teo}\pause
+
+La demostraci\'on completa est\'a en [Bartle, Section 22]. \pause
+En esa prueba se considera la restricci\'on de $f$ a $H$, que denotamos por $h=f\big|_H$ es decir que $D(h)=H$ y $h(x)=f(x)$.
+\vskip4pt\pause
+N\'otese que $f(H)=h(H)$ y $h$ es continua en $H$.
+\vskip4pt\pause
+La prueba luego establece que si $h(H)$ fuera disconexo en $\rzq$, existir\'\i a $(A,B)$ disconexi\'on de $H$. 
+
+\end{frame}
+
+
+\begin{frame}{Teorema del valor intermedio}
+
+Como aplicaci\'on importante del teorema anterior podemos establecer una propiedad fundamental de las funciones continuas con valores en $\rz$.\pause
+
+\begin{teo}[Bolzano]
+Sean $f:D(f)\subseteq\rzp\to\rz$ y $H\subseteq D(f)$ conexo en $\rzp$, y sup\'ongase que $f$ es continua y acotada en $H$.\\ \pause
+Si $k\in\rz$ cumple $\displaystyle\inf\big\{f(x):x\in H\big\}<k<\sup\big\{f(x):x\in H\big\}$\pause\\
+entonces existe $x\in H$ tal que $f(x)=k$, \pause (es decir $k\in f(H)$).\pause
+\end{teo}\pause
+
+Este resultado junto con otros que a continuaci\'on recordaremos establecen importantes propiedades de funciones $f:[a,b]\to\mathbb R$ continuas en todo $[a,b]$, intervalo cerrado y acotado. \pause\vskip4pt En alg\'un texto importante de C\'alculo se llaman los {\em ``tres teoremas fuertes''}.
+
+\end{frame}
+
+
+\begin{frame}{Preservaci\'on de la compacidad}\pause
+
+\begin{teo}
+Sean $f:D(f)\subseteq\rzp\to\rzq$ y $K\subseteq D(f)$ compacto en $\rzp$, y sup\'ongase que $f$ es continua en $K$. Entonces $f(K)$ es compacto en $\rzq$. \pause
+\end{teo}
+
+Usando la idea de la restricci\'on de $f$ al conjunto $K$, como se hizo antes, podemos suponer que $D(f)=K$.
+\vskip4pt\pause
+Sea $\mathcal G=\big\{G_\alpha:\alpha\in\mathcal A\big\}$ una cubierta abierta de $f(K)$.
+\vskip4pt\pause
+Por el teorema de continuidad global sabemos que existen $C_\alpha\subseteq\rzp$ abiertos tales que $f^{-1}(G_\alpha)=C_\alpha\cap K$.
+\vskip4pt\pause
+N\'otese que $\mathcal C=\big\{C_\alpha:\alpha\in\mathcal A\big\}$ es cubierta de $K$:\pause\\
+{\color{green!37!black}\em Dado $x\in K$ se tendr\'a $\displaystyle f(x)\in f(K)$, \pause o sea que $x\in G_{\alpha_0}$, y entonces $x\in C_{\alpha_0}$.}\hfill$\square$
+\vskip4pt\pause
+Por ser $K$ compacto tendremos $K\subseteq C_{\alpha_1}\cup\cdots\cup C_{\alpha_N}$, \pause lo cual implica que $\displaystyle f(K)\subseteq G_{\alpha_1}\cup\cdots\cup G_{\alpha_N}$.
+
+\end{frame}
+
+
+
+\begin{frame}{Teorema del m\'aximo y el m\'\i nimo}
+
+El teorema anterior nos permite establecer otra muy importante propiedad de funciones continuas con valores en $\rz$.\pause
+
+\begin{teo}
+Sean $f:D(f)\subseteq\rzp\to\rz$ y $K\subseteq D(f)$ compacto en $\rzp$, y sup\'ongase que $f$ es continua en $K$. Entonces existen $x^*,x_*\in K$ tales que 
+$$f(x^*)=\sup\big\{f(x):x\in K\big\},\qquad f(x_*)=\inf\big\{f(x):x\in K\big\}$$
+\end{teo}\pause
+N\'otese primero que por el teorema anterior $f(K)$ es compacto en $\rz$, por tanto acotado.
+\vskip4pt\pause
+Sabemos pues de la existencia de $M=\sup f(K)$, \pause\vskip4pt Por la propiedad del supremo podemos construir $(x_n)$ sucesi\'on en $K$ tal que $\displaystyle f(x_n)>M-\frac{1}{n}$ para toda $n\in\mathbb N$. \pause O sea $\displaystyle M-f(x_n)<\frac{1}{n}$.
+
+\end{frame}
+
+
+
+\begin{frame}{Teorema del m\'aximo y el m\'\i nimo - 2}
+
+Por el Teorema de Bolzano-Weierstrass existe una subsucesi\'on $(x_n')$ que converge a cierto $x^*\in K$.
+\vskip4pt\pause
+Al evaluar en este punto y usar que $f$ es coninua en $K$ obtendremos
+$$f(x^*)=\lim f(x_n')=M\pause$$
+Una prueba similar funciona para hallar $x_*\in K$ cumpliendo 
+$$f(x_*)=\lim f(y_n')=m:=\inf f(K)\pause$$
+\begin{teo}
+\pause Sean $f:D(f)\subseteq\rzp\to\rzq$ y $K\subseteq D(f)$ compacto en $\rzp$, y sup\'ongase que $f$ es continua en $K$. Entonces existen $x^*,x_*\in K$ tales que 
+$$\|f(x^*)\|=\sup\big\{\|f(x)\|:x\in K\big\},\qquad \|f(x_*)\|=\inf\big\{\|f(x)\|:x\in K\big\}$$
+\end{teo}
+
+\end{frame}
+
+
+
+\begin{frame}{Espacios de funciones continuas y funciones acotadas}\pause
+
+Fijando ahora $D\subseteq\rzp$, definimos
+\begin{eqnarray*}
+C_{pq}(D)&:=&\big\{f:D\to\rzq\,\big|\,f\text{ es continua en }D\big\}\pause\\
+BC_{pq}(D)&:=&\big\{f:D\to\rzq\,\big|\,f\text{ es continua y acotada en }D\big\}\pause
+\end{eqnarray*}
+No es dif\'\i cil verificar que $C_{pq}(D)$ y $BC_{pq}(D)$ son espacios vectoriales bajo las operaciones usuales:
+$$(f+g)(x)=f(x)+g(x),\quad (cf)(x)=cf(x),\qquad\text{para }\,x\in D\pause$$
+Adem\'as $BC_{pq}(D)$ es un espacio normado con la norma
+$$\|f\|_{\infty,D}:=\sup\big\{\|f(x)\|:x\in D\big\}\pause$$
+Finalmente n\'otese que si $D$ es compacto entonces $C_{pq}(D)=BC_{pq}(D)$.
+\end{frame}
+
+
+
+\begin{frame}{Continuidad uniforme}
+
+Dada $f:D(f)\subseteq\rzp\to\rzq$ y $A\subseteq D(f)$, se dice que $f$ es uniformemente continua en $A$ si para toda $\epsilon>0$ existe $\delta>0$  tal que para todo $x,u\in A$ que cumpla $\|x-u\|<\delta$ se tendr\'a $\|f(x)-f(u)\|<\epsilon$.
+\vskip4pt\pause
+N\'otese que si $f$ es uniformemente continua en $A\subseteq D(f)$ entonces continua en todo $a\in A$. 
+\vskip4pt\pause
+Sin embargo el rec\'\i proco es falso:\pause\\
+Basta considerar la funci\'on $\displaystyle g(x)=\frac{1}{x}$ para $x>0$.\pause\vskip4pt
+Intuitivamente, dada la misma $\epsilon>0$, entre m\'as cerca estamos de $x=0$, se va requiriendo una $\delta>0$ m\'as peque\~na. \pause \'Esto puede verse al tratar de estimar
+$$|g(x)-g(u)|=\frac{|u-x|}{ux}\leq\frac{\delta}{ux}\qquad\text{suponiendo }\, |x-u|<\delta\pause$$
+Al intentar que $\displaystyle \frac{\delta}{ux}<\epsilon$, entre m\'as peque\~nas son $x$ y $u$ se requerir\'a $\delta<\epsilon (ux)$ m\'as peque\~na.\hskip2cm{\color{blue!77!black}(ver detalles en [Bartle, pag. 159])}
+
+\end{frame}
+
+
+
+\begin{frame}{Criterio para la NO continuidad uniforme}
+
+Mirando a la definici\'on de continuidad uniforme, y obteniendo la ``negaci\'on'' de dicha definici\'on, se puede justificar la siguiente afirmaci\'on:\pause\vskip4pt
+\begin{itemize}
+\item Para verificar que $f:D(f)\subseteq\rzp\to\rzq$ NO es uniformemente continua en $A\subseteq D(f)$ basta exhibir una $\varepsilon_0>0$ y dos sucesiones $(x_n)$ y $(y_n)$ en $A$ tales que, aunque $\|x_n-y_n\|<1/n$, se cumplir\'a $\|f(x_n)-f(y_n)\|\geq\varepsilon_0$.\pause
+\end{itemize}
+Por ejemplo, en el caso anterior, si $\varepsilon_0=1/2$ y elegimos $\displaystyle x_n=\frac{1}{n}$, $\displaystyle y_n=\frac{1}{2n}$. \pause tendremos $\displaystyle|x_n-y_n|=\frac{1}{2n}<\frac{1}{n}$ \pause pero 
+$$|f(x_n)-f(y_n)|=\left|\frac{1}{x_n}-\frac{1}{y_n}\right|=n>\varepsilon_0$$
+
+\end{frame}
+
+
+
+\begin{frame}{Teorema de la continuidad uniforme}
+
+\begin{teo}
+Sea $f:D(f)\subseteq\rzp\to\rzq$ continua en su dominio. Si $K\subseteq D(f)$ es compacto entonces $f$ es uniformemente continua en $K$ 
+\end{teo}
+
+En [Bartle, pag. 160] hay dos demostraciones. 
+
+\pause\vskip4pt
+Una clase de ejemplos de funciones uniformemente continuas en su dominio son aquellas para las que existe $M>0$ tal que
+$$\|f(x)-f(y)\|\leq M\|x-y\|\qquad\text{para toda }\,x,y\in D(f)\pause$$
+A tales funciones se les llaman {\color{red!77!black}funciones de tipo Lipschitz}.
+\vskip4pt\pause
+Y dentro de esta clase ser\'an de nuestro inter\'es las {\color{red!77!black}contracciones}, es decir aquellas para las que $0<M<1$.
+\vskip4pt\pause
+En espacios m\'etricos esto quiere decir que $f:X\to X$ cumple
+$$d(f(x),f(y))\leq Md(x,y)\qquad\text{para toda }\,x,y\in X,\quad\text{con }\,0<M<1.$$
+\end{frame}
+
+
+
+\begin{frame}{Funciones Lipschitz}
+Una observaci\'on importante es que {\color{blue!77!black} no toda funci\'on uniformemente continua es de tipo Lipschitz}. \pause\vskip4pt Por ejemplo $f(x)=\sqrt x$ con $D(f)=[0,1]$ es uniformemente continua en su dominio, \pause pero no es de tipo Lipschitz, pues con $y=0$ se tendr\'\i a $\sqrt x\leq M x$ para $x\in(0,1]$ y cierta $M>0$; \pause o sea que $x\geq1/M^2$ para todo $x\in(0,1]$, lo cual es falso.
+\end{frame}
+
+
+\begin{frame}{Teorema de punto fijo para contracciones en espacios m\'etricos}
+Sea $f:X\to X$, donde $(X;d)$ es un espacio m\'etrico. 
+\vskip4pt\pause
+Se dice que $u\in X$ es un {\color{red!77!black} punto fijo} de $f$ si $f(u)=u$.
+\pause\vskip4pt
+Similarmente a como se hizo en dominios de $\mathbb R^n$, veremos que las contracciones tienen puntos fijos, cuando el espacio m\'etrico donde se trabaja es completo \pause (toda sucesi\'on de Cauchy es convergente).
+\begin{teo}
+Sean $(X;d)$ un espacio m\'etrico completo y $f:X\to X$ una contracci\'on. Entonces existe $u\in X$ que es punto fijo de $f$.\pause
+\end{teo}
+
+Para la demostraci\'on construiremos una sucesi\'on contractiva, cuyo l\'\i mite ser\'a el punto fijo.
+\vskip4pt\pause
+Iniciamos con $x_1\in X$ arbitrario, y recursivamente $x_{n+1}=f(x_n)$ para $n\in\mathbb N$.
+\vskip4pt\pause
+Por la propiedad de contracci\'on se cumplir\'a:
+$$d(x_{n+1},x_n)=d(f(x_n),f(x_{n-1}))\leq M d(x_n,x_{n-1}),\qquad0<M<1.$$
+
+\end{frame}
+
+
+\begin{frame}{Teorema del punto fijo para contracciones}
+Recordemos ahora que las sucesiones contractivas como $(x_n)$ son sucesiones de Cauchy en $X$, que por la hip\'otesis ser\'an convergentes, con l\'\i mite en $X$.  
+\vskip6pt\pause
+Primero observemos que $d(x_k,x_{k-1})\leq Md(x_{k-1},x_{k-2})\pause\leq M^{k-2}d(x_2,x_1)$.
+\pause\vskip4pt
+Dados $m>n$, usando varias veces la desigualdad triangular, escribimos
+\begin{align*}
+d(x_m,x_n)&\leq d(x_m,x_{m-1})+d(x_{m-1},x_{m-2})+\cdots+d(x_{n+1},x_{n})\\
+&\leq d(x_2,x_1)\big[M^{m-2}+M^{m-3}+\cdots+M^{n-1}\big]\\
+&\leq d(x_2,x_1)M^{n-1}\big[M^{m-n-1}+M^{m-n-2}+\cdots+1\big]\\
+&<\frac{M^{n-1}}{1-M}d(x_2,x_1)
+\end{align*}
+\pause
+Y \'esto lleva a que $(x_n)$ es una sucesi\'on de Cauchy en $X$.
+\end{frame}
+
+
+\begin{frame}{Teorema del punto fijo para contracciones}
+
+Como $X$ es completo, la sucesi\'on es convergente, digamos que $\lim x_n=u$.
+Ahora veremos que $u$ es punto fijo de $f$, sustituyendo en la f\'ormula recursiva para obtener $u=f(u)$.
+\vskip4pt\pause
+Veremos ahora que adem\'as dicho punto fijo es \'unico: \pause Si $u,v\in X$ cumplen $u=f(u)$, $v=f(v)$ entonces 
+$$d(u,v)=d(f(u),f(v))\leq Md(u,v)\pause$$
+Si ocurriera que $u\neq v$ obtendr\'\i amos $1\leq M$ (!!)\hfill$\blacksquare$
+\vskip4pt\pause
+Recurriendo a los c\'alculos anteriores de hecho se puede calcular qu\'e tan cerca est\'a el t\'ermino $n$-\'esimo del l\'\i imite: 
+$$d(u,x_n)\leq\frac{M^{n-1}}{1-M}d(x_2,x_1).$$
+
+\end{frame}
+
+
+\begin{frame}{Tema principal de la primera parte del curso}
+Como el \'ultimo teorema muestra existe la posibilidad te\'orica de considerar conceptos topol\'ogicos en espacios de funciones tales como
+\begin{eqnarray*}
+C_{pq}(D)&:=&\big\{f:D\to\rzq\,\big|\,f\text{ es continua en }D\big\}\pause\\
+BC_{pq}(D)&:=&\big\{f:D\to\rzq\,\big|\,f\text{ es continua y acotada en }D\big\}\pause
+\end{eqnarray*}
+De particular inter\'es se puede considerar el caso en que $D$ es compacto, en cuyo caso $C_{pq}(D)=BC_{pq}(D)$, donde de hecho tenemos la norma
+$$\|f\|_{\infty,D}:=\sup\big\{\|f(x)\|:x\in D\big\}\pause$$
+\pause
+Surge entonces la necesidad de estudiar ahora sucesiones de funciones y sus distintos modos de convergencia, que provienen de la posibilidad de asignarle al mismo espacio  distintas m\'etricas.
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%\end{document}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}{Sucesiones de funciones -- Convergencia puntual}
+Al considerar ahora la posibilidad de estudiar topolog\'\i a en el espacio $C(K)$ de funciones continuas definidas en un compacto $K$ dentro de un espacio m\'etrico, un primer paso es estudiar \textcolor{red}{sucesiones de funciones} y sus posibles \textcolor{red}{modos de converencia}.
+\pause\vskip2pt
+Fijando un dominio $D\subseteq\mathbb R^p$ se consideran funciones $f_n:D\to\mathbb R^q$ para cada $n\in\mathbb N$, para as\'\i\ formar la sucesi\'on $(f_n)$.
+\pause\vskip2pt
+La sucesi\'on \textcolor{red}{converge puntualmente} en $D$ a cierta funci\'on $f:D\to\mathbb R^q$ si para toda $x\in D$ la sucesi\'on en $\rzq$ definida por $(f_n(x))$ converge a $f(x)$.
+\pause\vskip2pt
+Para abreviar, en este caso escribiremos $f=\lim f_n$ o bien $f_n\to f$ puntualmente. 
+\end{frame}
+
+\begin{frame}{Ejemplos}
+\begin{itemize}
+\item $\displaystyle f_n(x)=\frac{x}{n}$, $D=\rz$, converge a la funci\'on constante $f\equiv0$ puntualmente\pause
+\item $p_n(x)=x^n$, $D=[0,1]$, converge puntualmente a la funci\'on
+$$\varphi(x)=\left\{\begin{array}{ll}
+				0&\text{si }\,x\in[0,1)\\
+				1&\text{si }\,x=1
+			\end{array}\right.$$
+\end{itemize}
+\begin{figure}
+\includegraphics[ height=4.5cm, width=4.5cm]{Potencias.pdf}
+\caption{Gr\'aficas de $y=x^n$, con $n=1,2, 3, 5$  y $9$}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Ejemplos}
+\begin{itemize}
+\item $\displaystyle g_n(x)=\frac{x^2+nx}{n}$, $D=\rz$, converge a $g(x)=x$, pues de hecho se puede escribir $\displaystyle g_n(x)=\frac{x^2}{n}+x$.\pause
+\item $\displaystyle h_n(x)=\frac{1}{n}\sen(nx+n)$, $D=\rz$, converge a $f\equiv0$. \pause Para justificar \'esto notemos que para cualquier $x\in\rz$
+$$|h_n(x)-f(x)|=\frac{1}{n}|\sen(nx+n)|\leq\frac{1}{n}\pause$$
+y como esta sucesi\'on tiende a cero, concluimos.\pause
+\end{itemize}
+\vskip6pt
+\textcolor{blue}{Recu\'erdese: si se escribe $|x_n-L|\leq Ca_n$ con $a_n\to0$ y $C>0$ constante, entonces $x_n\to L$.}
+\end{frame}
+
+\begin{frame}{Convergencia uniforme}
+Cuando escribimos la definici\'on rigurosa de convergencia puntual hallamos algo interesante: la sucesi\'on de funciones $(f_n)$, con $f_n:D\subseteq\rzp\to\rzq$, converge puntualmente a la funci\'on $f:D\subseteq\rzp\to\rzq$ en $D$ si\pause
+$$\forall\epsilon>0,\;\textcolor{red}{\forall x\in D},\; \exists k=k(\epsilon,\textcolor{red}{x})\in\nz\;\text{ tal que }\;n\geq k\Rightarrow\;\|f_n(x)-f(x)\|<\epsilon$$\pause
+Si cambiamos un poco los cuantificadores...
+$$\forall\epsilon>0,\;\exists k=k(\epsilon)\in\nz\;\text{ tal que }\;n\geq k\Rightarrow\;\|f_n(x)-f(x)\|<\epsilon\quad\textcolor{red}{\forall x\in D},\; $$\pause
+obtenemos la definici\'on de convergencia uniforme.
+\vskip4pt\pause
+Veamos la diferencia esencial: \pause
+
+En la convergencia puntual, el \'\i ndice $k\in\nz$ que existe para cada $\epsilon>0$ \textcolor{blue}{puede cambiar} para distintas $x\in D$.\pause
+
+En la convergencia uniforme, el \'\i ndice $k\in\nz$ que existe para cada $\epsilon>0$ \textcolor{blue}{es el mismo} para distintas $x\in D$.
+\end{frame}
+
+\begin{frame}{Convergencia uniforme}
+Hay adem\'as un modo gr\'afico de entender la convergencia uniforme. \pause\vskip4pt
+Esencialmente hay que dibujar una {\em vecindad tubular} alrededor de la funci\'on l\'\i mite, y tendr\'\i amos que ver que a partir de alg\'un \'\i ndice $k\in\nz$ todas las gr\'aficas de $f_n$, $n\geq k$, est\'an en esa {\em vecindad tubular}\pause
+\begin{figure}[ht]
+    \centering
+    % \incfig{Tubular}
+\caption{Representaci\'on gr\'afica de la convergencia uniforme}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Ejemplos}
+De los ejemplos anteriores podemos extraer algunas ideas.\pause
+\begin{itemize}
+\item La sucesi\'on $\displaystyle h_n(x)=\frac{1}{n}\sen(nx+n)$ \textcolor{red}{converge uniformemente} porque se logr\'o obtener $|h_n(x)-f(x)|\leq 1/n$, y en el lado derecho no hay dependencia de $x$.\pause
+\item La sucesi\'on $\displaystyle f_n(x)=\frac{x}{n}$ \textcolor{red}{no converge uniformemente} en $\rz$, \pause pues eligiendo $x_k=k$ tendremos $f_k(x_k)=1$ y por tanto $|f_k(x_k)-f(x_k)|=1$.\pause
+\item La sucesi\'on $p_n(x)=x^n$ \textcolor{red}{no converge uniformemente} en $D=[0,1]$ pues podemos elegir $x_k=2^{-1/k}$, de manera que $f_k(x_k)=1/2$, por lo que $|f_k(x_k)-f(x_k)|=1/2$.\pause
+\item Para analizar lo que ocurre con la sucesi\'on $\displaystyle g_n(x)=\frac{x^2+nx}{n}$ con dominio $D=\rz$ veamos primero algunas gr\'aficas
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Ejemplos}
+\begin{figure}
+\includegraphics[ height=6.5cm, width=6.5cm]{Potencias2.pdf}
+\caption{Gr\'aficas de $\displaystyle g_n(x)=\frac{x^2+nx}{n}$, con $n=1,2, 4, 7$  y $11$ junto con $f(x)=x$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Ejemplos}
+La explicaci\'on geom\'etrica de la convergencia uniforme sugiere que $g_n$ \textcolor{red}{no converge uniformemente} a $f(x)=x$.
+\pause\vskip4pt
+Mirando con cuidado a la definici\'on de convergencia podemos dar una condici\'on que implica la \textcolor{blue}{no convergencia uniforme} de una sucesi\'on hacia una funci\'on en un dominio.\pause
+\begin{afirma}
+La sucesi\'on de funciones $(f_n)$, con $f_n:D\subseteq\rzp\to\rzq$, no converge uniformemente a la funci\'on $f:D\subseteq\rzp\to\rzq$ en $D$ si existe $\epsilon_0>0$, una sucesi\'on $(x_k) \in D$ tal que la subsucesi\'on $(f_{n_k})$ cumple $\|f_{n_k}(x_k)-f(x_k)\|\geq\epsilon_0$
+\end{afirma}
+\end{frame}
+
+
+\begin{frame}{Ejemplos}
+\begin{figure}
+\includegraphics[height=6.5cm, width=6.5cm]{NoConv.pdf}
+\caption{Sugerencia para probar la no-convergencia uniforme de $g_n$}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Convergencia uniforme y norma infinito}
+Otro modo de entender la convergencia uniforme que ser\'a \'util cuando trabajemos en el espacio $C(K)$, con $K$ compacto, es recordando la norma 
+$$\|f\|_{\infty,D}=\sup\big\{\|f(x)\|:x\in D\big\}$$
+para $f$ en el espacio vectorial $B_{p,q}(D)$ que consta de funciones $f:D\subseteq\rzp\to\rzq$ que son acotadas.\pause
+\begin{afirma}
+Una sucesi\'on en $B_{p,q}(D)$ es uniformemente convergente en $D$ a cierta $f:D\to\rzq$ si y s\'olo si $\|f_n-f\|_{\infty,D}\to0$ si $n\to\infty$.
+\end{afirma}\pause
+Este nuevo punto de vista sirve para completar la respuesta del ejemplo de la sucesi\'on  $\displaystyle g_n(x)=\frac{x^2+nx}{n}$.
+\end{frame}
+
+
+\begin{frame}{Ejemplo revisitado}
+Tomando $D=[0,A]$, con $A>0$ fijo, la sucesi\'on $\displaystyle g_n(x)=\frac{x^2+nx}{n}$ converge en norma a $f(x)=x$, pues
+$$\|g_n-f\|_{\infty,D}=\sup\big\{|g_n(x)-f(x)|:0\leq x\leq A\big\}\pause=\sup\left\{\frac{x^2}{n}:0\leq x\leq A\right\}\pause=\frac{A^2}{n}.\pause$$
+N\'otese tambi\'en que este razonamiento permite concluir que $g_n$ no converge uniformemente en todo $\rz$, pues el supremo en cada subintervalo $[0,A]$ crece cuando $A$ crece.
+\end{frame}
+
+
+\begin{frame}{Otros ejemplos}
+\begin{itemize}
+\item Consideremos la sucesi\'on $g_n(x)=x^n(1-x^n)$ para $x\in[0,1]$.\pause
+\end{itemize}
+\begin{figure}
+\includegraphics[height=6.5cm, width=6.5cm]{MonomiosB.pdf}
+\caption{Algunas gr\'aficas de $g_n$ con $n=1,2,3,7$ y $11$}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Otros ejemplos}
+De acuerdo a lo visto en las gr\'aficas podemos intuir\pause
+\begin{itemize}
+\item Que la sucesi\'on converge puntualmente a $g\equiv0$.\pause
+\item Que hay un m\'aximo de $g_n$ en $[0,1]$ que est\'a acerc\'andose a 1.\pause
+\item Que si $n$ crece, y $x\in[0,1]$ es dado, entonces $g_n(x)$ eventualmente comienza a decaer.\pause
+\end{itemize}
+Para formalizar o desmentir las intuiciones, observemos que para $x\in[0,1]$ tenemos $|g_n(x)|\leq |x|^n.\quad$\pause Y como $0\leq x\leq1$, entonces $g_n \to g$ puntualmente.
+\vskip4pt\pause
+Para calcular los m\'aximos, procedemos como en c\'alculo:
+$$g_n'(x)=0\;\Leftrightarrow\; x=0\,\text{ \'o }\,x=\frac{1}{2^{1/n}}\pause\qquad g''(2^{-1/n})=-2^{-1/n}n^2<0.\pause$$
+De hecho el valor m\'aximo de $g_n$ es $g_n(2^{-1/n})=2^{-1}(1-2^{-1})=1/4$.
+\vskip4pt\pause
+De aqu\'\i\ que $\|g_n\|_{\infty,[0,1]}=1/4$, por lo que la convergencia de $g_n$ hacia $g\equiv0$ no es uniforme.
+\end{frame}
+
+\begin{frame}{Otros ejemplos}
+\begin{itemize}
+\item Veamos un ejemplo un poco m\'as complicado. Consid\'erese $g\in C[0,1]$ y def\'\i nase la sucesi\'on $(f_n)$ por medio de 
+$$f_1(x)=g(x),\qquad f_n(x)=\frac{1}{n}\int_0^xf_{n-1}(t)\,dt\qquad\text{ para }\,x\in[0,1].\pause$$
+\end{itemize}
+\textcolor{blue}{Se puede probar} (por inducci\'on sobre $n$) que para $x\in[0,1]$ se cumple
+$$|f_n(x)|\leq\frac{\|g\|_{\infty,[0,1]}x^{n-1}}{n!}\pause$$
+Por tanto $f_n$ converge uniformemente a $f\equiv0$.
+\end{frame}
+
+\begin{frame}{Criterio de Cauchy}
+Otro uso que podemos dar a la idea de introducir una norma infinito al espacio $B_{p,q}(D)$, $D\subset\rzp$, es el siguiente criterio de Cauchy para la convergencia uniforme. \pause
+\begin{teo}
+Sea $(f_n)$ una sucesi\'on de funciones en $B_{p,q}(D)$. Entonces existe $f\in B_{p,q}(D)$ tal que $f_n\to f$ uniformemente en $D$ si y s\'olo si dada $\epsilon>0$ existe $M\in\nz$ tal que 
+$$m,n\geq M\qquad\text{implica}\quad\|f_n-f_m\|_{\infty,D}<\epsilon$$
+\end{teo}\pause
+
+{\color{green!59!black} $\big(\Rightarrow\big)\quad$} \pause Dada $\epsilon>0$ elegimos $K\in\nz$ tal que $n\geq K$ implique $\|f_n-f\|_{\infty,D}<\epsilon/2$
+\pause\vskip4pt
+Si ahora elegimos $m,n\geq K$ concluiremos
+$$\|f_n-f_m\|_{\infty,D}\leq \|f_n-f\|_{\infty,D}+\|f-f_m\|_{\infty,D}<\frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon$$
+\end{frame}
+
+\begin{frame}{Criterio de Cauchy}
+
+{\color{green!59!black} $\big(\Leftarrow\big)\quad$} \pause Ahora, dada $\epsilon>0$ podemos elegir $M\in\nz$ de manera que $m,n\geq M$ implica $\|f_n-f_m\|_{\infty,D}<\epsilon$.
+\pause\vskip4pt
+N\'otese que esto implica a su vez que para cada $x\in D$ se tiene $\|f_n(x)-f_m(x)\|<\epsilon$, \pause es decir, que $(f_n(x))$ es una sucesi\'on de Cauchy en $\rzq$.
+Podemos entonces definir un l\'\i mite puntual $f(x)=\lim f_n(x)$ para cada $x\in D$. \pause Ahora veremos que la funci\'on as\'\i\ definida es tambi\'en el l\'\i mite uniforme de la sucesi\'on. 
+\pause\vskip4pt
+Fijando $m\geq M$ en la anterior estimaci\'on y haciendo $n\to\infty$ obtenemos $\|f_n(x)-f_m(x)\|\to\|f(x)-f_m(x)\|$, \pause por lo que $\|f(x)-f_m(x)\|\leq\epsilon$ para $x\in D$ y $m\geq M$. \pause Como de aqu\'\i\ concluimos $\|f(x)\|\leq\epsilon+\|f_M(x)\|$ para $x\in D$, entonces $f\in B_{p,q}(D)$. 
+\pause\vskip4pt
+Adem\'as lo anterior tambi\'en puede escribirse como $\|f-f_m\|_{\infty,D}<\epsilon$ para $m\geq M$.
+
+\hfill$\blacksquare$
+\end{frame}
+
+\begin{frame}{Flashback...}
+En el final de la prueba anterior se ha usado el siguiente resultado:
+
+\begin{afirma}
+Si una sucesi\'on $(x_n)$ en $\rzp$ converge a cierto $x\in\rzp$ y para ciertos $v\in\rzp$, $r>0$, se cumple $\|x_n-v\|<r$ para $n>J$, entonces $\|x-v\|\leq r$
+\end{afirma}\pause
+
+Para demostrar esta afirmaci\'on, definamos el conjunto abierto $V=\big\{y\in\rzp:\|y-v\|>r\big\}$. \pause Entonces $x\not\in V$, pues si $x\in V$ entonces $V$ ser\'\i a una vecindad de $x$, y por convergencia de la sucesi\'on, tendr\'\i amos que $x_N\in V$ para $N>J$, lo cual contradice la hip\'otesis. \pause As\'\i\ que $x\not\in V$, es decir $\|x-v\|\leq r$.
+
+\hfill$\blacksquare$
+\end{frame}
+
+\begin{frame}{Nota sobre polinomios de Taylor}\pause
+Una versi\'on adaptada del teorema de Taylor cl\'asico establece que 
+\begin{afirma}
+Sea $f:\rz\to\rz$ tal que todas sus derivadas son continuas y uniformemente acotadas por $M>0$ en un intervalo compacto $[a,b]$. \pause Fijemos $x_0\in[a,b]$, y elijamos $\epsilon>0$ de manera que $[\alpha,\beta]\subset(a,b)$, con $\alpha=x_0-\epsilon/2$, $\beta=x_0+\epsilon/2$. \pause Entonces para cualquier $x\in(\alpha,\beta)$
+\begin{align*}
+f(x)=f(x_0)&+\frac{f'(x_0)}{1!}(x-x_0)+\frac{f''(x_0)}{2!}(x-x_0)^2+\cdots+\frac{f^{(k)}(x_0)}{k!}(x-x_0)^{k}\\
+&+\frac{f^{(k+1)}(\xi)}{(k+1)!}(x-x_0)^{k+1}=:P_{k}(x)+R_k(x)
+\end{align*}
+\pause para cierta $\xi\in(\alpha,\beta)$.
+\end{afirma}
+\pause Esto podemos reescribirlo como $|f(x)-P_{k}(x)|=|R_{k}(x)|$. 
+\end{frame}
+
+\begin{frame}{Nota sobre polinomios de Taylor}
+A partir de la expresi\'on $|f(x)-P_{k}(x)|=|R_{k}(x)|$ y la definici\'on de $R_k(x)$, como la $(k+1)$-\'esima derivada de $f$ es continua en $[\alpha,\beta]\subset[a,b]$ entonces 
+$$|f(x)-P_{k}(x)|=|f^{(k+1)}(\xi)||x-x_0|^{k+1}\frac{1}{(k+1)!}\leq M\epsilon^{k+1}\frac{1}{(k+1)!}\pause$$
+Esta cantidad converge a cero uniformemente si elegimos $0<\epsilon<1$.
+\pause\vskip6pt
+Obs\'ervese que en este caso tendr\'\i amos convergencia uniforme de la sucesi\'on de {\em polinomios de Taylor} $(P_k)$ hacia la funci\'on $f$ en $[\alpha,\beta]$. 
+\pause\vskip6pt
+N\'otese tambi\'en que hay otras hip\'otesis bajo las cuales se puede obtener esta convergencia uniforme.
+\end{frame}
+
+
+\begin{frame}{Otro modo de convergencia}
+En otros cursos se considera la {\em convergencia integral cuadr\'atica},  tambi\'en conocida como \textcolor{blue}{convergencia en $L^2$}.
+\vskip6pt\pause
+Se dice que una sucesi\'on de funciones $f_n:[0,1]\to\rz$ converge en $L^2$ a $f:[0,1]\to\rz$ si 
+$$\lim_{n\to\infty}\int_0^1|f_n(t)-f(t)|^2dt=0.\pause$$
+Esta convergencia induce una topolog\'\i a en $C[0,1]$ diferente a la que induce la norma infinito, pues en este caso las magnitudes se miden usando la {\em norma $L^2$} definida como $\displaystyle\|f\|_{2,[0,1]}=\left(\int_0^1|f(t)|^2dt\right)^{1/2}$. \pause N\'otese que $\|f\|_{2}\leq\|f\|_{\infty}$ en $[0,1]$.
+\vskip6pt\pause
+De hecho hay un ejemplo de una sucesi\'on de funciones continuas que es de Cauchy en $L^2$ pero no tiene como l\'\i mite en $L^2$ a una funci\'on continua. 
+\end{frame}
+
+\begin{frame}{Otro modo de convergencia}
+Def\'\i nase para $x\in[-1,1]$
+$$f_n(x)=\left\{\begin{array}{ll}
+			0&\text{si }\,-1\leq x\leq -1/n\\
+			1+nx&\text{si }\,-1/n\leq x\leq 0\\
+			1&\text{si }\,0\leq x\leq 1
+		\end{array}\right.$$
+\begin{figure}[ht]
+    \centering
+    % \incfig{Escalera1}
+\caption{Esquema de la gr\'afica de $f_n$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Otro modo de convergencia}
+Esta es una sucesi\'on de funciones continuas que converge puntualmente a una funci\'on que no es continua.
+\vskip4pt\pause
+Sin embargo, $(f_n)$ es de Cauchy en $L^2$, es decir usando la norma $\displaystyle\|f\|_{2,[-1,1]}$, pues si $m>n$:
+\begin{align*}
+\|f_n-f_m\|_{2,[-1,1]}&=\left(\int_{-1}^1|f_n(t)-f_m(t)|^2dt\right)^{1/2}\leq\left(\int_{-1/n}^0|f_n(t)|^2dt\right)^{1/2}\\
+&\leq\left(\int_{-1/n}^0|1+nt|^2dt\right)^{1/2}=\left(\frac{1}{n}+\frac{2n}{2}\left(\frac{1}{n}\right)^2+\frac{n^2}{3}\left(\frac{1}{n}\right)^3\right)^{1/2}\\
+&=\left(\frac{1}{n}+\frac{1}{n}+\frac{1}{3n^2}\right)^{1/2}
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Sucesiones de funciones continuas}
+Analizamos ahora el caso en que se tiene una sucesi\'on de funciones continuas.
+\vskip6pt\pause
+Recordemos que los ejemplos de $p_n(x)=x^n$ en $[0,1]$, y las $f_n$ del ejemplo anterior en $[-1,1]$ muestran que el l\'\i mite puntual de funciones continuas \textcolor{blue}{no necesariamente} es continua.
+\vskip6pt\pause
+Pero en ambos ejemplos la convergencia no era uniforme. \pause Cabe entonces preguntarse si la convergencia uniforme de funciones continuas da como l\'\i mite a una funci\'on continua \pause
+
+\begin{teo}
+Sea $(f_n)$ una sucesi\'on de funciones continuas definidas en $D\subset\rzp$, tomando valores en $\rzq$. Si $f_n\to f$ uniformemente en $D$ entonces $f$ es continua en $D$.
+\end{teo}
+\end{frame}
+
+
+\begin{frame}{Prueba del Teorema}
+\textcolor{red}{Dada $\epsilon>0$} hallamos $N=N(\epsilon/3)\in\nz$, de manera que $\|f_N(x)-f(x)\|<\epsilon/3$ para $x\in D$. \pause Si por otro lado se toma $a\in D$ arbitrario se tendr\'a
+\begin{align*}
+\|f(x)-f(a)\|\leq\|f(x)-f_N(x)\|&+\|f_N(x)-f_N(a)\|+\|f(a)-f_N(a)\|\\
+&<\frac{\epsilon}{3}+\|f_N(x)-f_N(a)\|+\frac{\epsilon}{3}
+\end{align*}\pause
+Ahora explotamos el hecho de que $f_N$ es continua en $a$ para \textcolor{red}{determinar $\delta>0$}, que depende de $\epsilon/3$, $a$ y $f_N$, de manera que 
+$$\textcolor{red}{\|x-a\|<\delta}\qquad\text{implica}\qquad\|f_N(x)-f_N(a)\|<\frac{\epsilon}{3}\pause$$
+En conclusi\'on, para tales $x$ tendremos \textcolor{red}{$\|f(x)-f(a)\|<\epsilon$}.\hfill$\blacksquare$
+\end{frame}
+
+\begin{frame}{Sucesiones de funciones continuas}
+El teorema anterior puede reformularse en el lenguaje de normas uniformes.\pause
+\begin{teo}
+Si $(f_n)$ es una sucesi\'on en $BC_{p,q}(D)$ tal que $\|f_n-f\|_{\infty,D}\to0$ entonces $f\in BC_{p,q}(D)$.\pause
+\end{teo}
+
+Por otro lado el rec\'\i proco de este teorema es falso: la siguiente sucesi\'on $(\varphi_n)$ consta de funciones continuas y acotadas en $(0,\infty)$, pero converge a una funci\'on que no es acotada en $(0,\infty)$; \pause debe entonces ocurrir que la convergencia no puede ser uniforme:
+$$\varphi(x)=\left\{\begin{array}{ll}
+				1/x&\text{si }\,x\in[1/n,\infty)\\
+				n&\text{si }\,x\in(0,1/n)
+			\end{array}\right.$$
+\end{frame}
+
+\begin{frame}{Una especie de rec\'\i proco}
+Curiosamente, al a\~nadir alguna hip\'otesis extra podemos concluir un rec\'\i proco del teorema anterior.\pause
+
+\begin{teo}[Dini]
+Sea $(f_n)$ una sucesi\'on de funciones continuas definidas en un espacio m\'etrico compacto $K$. \pause Sup\'ongase adem\'as que para cualquier $x\in K$ ocurre que $f_n(x)$ converge a $f(x)$ \textcolor{blue}{puntualmente} \underline{como una sucesi\'on decreciente}, para cierta $f\in C(K)$. Entonces $f_n\to f$ uniformemente\pause
+\end{teo}
+Para demostrar el teorema supongamos SPG que la sucesi\'on es puntualmente decreciente hacia la funci\'on $f\equiv0$ y que $f_n(x)\geq0$ para toda $x\in K$.
+\pause\vskip6pt
+Esto es cierto, pues si $f_n$ converge puntualmente de manera decreciente a $f(x)\not\equiv0$, entonces ocurrir\'a que $f_n(x)\geq f(x)$ y entonces podr\'\i amos trabajar con $F(x):=f_n(x)-f(x)\geq 0$ para todo $x\in K$, \pause que cumple $F_n$ converge a la funci\'on constante $0$ puntualmente de manera decreciente.\hfill$\square$
+\end{frame}
+
+
+\begin{frame}{Una especie de rec\'\i proco}
+Bajo estas suposiciones, si no se tuviera convergencia uniforme de $f_n$ hacia $f\equiv0$, existir\'\i a $\epsilon_0>0$ y $(x_n)$ sucesi\'on en $K$ tales que \textcolor{red}{$f_n(x_n)\geq\epsilon_0$}
+\pause\vskip6pt
+Como la sucesi\'on $(x_n)$ est\'a en el cerrado y acotado $K$, podemos tomar una subsucesi\'on $(\tilde x_n)$ convergente, digamos a $x^*\in K$
+\pause\vskip6pt
+Por otro lado, la hip\'otesis de convergencia implica que existe $M\in\nz$ tal que $f_m(x^*)<\epsilon_0$ para $m\geq M$.
+\pause\vskip6pt
+Y por la continuidad de $f_M$ existe otro $N\in\nz$ tal que $n\geq N$ implica $f_M(\tilde x_n)<\epsilon$.
+\pause\vskip6pt
+Tomando $N>M$ obtendremos $\textcolor{red}{f_N(\tilde x_N)}\leq f_M(\tilde x_N)\textcolor{red}{<\epsilon_0}$ \pause lo cual contradice la construcci\'on de la subsucesi\'on.\hfill$\blacksquare$ 
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%\end{document}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\begin{frame}{Idea de la Teor\'\i a de Aproximaci\'on}
+
+Podemos ahora plantear una idea b\'asica de la teor\'\i a de aproximaci\'on, tratando de ver desde otra perspectiva los resultados anteriores.
+\vskip6pt\pause
+Dadas $f,g:D\subseteq\rzp\to\rzq$, se dice que \textcolor{blue}{$g$ aproxima uniformemente a $f$ con error $\epsilon>0$} si $\|f-g\|_{\infty,D}<\epsilon$.
+\vskip6pt\pause
+Dada $\mathcal F$ una familia de funciones de $D\subseteq\rzp$ en $\rzq$ y $f:D\to\rzq$, se dice que \textcolor{blue}{$f$ es aproximada uniformemente en $D$ por elementos de $\mathcal F$} si para toda $\epsilon>0$ existe $g_\epsilon\in\mathcal F$ tal que $\|f-g_\epsilon\|_{\infty,D}<\epsilon$.
+\vskip8pt\pause
+ De este modo, una idea que perseguiremos por un rato es iniciar con $f\in C(X)$, con $X$ espacio m\'etrico, y buscar/caracterizar familias $\mathcal F\subset C(X)$ cuyos elementos aproximen uniformemente a $f$ en $X$.
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones escalera}
+Una funci\'on $g:\rzp\to\rzq$ es una \textcolor{red}{funci\'on escalera} sobre $D\subset\rzp$ si toma un n\'umero finito de valores diferentes, y los valores distintos de cero los toma en celdas acotadas de $\rzp$.
+\vskip6pt\pause
+Recordemos que 
+\begin{itemize}
+\item Una \textcolor{red}{celda acotada} en $\rzp$ es un conjunto de la forma $I=I_1\times I_2\times\cdots\times I_p$ donde cada $I_j$ es un intervalo acotado de $\rz$.\pause
+\end{itemize} 
+Denotemos por $\Sigma(D)$ a la familia de funciones escalera sobre $D\subseteq\rzp$. \pause
+\begin{teo}
+Sea $f:J\subset\rzp\to\rzq$ una funci\'on continua en $J$, que suponemos una celda cerrada y acotada. Entonces $f$ puede aproximarse uniformemente en $J$ por elementos de $\Sigma(J)$. 
+\end{teo}
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones escalera}
+Al ser $f$ uniformemente continua en $J$, dada $\epsilon>0$ elegimos $\delta>0$ tal que $x,y\in J$ con $\|x-y\|<\delta$ implica $\|f(x)-f(y)\|<\epsilon$.
+\pause\vskip4pt
+Dividimos $J$ en celdas disjuntas y acotadas $I_1,I_2,\dots,I_N$, tales que $x,y\in I_k$ implique $\|x-y\|<\delta$
+\begin{figure}[ht]
+    \centering
+    % \incfig{BolaComeCelda}
+\caption{Bisectando los intervalos que conforman $J$ construimos las celdas $I_k$ de manera que dos puntos en ella distan entre s\'\i\ menos que $\delta$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones escalera}
+Ahora elegimos y fijamos $x_k\in I_k$ ($k=1,2,\dots,N$) y definimos la siguiente funci\'on escalera
+$$g_\epsilon(x)=\left\{\begin{array}{ll}
+					f(x_k)&\text{si }\,x\in I_k\\
+					0&\text{si }\,x\not\in J
+				\end{array}\right.\pause$$
+\begin{figure}[ht]
+    \centering
+    % \incfig{Tubular-Escalera}
+\caption{Esquema de la gr\'afica de la funci\'on escalera $g_\epsilon$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones escalera}
+Entonces $\|f-g_\epsilon\|_{\infty,J}<\epsilon$, como veremos a continuaci\'on.
+\pause\vskip5pt
+Dada $x\in J$ detectamos $I_k$ tal que $x\in I_k$, de manera que $g_\epsilon(x)=f(x_k)$ para la $x_k\in I_k$ elegida en la construcci\'on de $g_\epsilon$.
+\pause\vskip5pt
+Entonces como $x,x_k\in I_k$, de nuevo por construcci\'on 
+$$|x-x_k|<\delta\qquad\text{lo cual implica }\quad |f(x)-g_\epsilon(x)|=|f(x)-f(x_k)|<\epsilon$$
+\hfill$\blacksquare$
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones lineales por pedazos}
+Decimos que $g:J=[a,b]\to\rz$ es \textcolor{red}{lineal por pedazos} si existen $(n+1)$ puntos $c_k\in J$ cumpliendo $a=c_0<c_1<\cdots<c_n=b$, \pause y para cada $k$ dos n\'umeros $A_k,B_k\in\rz$ tales que para $x\in[c_{k-1},c_k]$ se tiene $g(x)=A_kx+B_k$.
+\vskip8pt\pause
+Obs\'ervese que para que una funci\'on lineal por pedazos sea continua, los coeficientes $A_k$, $B_k$ deben cumplir ciertas condiciones. 
+\vskip4pt\pause
+Por ejemplo, supongamos que se tienen s\'olo los intervalos $[a,c_1]$ y $[c_1,b]$.  
+\pause Entonces en $x=c_1$ se debe cumplir que 
+$$A_1c_1+B_1=A_2c_1+B_2\pause$$
+cumpli\'endose condiciones similares al haber m\'as puntos en la {\em partici\'on} que inducen los $c_k$.
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones lineales por pedazos}
+\begin{teo}
+Si $f:J=[a,b]\to\rz$ es continua en el intervalo compacto $J$ entonces puede aproximarse uniformemente en $J$ por funciones lineales por pedazos continuas. \pause
+\end{teo}
+\begin{figure}[ht]
+    \centering
+    % \incfig{Tubular-Lineal}
+\caption{Esquema de la gr\'afica de la funci\'on lineal por pedazos}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones lineales por pedazos}
+La demostraci\'on del teorema es de nuevo constructiva. 
+\pause\vskip5pt 
+Dada $\epsilon>0$ determinamos $\delta>0$ (por la continuidad uniforme de $f$) de manera que $|x-y|<\delta$ implique $|f(x)-f(y)|<\epsilon$.
+\pause\vskip5pt 
+Ahora dividimos $J$ usando una partici\'on  $\{a=c_0<c_1<c_2<\cdots<b=c_N\}$ tal que $c_k-c_{k-1}<\delta$ para toda $k$ 
+\pause\vskip5pt 
+La idea final es unir los puntos $(c_k,f(c_k))$ por medio de lineas rectas para definir la funci\'on $g_\epsilon$ que aproxime uniformemente a $f$ en $J$.
+\pause\vskip5pt 
+Aunque \'esto se ve clar en la gr\'afica daremos detalles de esta demostraci\'on
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por funciones lineales por pedazos}
+Si $x\in J$ y $x\neq c_k$ para todo $k$ (pues de otro modo no hay nada que probar),  supongamos que $c_{j-1}<x<c_j$. \pause Entonces 
+$$|f(x)-g_\epsilon(x)|\leq|f(x)-f(c_j)|+|f(c_j)-g_\epsilon(x)|\pause<\epsilon+|f(c_j)-g_\epsilon(x)|\pause$$
+Ahora recordemos que $f(c_j)$ y $g_\epsilon(x)$ son dos valores de una recta de la forma $Ax+B$ en $[c_{j-1},c_j]$.
+\pause\vskip5pt
+Entonces 
+\begin{align*}
+|f(c_j)-g_\epsilon(x)|=\textcolor{red}{|Ac_j+B-Ax-B|}&\textcolor{red}{\leq|Ac_j+B-Ac_{j-1}-B|}\\
+&=|f(c_j)-f(c_{j-1})|<\epsilon
+\end{align*}
+\hfill$\blacksquare$
+\end{frame}
+
+
+\begin{frame}{Flashback...}
+\begin{afirma}
+En general, si en un intervalo $[a,b]$ se define la funci\'on lineal $h(x)=\alpha x+\beta$, y se toma $x\in (a,b)$ entonces
+$$|h(b)-h(x)|\leq|h(b)-h(a)|$$
+\end{afirma}
+\pause
+
+Sabemos por el Teorema del Valor Medio de c\'alculo que 
+$$|h(b)-h(x)|=|h'(\xi)||b-x|\pause=\frac{|h(b)-h(a)|}{b-a}|b-x|\pause\leq|h(b)-h(a)|$$
+\end{frame}
+
+\begin{frame}{Observaciones}\pause
+Notemos que los dos teoremas anteriores establecen que cualquier funci\'on $f:[a,b]\to\rz$ continua en el intervalo compacto $[a,b]$ puede aproximarse uniformemente por funciones definidas por pedazos\pause
+\begin{itemize}
+\item En el primer caso en cada porci\'on del intervalo la funci\'on aproximante es un polinomio de grado 0\pause
+\item En el segundo la funci\'on aproximante es un polinomio de grado 1 en cada porci\'on del intervalo.
+\end{itemize}
+\pause\vskip6pt 
+Por otro lado, en la prueba del teorema anterior usamos una simple observaci\'on geom\'etrica: Dados dos puntos, hay una (\'unica) recta (polinomio de grado 1) que los une. \pause Tambi\'en, si tenemos tres puntos hay una (\'unica) par\'abola que los une.
+\pause\vskip5pt 
+Cabe preguntar: >Habr\'a un polinomio de orden $n$ que une a $n+1$ puntos dados en el plano?
+\pause\vskip5pt 
+En el mismo tenor, se podr\'\i a uno preguntar si para una funci\'on $f:[a,b]\to\rz$ continua en el intervalo compacto $[a,b]$ existe un polinomio que la aproxima uniformemente en $J$.
+\end{frame}
+
+
+\begin{frame}{Problema de Interpolaci\'on -- Soluci\'on de Lagrange}
+\begin{afirma}
+Nos son dados $(n+1)$ puntos en el plano $\rz^2$
+$$(x_0,y_0),\,(x_1,y_1),\dots,\,(x_n,y_n)\qquad\text{cumpliendo }\,x_0<x_1<\cdots<x_n.\pause$$
+Hallar un polinomio $p(x)$ de grado menor o igual a $n$ tal que $p(x_k)=y_k$ para $k=0,1,2,\dots,n$. \pause
+\end{afirma}
+Con un poco de astucia uno puede comenzar construyendo un polinomio $L_j$, $j=0,1,2,\dots,n$, tal que $L_j(x_i)=0$ si $i\neq j$ y $L_j(x_i)=1$ si $i=j$.
+\pause\vskip5pt
+En efecto sea
+$$L_j(x)=\frac{(x-x_0)(x-x_1)\cdots(x-x_{j-1})(x-x_{j+1})\cdots(x-x_n)}{(x_j-x_0)(x_j-x_1)\cdots(x_j-x_{j-1})(x_j-x_{j+1})\cdots(x_j-x_n)}\pause$$
+Luego basta definir
+$$L(x)=\sum_{k=0}^ny_kL_k(x)$$
+\end{frame}
+
+
+\begin{frame}{Problema de Interpolaci\'on}
+As\'\i\ que la afirmaci\'on que resultar\'\i a algo m\'as dif\'\i cil de establecer es la \textcolor{red}{unicidad}. \pause\vskip5pt Hay una prueba corta usando el llamado \textcolor{blue}{Teorema Fundamental del \'Algebra}:
+\begin{afirma}
+Todo polinomio  en una variable, distinto de la constante cero, de grado $n$ con coeficientes complejos tiene $n$ ra\'\i ces, contando sus multiplicidades.\pause
+\end{afirma}
+As\'\i\ que cuando un polinomio de grado a lo m\'as $n$ tenga $n+1$ ra\'\i ces distintas, entonces tendr\'a que ser el polinomio constante cero.
+\vskip5pt\pause
+Sup\'ongase que hay dos polinomios $P$, $Q$ de grado menor o igual a $n$ tales que $P(x_k)=Q(x_k)=y_k$ para $k=0,1,2,\dots,n$.
+\vskip5pt\pause
+Entonces $D(x)=P(x)-Q(x)$ es un polinomio de grado a lo m\'as $n$ que cumple $D(x_k)=P(x_k)-Q(x_k)=0$ para $k=0,1,2,\dots,n$, \pause o sea con $n+1$ ra\'\i ces. Entonces $D\equiv0$\hfill$\blacksquare$
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por polinomios}
+Ahora damos una primera prueba del teorema de Weierstrass en el intervalo $[0,1]$
+\begin{teo}[Weierstrass]
+Si $f:[0,1]\to\rz$ es continua en el intervalo compacto $[0,1]$ entonces existe una sucesi\'on de polinomios $(p_n)$ tales que $p_n\to f$ uniformemente en $[0,1]$.\pause
+\end{teo}
+Suponemos SPG que $f(0)=f(1)=0$, pues una vez que lo demostremos en este caso podemos ya asumir que $f(0)$ y $f(1)$ son m\'as arbitrarios y considerar
+$$g(x)=f(x)-f(0)-x[f(1)-f(0)],\qquad0\leq x\leq1\pause$$
+Esta funci\'on cumple $g(0)=g(1)=0$. \pause Adem\'as $p(x)=f(x)-g(x)$ es un polinomio, y si $(p_n)$ aproxima uniformemente a $g$ entonces $p+p_n$ aproxima a $f$ uniformemente en $[0,1]$ pues 
+$$\|f-(p+p_n)\|_{\infty}=\|f-(f-g)-p_n\|_{\infty}=\|g-p_n\|_\infty\to0$$
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por polinomios}
+Ahora, adem\'as de suponer  $f(0)=f(1)=0$, extenderemos $f$ como cero fuera de $[0,1]$, de manera que es uniformemente continua en $\rz$.
+\pause\vskip5pt
+Definamos para $x\in\rz$
+$$Q_n(x)=c_n\big(1-x^2\big)^n,\qquad n=1,2,3,\dots\pause$$
+donde $c_n>0$ se elige de manera que $\displaystyle\int_{-1}^1Q_n(t)\,dt=1$, \pause y en particular  $\displaystyle f(x)=\int_{-1}^1Q_n(t)f(x)\,dt$.
+\vskip-1cm
+\begin{figure}[ht]
+\includegraphics[ height=3.5cm, width=4.5cm]{PolinomiosQn.pdf}
+\caption{Gr\'aficas \underline{ilustrativas y aproximadas} de algunos $Q_n(x)$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por polinomios}
+Definimos para $0\leq x\leq 1$
+$$p_n(x)=\int_{-1}^{1}f(x+t)Q_n(t)\,dt\qquad n=1,2,3,\dots\pause$$
+Por medio de cambios de variable demostraremos que $p_n(x)$ es un polinomio.
+\vskip5pt\pause
+Como $0\leq x+t\leq 1$ entonces $-x\leq t\leq 1-x$, por lo que 
+$$\int_{-1}^{1}f(x+t)Q_n(t)\,dt=\int_{-x}^{1-x}f(x+t)Q_n(t)\,dt\pause=\int_{0}^{1}f(s)Q_n(s-x)\,ds\pause$$
+donde en la \'ultima integral se hizo el cambio de variable $s=x+t$. \pause
+Entonces 
+$$p_n(x)=c_n\int_{0}^{1}f(s)\big[1-(s-x)^2\big]^n\,ds\pause=c_n\int_{0}^{1}f(s)\,ds-c_n\int_{0}^{1}P\big((s-x)^2\big)\,ds\pause$$
+donde $P(u)$ es una expresi\'on polinomial. \pause En conclusi\'on $p_n(x)$ es un polinomio. 
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por polinomios}
+Para establecer la convergencia uniforme de $p_n$ hacia $f$ hacemos la siguiente estimaci\'on
+$$|p_n(x)-f(x)|=\left|\int_{-1}^{1}\big[f(x+t)-f(x)\big]Q_n(t)\,dt\right|\pause\leq\int_{-1}^{1}\big|f(x+t)-f(x)\big|\,Q_n(t)\,dt\pause$$
+donde hemos usado las propiedades de $Q_n$.
+\vskip5pt\pause
+Ahora hacemos una separaci\'on de la integral para usar la continuidad de $f$; \pause supongamos que $|f(x)|\leq M$ para todo $x\in [0,1]$, \pause y que para $\epsilon>0$ elegimos la $\delta>0$ adecuada de la continuidad uniforme de $f$. \pause Entonces
+\begin{align*}
+\int_{-1}^{1}&\big|f(x+t)-f(x)\big|\,Q_n(t)\,dt=\left[\int_{-\delta}^{\delta}+\int_{\delta\leq|t|\leq1}\right]\big|f(x+t)-f(x)\big|\,Q_n(t)\,dt\\
+&\qquad<\epsilon+2M\int_{\delta\leq|t|<1}\,Q_n(t)\,dt=\epsilon+2M\left[\int_{-1}^{-\delta}+\int_{\delta}^{1}\right]Q_n(t)\,dt
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por polinomios}
+Ahora debemos estimar $Q_n(t)$ para $\delta\leq|t|\leq1$.
+\vskip5pt\pause
+Para esto acotaremos por arriba a $c_n$. \pause N\'otese que 
+$$\int_{-1}^{1}\big(1-x^2\big)^ndx=2\int_{0}^{1}\big(1-x^2\big)^ndx\pause\geq2\int_{0}^{1/\sqrt n}\big(1-x^2\big)^ndx\pause$$
+Tambi\'en pude verse que \textcolor{blue}{$\big(1-x^2\big)^n\geq 1-nx^2$} \pause por lo que continuamos 
+$$\geq2\int_{0}^{1/\sqrt n}\big(1-nx^2\big)\,dx\pause=\frac{4}{3\sqrt n}>\frac{1}{\sqrt n}\pause$$
+Esto implica que $c_n<\sqrt n$ al multiplicar por $c_n$:
+$$1=c_n\int_{-1}^{1}\big(1-x^2\big)^ndx>\frac{c_n}{\sqrt n}$$
+\end{frame}
+
+
+\begin{frame}{Aproximaci\'on por polinomios}
+Lo anterior nos lleva a que $c_n\leq\sqrt n$.
+\pause\vskip5pt
+De aqu\'\i\ que para $\delta\leq|t|\leq1$ tendremos 
+$$Q_n(t)\leq\sqrt n(1-t^2)^n=\sqrt n(1-|t|^2)^n\leq\sqrt n(1-\delta^2)^n$$
+\pause
+Esto tiene dos consecuencias: primero, $Q_n\to0$ uniformemente en $\delta\leq|t|\leq1$, pues de hecho \textcolor{blue}{$\sqrt n(1-\delta^2)^n\to0$}
+\vskip5pt\pause
+Segundo, de vuelta a la integral que est\'abamos estimando 
+$$2M\int_{\delta\leq|t|<1}\,Q_n(t)\,dt\leq 4M\sqrt n(1-\delta^2)^n\to 0\pause$$
+En conclusi\'on, para cualquier $x\in \intunit$ y $n$ suficientemente grande
+$$|p_n(x)-f(x)|\leq\left[\int_{-\delta}^{\delta}+\int_{\delta\leq|t|\leq1}\right]\big|f(x+t)-f(x)\big|\,Q_n(t)\,dt<2\epsilon$$
+\hfill$\blacksquare$
+\end{frame}
+
+
+\begin{frame}{Flashback 1...}
+\begin{afirma}
+$\big(1-x^2\big)^n\geq 1-nx^2$ para $x\in(0,1)$\pause
+\end{afirma}
+Esta afirmaci\'on se prueba notando que $\big(1-x^2\big)^n- 1+nx^2$ vale $0$ en $x=0$ y tiene derivada positiva en $(0,1)$.\pause
+\begin{figure}[ht]
+\includegraphics[ height=4.5cm, width=4.5cm]{BernoulliLike.pdf}
+\caption{Gr\'aficas de $\big(1-x^2\big)^n- 1+nx^2$, con $n=17$ y $n=22$}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Flashback 2...}
+La siguiente afirmaci\'on est\'a tomada de [Bartle-Sherbert, Theorem 3.2.11]  
+\begin{afirma}
+Si una sucesi\'on $(x_n)$ de reales positivos cumple que $\displaystyle t_n=\frac{x_{n+1}}{x_n}\to A$ y $0\leq A<1$ entonces $x_n\to0$\pause
+\end{afirma}
+En nuestro caso 
+$$\frac{\sqrt{n+1}(1-\delta^2)^{n+1}}{\sqrt n(1-\delta^2)^n}=(1-\delta^2)\frac{\sqrt{n+1}}{\sqrt n}\pause\to(1-\delta^2)<1\pause$$
+y por esto es que $\sqrt n(1-\delta^2)^n\to0$.
+\end{frame}
+
+\begin{frame}{Un cambio de variable}
+A partir de ahora denotaremos por $\mathbb I$ al intervalo $[0,1]$.
+\vskip5pt\pause
+Observemos que el haber obtenido el resultado para funciones $f$ definidas en $\intunit$ nos lleva de inmediato a la soluci\'on en el intervalo compacto $[a,b]$, con $a<b$.
+\vskip5pt\pause
+Para \'esto, dada $g:[a,b]\to\rz$, basta definir una nueva funci\'on 
+$$f(t)=g\big((b-a)t+a\big)\quad\text{ para }\quad t\in\intunit.\pause$$
+Si el teorema est\'a demostrado para funciones como $f$ entonces \textcolor{blue}{$\|f-p_n\|_{\infty,\intunit}\to0$}. \pause Proponemos entonces que $\widetilde p_n(x)=p_n\big(\frac{x-a}{b-a}\big)$, con $x\in[a,b]$, converge uniformemente a $g$ en $[a,b]$.
+\vskip5pt\pause
+Para verificar \'esto, basta notar que $g(x)=f\big(\frac{x-a}{b-a}\big)$ para $x\in[a,b]$ \pause y entonces
+$$\|g-\widetilde p_n\|_{\infty,[a,b]}=\sup_{x\in[a,b]}|g(x)-\widetilde p_n(x)|\pause=\sup_{t\in[0,1]}|f(t)-p_n(t)|\pause=\textcolor{blue}{\|f-p_n\|_{\infty,\intunit}}$$
+\end{frame}
+
+
+\begin{frame}{Un corolario del Teorema de Weierstrass}
+\begin{cor}
+Para todo intervalo de la forma $[-a,a]$ (con $a>0$) existe una sucesi\'on de polinomios $(p_n)$ tales que $p_n(0)=0$ para toda $n$, y tal que
+$$\lim_{n\to\infty}p_n(x)=|x|\qquad\text{uniformemente en }\,[-a,a].$$
+\end{cor}
+\pause El teorema de Weierstrass y el cambio de variable antes explicado nos obsequian una sucesi\'on $(p_n^*)$ que converge uniformemente a $v(x)=|x|$ en $[-a,a]$.
+\vskip5pt\pause
+Como en particular tenemos que $p_n^*(0)\to0$ entonces podemos definir $p_n(x)=p_n^*(x)-p_n^*(0)$, y el corolario queda probado.\hfill$\blacksquare$
+\end{frame}
+
+
+\begin{frame}{Polinomios de Bernstein:}{Otro esquema de aproximaci\'on por polinomios}
+Revisamos una {\em ``versi\'on discreta''} del teorema anterior, donde se construyen expl\'\i citamente polinomios de aproximaci\'on.
+\vskip5pt\pause
+Iniciamos de nuevo con $f:\intunit\to\rz$ y definimos el \textcolor{red}{$n$-\'esimo polinomio de Bernstein} asociado a $f$ como
+$$B_n(x)\equiv B_nf(x)=\sum_{k=0}^nf\big(\frac{k}{n}\big){n\choose k}x^k(1-x)^{n-k},\qquad x\in\intunit.\pause$$
+\begin{teo}[Bernstein]
+Sea $f:\intunit\to\rz$ continua en $\intunit$. Entonces la sucesi\'on $(B_nf)$ de polinomios de Bernstein asociados a $f$ converge uniformemente a $f$ en $\intunit$.
+\end{teo}
+\end{frame}
+
+
+\begin{frame}{Polinomios de Bernstein}
+Antes de demostrar el teorema, podemos calcular los primeros polinomios de Bernstein. 
+\vskip5pt\pause
+Recordemos que el teorema del binomio establece que
+$$(s+t)^n=\sum_{k=0}^n{n\choose k}s^kt^{n-k},\qquad\text{donde }\quad{n\choose k}=\frac{n!}{k!(n-k)!}.\pause$$
+As\'\i\ que al sustituir $s=x$, $t=1-x$ obtenemos
+\begin{afirma}
+$$1=\sum_{k=0}^n{n\choose k}x^k(1-x)^{n-k}=B_n\varphi_0(x).$$ 
+\end{afirma}\pause
+De aqu\'\i\ en adelante denotamos por $\varphi_n(x)=x^n$ para $n=0,1,2\dots$
+\end{frame}
+
+
+\begin{frame}{Polinomios de Bernstein}
+El polinomio de Bernstein $B_n\varphi_1(x)$ se deduce tomando de nuevo la expresi\'on $\displaystyle (s+t)^n=\sum_{k=0}^n{n\choose k}s^kt^{n-k}$, \pause
+y derivando respecto a $s$ obtenemos
+$$n(s+t)^{n-1}=\sum_{k=0}^n{n\choose k}ks^{k-1}t^{n-k}.\pause$$
+Sustituyendo $s=x$, $t=1-x$ obtenemos
+$$n=\sum_{k=0}^n k{n\choose k}x^{k-1}(1-x)^{n-k},\pause$$
+y al multiplicar por $x$ nos lleva a 
+\begin{afirma}
+$$x=\sum_{k=0}^n\big(\frac{k}{n}\big){n\choose k}x^{k}(1-x)^{n-k}\pause=B_n\varphi_1(x).$$
+\end{afirma}
+\end{frame}
+
+
+\begin{frame}{Polinomios de Bernstein}
+Denotando por $\varphi_2(x)=x^2$, ahora hallaremos $B_n\varphi_2(x)$.
+\vskip5pt\pause
+Volvemos a la expresi\'on $\displaystyle n(s+t)^{n-1}=\sum_{k=0}^n{n\choose k}ks^{k-1}t^{n-k}.\pause$ y la derivamos de nuevo respecto a $s$:
+$$n(n-1)(s+t)^{n-2}=\sum_{k=0}^n{n\choose k}k(k-1)s^{k-2}t^{n-k},\pause$$
+sustituimos $s=x$, $t=1-x$
+$$n(n-1)=\sum_{k=0}^nk(k-1){n\choose k}x^{k-2}(1-x)^{n-k}.$$
+\end{frame}
+
+
+\begin{frame}{Polinomios de Bernstein}
+Multiplicamos $\displaystyle n(n-1)=\sum_{k=0}^nk(k-1){n\choose k}x^{k-2}(1-x)^{n-k}$ por $x^2$ y hacemos manipulaciones algebr\'aicas para llegar a \pause
+$$n^2\left(1-\frac{1}{n}\right)x^2=\sum_{k=0}^nk^2{n\choose k}x^{k}(1-x)^{n-k}-\sum_{k=0}^nk{n\choose k}x^{k}(1-x)^{n-k}.\pause$$
+Llegamos entonces a
+$$\left(1-\frac{1}{n}\right)x^2=\sum_{k=0}^n\big(\frac{k^2}{n^2}\big){n\choose k}x^{k}(1-x)^{n-k}-\frac{1}{n}\sum_{k=0}^n\big(\frac{k}{n}\big){n\choose k}x^{k}(1-x)^{n-k},\pause$$
+es decir $\displaystyle \left(1-\frac{1}{n}\right)x^2=B_n\varphi_2(x)-\frac{1}{n}B_n\varphi_1(x)\pause=B_n\varphi_2(x)-\frac{1}{n}x$. \pause Despejando:
+\begin{afirma}
+$$B_n\varphi_2(x)=\left(1-\frac{1}{n}\right)x^2+\frac{1}{n}x.$$
+\end{afirma}
+\end{frame}
+
+
+\begin{frame}{Polinomios de Bernstein}
+Para finalmente proceder con la prueba del teorema haremos una \'ultima observaci\'on.
+\vskip5pt\pause
+Multiplicamos $\displaystyle1=\sum_{k=0}^n{n\choose k}x^k(1-x)^{n-k}\qquad$ por $x^2$, \pause\vskip4pt  
+multiplicamos $\displaystyle x=\sum_{k=0}^n\big(\frac{k}{n}\big){n\choose k}x^{k}(1-x)^{n-k}\qquad$ por $-2x$, \pause\vskip4pt
+y los sumamos:
+$$\textcolor{red}{-x^2= \sum_{k=0}^n\big(x^2-2x\frac{k}{n}\big){n\choose k}x^{k}(1-x)^{n-k}.}\pause$$
+Recordemos que 
+$$\textcolor{green}{\sum_{k=0}^n\big(\frac{k^2}{n^2}\big){n\choose k}x^{k}(1-x)^{n-k}=\left(1-\frac{1}{n}\right)x^2+\frac{1}{n}x\pause=x^2-\frac{1}{n}(x^2-x).}$$
+\end{frame}
+
+
+\begin{frame}{Polinomios de Bernstein}
+Sumando la expresi\'on en \textcolor{red}{rojo} con la que est\'a en \textcolor{green}{verde} obtenemos
+$$-\frac{1}{n}(x^2-x)=\sum_{k=0}^n\big(x-\frac{k}{n}\big)^2{n\choose k}x^{k}(1-x)^{n-k},\pause$$
+que reescribimos
+\begin{afirma}
+$$\frac{x(1-x)}{n}=\sum_{k=0}^n\big(x-\frac{k}{n}\big)^2{n\choose k}x^{k}(1-x)^{n-k},$$
+\end{afirma}
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Bernstein}
+Observemos primero que la f\'ormula para $B_n\varphi_0$ implica que 
+$$f(x)=\sum_{k=0}^nf(x){n\choose k}x^k(1-x)^{n-k}\pause$$
+por lo que para $x\in\intunit$
+$$\big|f(x)-B_n(x)\big|\leq\sum_{k=0}^n\left|f(x)-f\big(\frac{k}{n}\big)\right|{n\choose k}x^k(1-x)^{n-k}.\pause$$
+Ahora suponemos que $\|f\|_{\infty,\intunit}\leq M$ y separaremos los \'\i ndices $k$ de la suma de acuerdo a la cercan\'\i a de $\displaystyle\frac{k}{n}$ a $x$.
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Bernstein}
+Dada $\epsilon>0$ elegimos una $\delta(\epsilon)>0$ que funcione en la definici\'on de continuidad uniforme de $f$ en $\intunit$.
+\pause\vskip5pt
+Tambi\'en elegimos $n\in\nz$ tal que $\displaystyle n\geq\max\left\{\frac{1}{\delta^4} \,\,,\,\frac{M^2}{\epsilon^2}\right\}$
+\pause\vskip5pt
+Para dividir la suma en dos sumas, usamos la siguiente notaci\'on:\pause
+
+En $\displaystyle\sum_1$ agrupamos las $k$ tales que $\displaystyle\left|x-\frac{k}{n}\right|<\frac{1}{n^{1/4}}\leq\delta$,\pause
+
+y en $\displaystyle\sum_2$ agrupamos las $k$ restantes.
+\pause\vskip5pt
+Entonces 
+$$\sum_1\left|f(x)-f\big(\frac{k}{n}\big)\right|{n\choose k}x^k(1-x)^{n-k}<\epsilon B_n\varphi_0(x)\pause=\epsilon$$
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Bernstein}
+Ahora usamos el hecho de que $\displaystyle x(1-x)\leq\frac{1}{4}$,  que por la elecci\'on de $n$ tenemos $n\geq\frac{M^2}{\epsilon^2}$, y que en esta sumatoria tenemos $\displaystyle\left|x-\frac{k}{n}\right|\geq\frac{1}{n^{1/4}}$ y obtenemos\pause
+\begin{align*}
+\uncover<2->{\sum_2\left|f(x)-f\big(\frac{k}{n}\big)\right|&{n\choose k}x^k(1-x)^{n-k}\leq 2M\sum_2{n\choose k}x^k(1-x)^{n-k}\\}
+\uncover<3->{&\leq2M\sum_2\frac{(x-k/n)^2}{(x-k/n)^2}{n\choose k}x^k(1-x)^{n-k}\\}
+\uncover<4->{&\leq2M\sqrt n\,\textcolor{blue}{\sum_{k=0}^n\big(x-\frac{k}{n}\big)^2{n\choose k}x^k(1-x)^{n-k}}\\}
+\uncover<5->{&\leq2M\sqrt n\,\textcolor{blue}{\frac{x(1-x)}{n}}}
+\uncover<6->{\leq\frac{M}{2\sqrt n}}
+\uncover<7->{\leq \epsilon}
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Bernstein}
+En limpio, para $x\in\intunit$ y dada $\epsilon>0$, si $n$ es suficientemente grande tenemos que\pause
+$$\big|f(x)-B_n(x)\big|\leq\left[\sum_1+\sum_2\right]\left|f(x)-f\big(\frac{k}{n}\big)\right|{n\choose k}x^k(1-x)^{n-k}<\epsilon+\epsilon.\pause$$
+As\'\i, dada $\epsilon>0$ se eligi\'o $N\geq \max\left\{\frac{1}{\delta^4} \,\,,\,\frac{M^2}{\epsilon^2}\right\}$, de manera que si $n\geq N$ entonces
+$$\big|f(x)-B_n(x)\big|<2\epsilon\qquad\text{para cualquier }\,x\in\intunit.\pause$$
+Esto significa que $\|f-B_n\|_{\infty,\intunit}\to0$ si $n\to\infty$\hfill$\blacksquare$
+\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%\end{document}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}{T\'opicos a cubrir}
+
+\begin{itemize}
+\item Teorema de extensi\'on de Tietze\pause
+\item M\'as sobre funciones continuas lineales por pedazos
+\end{itemize}
+
+El primer teorema provee condiciones que implican que una funci\'on continua en un subconjunto de $\rzp$ pueda extenderse como una funci\'on continua a todo $\rzp$.
+\vskip5pt\pause
+En el segundo punto revisaremos una caracerizaci\'on de funciones continuas lineales por pedazos por medio de combinaciones del valor abosluto.
+\end{frame}
+
+
+\begin{frame}
+TEOREMA DE EXTENSI\'ON DE TIETZE
+\end{frame}
+
+
+\begin{frame}{Un ejemplo b\'asico de teorema de extensi\'on -- 1}
+En la primera demostraci\'on que dimos del Teorema de Weierstrass, bajo la hip\'otesis de que $f:[0,1]\to\rz$ era continua, y $f(0)=f(1)=0$ extendimos la definici\'on de $f$ a todo $\rz$ como 
+$$F(x)=\left\{\begin{array}{ll}
+			f(x)&\text{si }\,x\in[0,1]\\
+			0&\text{si }\,x\not\in[0,1]
+		\end{array}\right.\pause$$
+y afirmamos que $F$ era uniformemente continua en $\rz$.
+\pause\vskip5pt
+En efecto, dada $\epsilon>0$ y $x,y\in\rz$ tenemos varios casos:
+\begin{itemize}
+\item Si $x,y\not\in[0,1]$ entonces $F(x)=F(y)=0$ y no hay nada qué probar\pause
+\item Si $x,y\in[0,1]$ entonces se sabe de la existencia de $\delta_1>0$ tal que $|x-y|<\delta$ implica $|f(x)-f(y)|<\epsilon$.\pause
+\item Si $x\in [0,1]$ y $y\not\in[0,1]$ entonces $|f(x)-f(y)|=|f(x)|=|f(x)-f(1)|$ y de nuevo basta tomar la $\delta>0$ de la continuidad uniforme en $[0,1]$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Un ejemplo b\'asico de un teorema de extensi\'on -- 2}
+
+\pause 
+Sean $A,B\subset\rzp$ conjuntos cerrados y disjuntos.
+\vskip4pt\pause
+Sup\'ongase que tenemos $\varphi:A\cup B\to\rz$ definida como
+$$\varphi(x)=\left\{\begin{array}{ll}
+					0&\text{si }x\in A\\
+					1&\text{si }x\in B
+					\end{array}\right.\pause$$
+y se quiere ``extender'' a esta funci\'on para tener una $\tilde\varphi:\rzp\to\rz$ de manera que sea continua en todo $\rzp$, cumpliendo adem\'as 
+$$\tilde\varphi(x)=\varphi(x)\quad\text{si }x\in A\cup B,\pause\qquad 0\leq\tilde\varphi(x)\leq1\quad \text{para toda }x\in\rzp\pause$$ 
+Definamos $d(x,A)=\inf\big\{\|x-y\|:y\in A\big\}$, \pause $d(x,B)=\inf\big\{\|x-y\|:y\in B\big\}$ \pause y 
+$$\tilde\varphi(x)=\frac{d(x,A)}{d(x,A)+d(x,B)}\pause$$
+es la soluci\'on al problema planteado.
+
+\end{frame}
+
+
+
+\begin{frame}{Teorema de extensi\'on de Tietze}
+
+\begin{teo}
+Sea $f:D\subset\rzp\to\rz$ continua y acotada, con $D\subset\rzp$ cerrado. \pause Entonces existe $g:\rzp\to\rz$ tal que $g(x)=f(x)$ para $x\in D$, y tal que $\|g\|_{\infty}=\|f\|_{\infty,D}$ \pause es decir
+$$\sup\big\{|g(x)|:x\in\rzp\big\}=\sup\big\{|f(x)|:x\in D\big\}$$
+\end{teo}
+\pause
+Como $f$ es acotada podemos definir $M=\sup\big\{|f(x)|:x\in D\big\}$, \pause y considerar 
+$$A_1=\big\{x\in D:f(x)\leq-M/3\big\},\quad B_1=\big\{x\in D:f(x)\geq M/3\big\}\pause$$
+N\'otese que $A_1$ y $B_1$ son cerrados en $\rzp$, por los teoremas de continuidad.
+
+\end{frame}
+
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze}
+Definamos
+$$\tilde f(x)=\left\{\begin{array}{cl}
+					-M/3&\text{si }x\in A_1\\
+					M/3&\text{si }x\in B_1
+					\end{array}\right.\pause$$
+\begin{figure}[ht]
+    \centering
+    % \incfig{Extension0}
+    \caption{Aspecto general de $f$ y los conjuntos $A_1$ y $B_1$}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze}
+Definiendo $\displaystyle\tilde\varphi_1(x)=\frac{3}{2M}\left(\tilde f(x)+M/3\right)$ tenemos que 
+$$\tilde\varphi_1(x)=\left\{\begin{array}{ll}
+					0&\text{si }x\in A_1\\
+					1&\text{si }x\in B_1
+					\end{array}\right.\qquad 0\leq\tilde\varphi_1(x)\leq1\pause$$
+\begin{figure}[ht]
+    \centering
+    % \incfig{Extension1}
+    \caption{Esquema de la gr\'afica de $\tilde\varphi_1$}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze}
+De acuerdo al Ejemplo B\'asico anterior existe $\psi_1:\rzp\to\rz$ que extiende a $\tilde\varphi_1$
+\begin{figure}[ht]
+    \centering
+    % \incfig{Extension2}
+    \caption{Esquema de la gr\'afica de $\varphi_1$}
+\end{figure}
+\pause
+Sea $\displaystyle\varphi_1(x)=\frac{2M}{3}\psi_1(x)-\frac{M}{3}$, definida para toda $x\in\rzp$.
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze}
+N\'otese que se cumple
+$$\varphi_1(x)=\left\{\begin{array}{cl}
+					-M/3&\text{si }x\in A_1\\
+					M/3&\text{si }x\in B_1
+					\end{array}\right.\qquad \frac{-M}{3}\leq\varphi_1(x)\leq\frac{M}{3}$$
+\vskip4pt\pause
+Sea ahora $f_2=f-\varphi_1$. \pause\vskip5pt Entonces $f_2$ es continua en $D$ y $\displaystyle\sup\big\{|f_2(x)|:x\in D\big\}\leq \frac{2M}{3}$ porque:\pause\vskip5pt
+\begin{itemize}
+\item Para $x\not\in A_1\cup B_1$ sabemos $|f(x)|\leq M/3$ y $|\varphi_1(x)|\leq M/3$;\pause
+\item Para $x\in A_1\cup B_1$, digamos $x\in B_1$, tenemos que 
+$$\varphi_1(x)=M/3,\pause\quad \text{por lo que }\,|f(x)-\varphi_1(x)|=f(x)-M/3\leq 2M/3;$$ \pause Un argumento similar funciona para el caso $x\in A_1$:
+$$\varphi_1(x)=-M/3,\quad\pause |f(x)-\varphi_1(x)|=-M/3-f(x)\leq -M/3+M=2M/3$$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze}
+Si repetimos el procedimiento anterior con $f_2$, tenemos ahora una funci\'on con ``estatura'' igual a $2M/3$. 
+\vskip5pt\pause
+Al tomarle $1/3$ a esta cantidad tendremos que considerar truncaciones a la altura $\displaystyle\frac{M}{3}\left(\frac{2}{3}\right)$. \pause
+Definimos entonces
+$$A_2=\left\{x\in D:f(x)\leq-\frac{M}{3}\left(\frac{2}{3}\right)\right\},\quad B_2=\left\{x\in D:f(x)\geq \frac{M}{3}\left(\frac{2}{3}\right)\right\}\pause$$
+COn el procedimiento anterior obtenemos ahora una funci\'on $\varphi_2:\rzp\to\rz$ tal que
+$$\varphi_2(x)=\left\{\begin{array}{cl}
+					-(M/3)(2/3)&\text{si }x\in A_2\\
+					(M/3)(2/3)&\text{si }x\in B_2
+					\end{array}\right.\qquad |\varphi_2(x)|\leq \frac{M}{3}\left(\frac{2}{3}\right)$$
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze}
+Si definimos $\textcolor{blue}{f_3}=f_2-\varphi_2\pause=f-\varphi_1-\varphi_2\pause\textcolor{blue}{=f-(\varphi_1+\varphi_2)}$, \pause se observa que $f_3$ es continua en $D$ y que $$\sup\big\{\textcolor{blue}{|f_3(x)|}:x\in D\big\}\leq \textcolor{red}{\left(\frac{2}{3}\right)^2M}\pause=2\left(\frac{2}{3}\frac{M}{3}\right).$$
+Esto es cierto porque:\pause\vskip5pt
+\begin{itemize}
+\item Para $x\not\in A_2\cup B_2$ sabemos $|f_2(x)|\leq (M/3)(2/3)$ y $|\varphi_2(x)|\leq (M/3)(2/3)$;\pause
+\item Para $x\in A_2\cup B_2$, digamos $x\in B_2$, tenemos que $\varphi_2(x)=(M/3)(2/3)$ y \pause
+\end{itemize}\vskip4pt
+$$|f_2(x)-\varphi_2(x)|=f_2(x)-\left(\frac{M}{3}\right)\left(\frac{2}{3}\right)\leq 2\left(\frac{M}{3}\right)-\left(\frac{M}{3}\right)\left(\frac{2}{3}\right)=2\left(\frac{2}{3}\frac{M}{3}\right);$$ \pause Un argumento similar funciona para el caso $x\in A_1$, pues en este caso $\varphi_2(x)=-M/3$ y 
+$$|f_2(x)-\varphi_2(x)|=-\left(\frac{M}{3}\right)\left(\frac{2}{3}\right)-f_2(x)\leq -\left(\frac{M}{3}\right)\left(\frac{2}{3}\right)+2\left(\frac{M}{3}\right)=2\left(\frac{2}{3}\frac{M}{3}\right)$$
+
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze}
+
+Con la construcci\'on anterior repetida recursivamente obtenemos una sucesi\'on $\big(\varphi_n\big)$ definidas en $\rzp$ cumpliendo\pause
+\begin{align}
+\textcolor{blue}{\left|f(x)-\big(\varphi_1(x)+\cdots+\varphi_n(x)\big)\right|}\leq\textcolor{red}{\left(\frac{2}{3}\right)^nM}\qquad\text{para toda }x\in D,\tag{*}\\
+|\varphi_n(x)|\leq \frac{M}{3}\left(\frac{2}{3}\right)^{n-1}\hskip2cm\text{para toda }x\in \rzp.\tag{**}
+\end{align}\pause
+Definimos la funci\'on continua $g_n=\varphi_1+\varphi_2+\cdots+\varphi_n$. \pause Entonces para $m\geq n$ y $x\in \rzp$ tenemos por (**)
+$$|g_n(x)-g_m(x)|=|\varphi_{n+1}(x)+\cdots+\varphi_m(x)|\pause\leq\frac{M}{3}\left(\frac{2}{3}\right)^n\left[1+\frac{2}{3}+\left(\frac{2}{3}\right)^2+\cdots\right]\pause$$
+En conclusi\'on $\displaystyle |g_n(x)-g_m(x)|\leq\left(\frac{2}{3}\right)^nM$ para toda $x\in \rzp$.
+
+\end{frame}
+
+
+
+\begin{frame}{Demostraci\'on del Teorema de Tietze - 4}
+
+De lo anterior concluimos que $(g_n)$ es de Cauchy uniformemente, y uniformemente acotada, por lo que existe $g$ continua y acotada en todo $\rzp$ que es el l\'\i mite uniforme de la sucesi\'on $(g_n)$.
+\vskip4pt\pause
+Como cada $g_n$ es continua y acotada en $\rzp$ entonces $g$ es continua en todo $\rzp$.
+\pause\vskip4pt
+Por la condici\'on $(*)$ tenemos adem\'as que $|f(x)-g_n(x)|\leq\left(\frac{2}{3}\right)^nM$ para $x\in D$.
+\pause\vskip4pt
+Por unicidad de l\'\i mites $f(x)\equiv g(x)$ para toda $x\in D$, y entonces $\|f\|_{\infty,D}=\|g\|_{\infty,D}$.
+\pause\vskip4pt
+Finalmente por la condici\'on (**) tenemos que para $x\in \rzp$
+$$|g_n(x)|\leq \frac{M}{3}\left[1+\frac{2}{3}+\left(\frac{2}{3}\right)^2+\cdots+\left(\frac{2}{3}\right)^{n-1}\right]< M\pause$$
+lo cual implica que $|g(x)|\leq M$ para $x\in\rzp$. \pause En conclusi\'on $\|g\|_{\infty}\leq M$.
+\pause\vskip4pt
+Como adem\'as es claro que $\|g\|_{\infty}\geq M$ entonces concluimos $\|g\|_{\infty}= M$\hfill$\blacksquare$
+\end{frame}
+
+
+
+\begin{frame}
+
+FUNCIONES CONTINUAS LINEALES POR PEDAZOS
+
+\end{frame}
+
+
+\begin{frame}{Translaciones de la funci\'on {\em Valor Absoluto}}
+Definamos 
+$$\abs(x)=|x|,\qquad\abs_a(x)=|x-a|\qquad\text{para }\,x\in\intunit,\,a\in\rz.\pause$$
+
+\begin{figure}
+\includegraphics[ height=4cm, width=4cm]{ValoresAbsolutos.png}
+\caption{Gr\'aficas de $y=\abs(x-a)$  con $a=0, 3, -1/2$}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{El resultado principal}
+El resultado que queremos establecer es el siguiente:
+
+\begin{teo}
+Si $f:\intunit\to\rz$ es continua y lineal por pedazos, entonces $f$ es combinaci\'on lineal de funciones $\abs_a$ para ciertas $a\in\intunit$.\pause
+\end{teo}
+
+Por hip\'otesis existen $0=x_0<x_1<\cdots<x_n=1$ de manera que $f$ es lineal en cada subintervalo $I_k=[x_{k-1},x_k]$, $k=1,\dots,n$.
+\vskip5pt\pause
+Definamos $S=\gene\big\{\abs_{x_k}:0\leq k\leq n\big\}$. \pause Entonces $S$ es un subespacio vectorial de $C[0,1]$
+\vskip5pt\pause
+Incidentalmente, n\'otese que las funciones constantes pertenecen a $S$ pues para $x\in\intunit$ tenemos
+$$\abs_{x_0}(x)-\abs_{x_n}(x)=x+(1-x)=1$$
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del teorema}\pause
+Haremos tres modificaciones a la funci\'on $\abs_{x_k}(x)$.
+\pause\vskip5pt
+Definamos 
+$$R_k(x)=\frac{1}{2}\big(\abs_{x_k}(x)+(x-x_k)\big)\pause=\left\{\begin{array}{cc}
+													0&\text{si }x\leq x_k\\
+													x-x_k&\text{si }x> x_k
+												\end{array}\right.\pause$$
+\begin{figure}
+\includegraphics[ height=4cm, width=4cm]{Rk.png}
+\caption{Gr\'afica de $R_{k}$  con $x_k=0.2$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del teorema}
+Ahora definimos 
+$$J_k=\frac{R_k-R_{k-1}}{x_k-x_{k-1}}\pause\quad\text{ y notamos que }\,\,J_k(x_j)=\left\{\begin{array}{cc}
+													0&\text{si }j< k\\
+													1&\text{si }j\geq k
+												\end{array}\right.\pause$$
+\begin{figure}
+\includegraphics[ height=4cm, width=4cm]{Jk.png}
+\caption{Gr\'afica de $J_{k}$  con $x_k=0.2$, suponiendo que $x_{k-1}=0.1$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del teorema}
+Finalmente definimos 
+$$H_k=J_k-J_{k+1}\pause\quad\text{ y notamos que }\,\,H_k(x_j)=\left\{\begin{array}{cc}
+													1&\text{si }k=j\\
+													0&\text{si }j\neq k
+												\end{array}\right.\pause$$
+\begin{figure}
+\includegraphics[ height=4cm, width=4cm]{Hk.png}
+\caption{Gr\'afica de $H_{k}$  con $x_k=0.2$, suponiendo que $x_{k-1}=0.1$ y $x_{k+1}=0.3$}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Demostraci\'on del teorema}
+Obs\'ervese que $R_k,J_k,H_k\in S$, \pause y adem\'as
+$$\sum_{k=0}^nf(x_k)H_k$$
+es una funci\'on lineal por pedazos que coincide con $f$ en todo $x_k$.
+\vskip5pt\pause
+Debe entonces ocurrir que 
+$$f(x)=\sum_{k=0}^nf(x_k)H_k(x)\qquad\text{para todo }\,x\in\intunit.\pause$$
+Por tanto $f\in S$\hfill$\blacksquare$
+\end{frame}
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

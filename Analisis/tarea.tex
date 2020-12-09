@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,graphicx,xcolor}
+\usepackage[margin=3cm]{geometry}
+\usepackage{paquetePreset}
+\usepackage{enumitem}
+
+%% Soporte para español
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,mexico]{babel}
+
+%%Comandos 
+\newcommand{\N}{\mathbb{N}}
+
+\title{
+\underline{Análisis I} \hfill \#8}
+\date{27/Nov/2019}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+    \setcounter{enumi}{35}
+    \item Sea $(M,d)$ un espacio métrico y $K\subseteq M$ c.p.s (rel. $d$)
+    \begin{enumerate}
+        \item Prueba que si $\varnothing \neq H \subseteq K$ y $H$ es cerrado (rel. $d$) entonces $H$ es c.p.s (rel. $d$).
+        \item Sea $X:\N \to M$ una sucesión convergente (rel. $d$) a cierta $\ell \in M$. Prueba que $K = \displaystyle \{x_{n} \}_{n\in\N} \cup \{\ell\}$ es c.p.s (rel. $d$)
+    \end{enumerate}
+    \item Sea $M=(0, \infty)$ y $d(x,y)= \displaystyle \left\lvert \frac{1}{x} - \frac{1}{y} \right\rvert$. Prueba: 
+    \begin{enumerate}
+        \item $\displaystyle K_{n} = (0,\frac{1}{n}]$ es cerrado (rel. $d$)$\forall n$, $\displaystyle(K_{n})_{n=1}^{\infty}$ es anidado, y sin embargo, $\displaystyle \bigcap_{n=1}^{\infty} K_{n} = \varnothing$
+        \item $\displaystyle K_{n} = [n, \infty]$ es cerrado (rel. $d$), $\displaystyle(K_{n})_{n=1}^{\infty}$ es anidado, y $\displaystyle\bigcap_{n=1}^{\infty} K_{n} = \varnothing$
+    \end{enumerate}
+    \item Sea $T:\R^{p} \to\R$ dado por: $T(\mathbf{x})=a_{1} x_{1} + \cdots + a_{p} x_{p}$ con $\mathbf{a}=(a_{1}, a_{2}, \ldots, a_{p})\in \R^{p}$ fijo. Sea $K=\left\{  \mathbf{x}=(x_{1}, x_{2}, \ldots, x_{p}) \; \middle | \; \displaystyle \sum_{i=1}^{p}x_{i}^{2} \leq 1 \right\}$ \textit{i.e} $(K=\{\mathbf{x} \mid \|\mathbf{x}\| \leq 1\})$. Prueba: 
+    \begin{enumerate}
+        \item $T(K) = [-A, A]$ donde $\displaystyle A = \sqrt{\sum_{i=1}^{p} a_{i}^{2}} \quad (=\|\mathbf{a}\|)$
+        \item Obtén $x^{*}, x_{*} \in K$ tal que $T(x^{*})=A$ y $T(x_{*})=-A$
+    \end{enumerate}
+    \item Sea $T:\R^{p} \to \R$ como en \underline{el ejercicio anterior}. Sean $b_{1}, \ldots, b_{p} > 0$ \underline{fijos}.\\ Sea $\displaystyle E=\left\{ \mathbf{x} = (x_{1}, x_{2}, \dots, x_{p}) \; \middle | \; \sum_{i=1}^{p} b_{i}^{2} x_{i}^{2} \leq 1 \right\}$ ($E$ es un elipsoide con interior). Prueba: 
+    \begin{enumerate}
+        \item $E$ es \underline{cerrado y acotado} (en $\R^{p}$) \textit{i.e} $E$ es compacto (H--B).
+        \item Identifica $T(E)$.
+        \item Obtén $x^{*}, x_{*} \in E$ tales que $T(x^{*})=\sup\{T(\mathbf{x}) \mid \mathbf{x} \in E\}$ y $T(x_{*})=\inf\{T(\mathbf{x}) \mid \mathbf{x} \in E\}$ \\ (\textbf{Sugerencia:} T es \underline{lineal} \& $T$ es contínua; $T(-\mathbf{x})=-T(\mathbf{x}) \; \forall \mathbf{x}$. $K$ y $E$son convexos$\implies T(K)$ y $T(E)$ son convexos en $\R$, cerrados, acotados y simétricos. Puedes usar multiplicadores de Lagrange)
+    \end{enumerate}
+    \item (El teorema de Bolzano)
+    \begin{enumerate}
+        \item Sea $f:[a,b] \to \R$ \underline{contínua} con $f(a)<0$ y $f(b)>0$. Prueba que $\exists c \in (a,b)$ tal que $f(c)=0$. ¿Cómo pruebas el TEO si $f(a)>0$ y $f(b)<0$? \\ (\textbf{Sugerencia:} Sea $S=\{x \in [a,b) \mid f(x)<0\}$. Sea $c=\sup(S)$. Prueba que $c\in (a,b)$ y que $f(c)=0$)
+        \item Sea $f:[a,b] \to \R$ contínua. Supón que $f(a)\neq f(b)$ y que $d$ está entre $f(a)$ y $f(b)$. Prueba: $\exists c \in (a,b)$ tal que $f(c)=d$. \qquad (TVI)
+    \end{enumerate}
+    \item Define $f:[0,1] \to \R$ poniendo: \begin{equation*}
+        f(x) = 
+        \begin{cases}
+            0 & \text{si } \displaystyle x\in[0,1]\setminus\mathbb{Q} \\
+            \displaystyle \frac{1}{q} & \text{si } \displaystyle x=\frac{p}{q} \in [0,1]\cap \mathbb{Q} \; \text{ con } (p;q)=1
+        \end{cases}
+        \qquad \text{(Función de K. J. Thomae)}
+    \end{equation*}
+    Prueba: $f$ es contínua en $x_{0} \in [0,1] \iff x_{0} \in [0,1]\setminus \mathbb{Q}$.
+
+    (Sugerencia que no venía originalmente: Claramente $f$ es discontínua en $x_{0}$ si $x_{0} \in \mathbb{Q}$; para mostrar que $f$ es contínua en $x_{0}\in[0,1]\setminus \mathbb{Q}$ pruebe que dado $\delta > 0$ y $N \in \N$ existe solo una cantidad finita de fracciones $\frac{m}{n}$ tales que $\Big| x_{0} - \frac{m}{n} \Big| < \delta$ sin $n \leq N$)
+
+    \item Sea $(M,d)$ un espacio métrico y $f:M \to M$ una función contínua (rel. $d-d$). Define $\varphi:M \to \R$ poniendo: $\varphi = d(x, f(x)) \; \forall x \in M$. Prueba: 
+    \begin{enumerate}
+        \item $\varphi$ es \underline{contínua} (rel. $d$) 
+        \item Si $(M,d)$ es \underline{compacto} (por cubiertas) (rel. $d$) y $d(f(x), f(y))< d(x,y) \; \forall x \neq y \in M$, entonces $\exists x_{0} \in M$ único tal que $f(x_{0})=x_{0}$ \textit{i.e} $x_{0}$ es un punto \underline{fijo} para $f$. \\ (TEO. de Edelstein).
+    \end{enumerate}
+    \item Sea $(M,d)$ es un espacio métrico y $X:\N \to M$ una sucesión convergente (rel. $d$). Sea $\displaystyle\ell = \lim_{n \to \infty} x_{n}$ (rel. $d$). Sea $\displaystyle K=\{x_{n}\}_{n=1}^{\infty}\cup\{\ell\}$. Prueba que $K$ es compacto (rel. $d$) (por abiertos). 
+    \item Sea $\displaystyle M=(0,\infty), d(x,y)=\left\lvert \frac{1}{x} - \frac{1}{y} \right\rvert$. Prueba que: $H=[1,\infty]$ \underline{\underline{no es compacto}} (rel. $d$) a pesar de que $H$ es cerrado y acotado (rel. $d$).\\ (Compacidad por abiertos)
+\end{enumerate}
+    
+\end{document}

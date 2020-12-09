@@ -1,0 +1,202 @@
+
+\documentclass{article}
+\usepackage[landscape]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{paquetePreset}
+
+\title{130 Cheat Sheet}
+
+%% Uso de amsthm para entornos de mates
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{axiom}{Axioma}
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem{definition}{DFN}
+\newtheorem{proposicion}{Proposición}
+\newtheorem*{observaciones}{Obs}
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.6in
+\advance\evensidemargin-1.6in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+
+\definecolor{mainClr}{RGB}{0, 46, 127}
+
+\begin{document}
+
+\newcommand{\N}{\mathbb{N}}
+
+\begin{center}{\huge{\textbf{Análisis Matemático I}}}\\
+\end{center}
+\begin{multicols*}{3}
+
+\tikzstyle{mybox} = [draw=mainClr, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=mainClr, text=white, font=\bfseries]
+
+
+
+    \begin{tikzpicture}
+        \node [mybox] (box){%
+        \begin{minipage}{0.3\textwidth}
+            \begin{definition}[Sucesión convergente] 
+                Sea $(M,d)$ un espacio métrico dado, $X:\N \to M$ una sucesión $(X = (x_{n})_{n=1}^{\infty}$ con $x_{n} = X(n))$. Decimos que $\lim_{n \to \infty} x_{n} = \ell$ (rel. $d$) si: $ \forall \epsilon > 0 \; \exists N_{\epsilon} = N(\epsilon) \in \N$ tal que, si $n > N_{\epsilon} \implies d(x_{n}, \ell)  < \epsilon$
+            \end{definition}
+
+            \begin{definition}[Conjunto acotado] 
+                Sea $(M,d)$ un espacio métrico y $E \subseteq M$ dado. Decimos que $E$ es acotado (rel. $d$) si $\exists x_{0} \in M \; \& \; R > 0$ tal que $E \subseteq B_{R}^{d}(x_{0})$
+            \end{definition}
+
+            \begin{theorem} 
+                Sea $X:\N \to M$ una sucesión convergente (rel $d$). Entonces: $E=\{x_{n} \mid n \in \N\} \subseteq M$ es acotado (rel. $d$)
+            \end{theorem}
+
+            \begin{corollary}
+                Si $X:\N \to M$ \underline{no} es acotada (rel. $d$) $\implies X:\N \to M$ no tiene límite (rel. $d$) 
+            \end{corollary}
+
+            \begin{definition}[Sub-sucesión]
+                Una sub-sucesión de una sucesión dada ($X:\N \to M$) es de la forma $X\circ g:\N \to M$ con $g:\N \to \N$ estríctamente creciente. 
+            \end{definition}
+
+            \begin{observaciones}
+                \begin{enumerate}
+                    \item Una sub-sucesión $X\circ g:\N \to M$ es también una sucesión con valores en $M$
+                    \item Cualquier sucesión es una sub-sucesión de sí misma, con $g(n)=n \quad \forall n \in \N$
+                \end{enumerate}
+            \end{observaciones}
+
+            \begin{lemma}[Lemita]
+                Si $g:\N \to \N$ creciente, entonces $n \leq g(n) \; \forall n \in \N$
+            \end{lemma}
+
+            \begin{theorem} 
+                Sea $X:\N \to M$ una sucesión que converge a $\ell$ (rel. $d$), entonces \textbf{toda} sub-sucesión $X \circ g$ de $X$ converge a $\ell$ también
+            \end{theorem}
+
+            \begin{corollary}
+                Sea $X:\N \to M$ una sucesión. 
+                \begin{enumerate}
+                    \item Si $X = (x_{n})_{n=1}^{\infty}$ admite una sub-sucesión que no converge $\implies X=(x_{n})_{n=1}^{\infty}$ no converge (rel. $d$)
+                    \item Si $X=(x_{n})_{n=1}^{\infty}$ admite dos sub-sucesiones convergentes (rel. $d$), cada una con límites distintos $\implies X=(x_{n})_{n=1}^{\infty}$ no converge
+                \end{enumerate}
+            \end{corollary}
+
+            \begin{theorem} 
+                Si $X:\N \to M$ es acotada (rel. $d$) $\implies$ toda sub-sucesión de ella es tambien acotada. 
+            \end{theorem}
+
+    \end{minipage}
+    };
+        %------------ Orden Header ---------------------
+        \node[fancytitle, right=10pt] at (box.north west) {Sucesiones en espacios métricos};
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \node [mybox] (box){%
+        \begin{minipage}{0.3\textwidth}
+
+            \begin{corollary}
+                Si $X:\N \to M$ admite una sub-sucesión no acotada (rel. $d$), entonces $X:\N \to M$ no converge (rel. $d$)
+            \end{corollary}
+
+            \begin{definition}[Sucesión de Cauchy] 
+                Sea $(M,d)$ un espacio métrico y $X:\N \to M$ una sucesión. Decimos que $X=(x_{n})_{n=1}^{\infty}$ es una \underline{sucesión de Cauchy} (rel. $d$) si: $\forall \epsilon >0 \; \exists N_{\epsilon} = N(\epsilon) \in \N$ tal que, si $m,n > N_{\epsilon} \implies d(x_{m}, x_{n}) < \epsilon$
+            \end{definition}
+
+            \begin{theorem}[Complitud de $\R^{p}$] 
+                \label{teo:complitud}
+                Con $M=\R^{p}$, y la métrica usual:
+                $$X:\N \to \R^{p} \text{converge} \iff X:\N \to \R^{p} \text{ es de Cauchy}$$
+            \end{theorem}
+
+            \begin{theorem} 
+                \label{teo:media_complitud}
+                Sea  $(M,d)$ un espacio métrico y $X=(x_{n})_{n=1}^{\infty}$ una sucesión convergente en $M$ (rel. $d$). Entonces, $X=(x_{n})_{n=1}^{\infty}$ es sucesión de Cauchy. 
+            \end{theorem}
+
+            \begin{observaciones}
+                El teorema \ref{teo:media_complitud} es válido en cualquier espacio métrico con cualquier métrica. La segunda implicación del teorema \ref{teo:complitud} es particular a $\R^{p}$, y se cumple gracias al \texttt{A.S}
+            \end{observaciones}
+
+            \begin{theorem} 
+                Sea $X:\N \to M$ una sucesión de Cauchy (rel. $d$) $\implies X:\N \to M$ es acotada.
+            \end{theorem}
+
+            \begin{corollary}
+                Si $X:\N \to M$ no es acotada $\implies X:\N \to M$ no es de Cauchy (rel. $d$).
+            \end{corollary}
+
+            \begin{theorem} 
+                Si $X:\N \to M$ es de Cauchy, entonces \underline{toda} sub-sucesión es de Cauchy. 
+            \end{theorem}
+
+            \begin{theorem} 
+                Sea $(M,d)$ un espacio métrico y $X:\N \to M$ una sucesión de Cauchy (rel. $d$). Si $X \circ g:\N \to M$ es una sub-sucesión convergente en $M$ (rel. $d$) $\implies X:\N \to M$  converge en $M$ (rel. $d$).
+            \end{theorem}
+
+            \begin{definition}[Sucesión Contractiva] 
+                Sea $(M,d)$ métrico y $X:\N \to M$ una sucesión. Decimos que $X=(x_{n})_{n=1}^{\infty}$ es una \underline{sucesión contractiva} (rel. $d$) si $\exists \rho \in (0,1)$ \textbf{fijo} tal que $d(x_{n+1}, x_{n+2}) \leq \rho \cdot d(x_{n+1}, x_{n})$
+            \end{definition}
+
+            \begin{theorem} 
+                Si $X:\N \to M$ es $\rho$-contractiva (rel. $d$) $\implies d(x_{n+2}, x_{n+1}) \leq \rho^{n} \cdot d(x_{2}, x_{1})$. 
+            \end{theorem}
+
+    \end{minipage}
+    };
+        %------------ Orden Header ---------------------
+        \node[fancytitle, right=10pt] at (box.north west) {Sucesiones en espacios métricos};
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \node [mybox] (box){%
+        \begin{minipage}{0.3\textwidth}
+            \begin{theorem}[Bolzano-Weirstrass para sucesiones] 
+                Sea $X:\N \to \R^{p}$ una sucesión acotada. Entonces $X:\N \to \R^{p}$ admite una sub-sucesión convergente. 
+            \end{theorem}
+
+            \begin{theorem}[Teorema de la convergencia monótona (TCM)] 
+                Sea $X:\N \to \R$ una sucesión monótona (no-creciente o no-decreciente) y acotada. Entonces $X=(x_{n})_{n=1}^{\infty}$ converge.
+            \end{theorem}
+
+            \begin{corollary}
+                Sea $X:\N \to \R$ una sucesión no-decreciente y acotada superiormente. Entonces $X=(x_{n})_{n=1}^{\infty}$ converge, y $\lim_{n \to \infty} x_{n} = \sup_{n \in \N} \{x_{n}\}$
+            \end{corollary}
+
+            \begin{corollary}
+                Sea $X:\N \to \R$ ua sucesión no-creciente y acotada inferiormente. Entonces $X=(x_{n})_{n=1}^{\infty}$ converge, y $\lim_{n \to \infty} x_{n} = \inf_{n \in \N} \{x_{n}\}$
+            \end{corollary}
+
+            \begin{theorem} 
+                Sea $X:\N \to \R$ una sucesión arbitraria. Entonces $X=(x_{n})_{n=1}^{\infty}$ admite una sub-sucesión monótona.
+            \end{theorem}
+
+            \begin{observaciones}
+                Axioma del Supremo $\iff$ Complitud de $\R$
+            \end{observaciones}
+
+    \end{minipage}
+    };
+        %------------ Orden Header ---------------------
+        \node[fancytitle, right=10pt] at (box.north west) {Sucesiones en espacios métricos};
+    \end{tikzpicture}
+
+\end{multicols*}
+
+
+\end{document}

@@ -1,0 +1,108 @@
+%% Paquete de conveniencia
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{paquetePreset}[2018/06/13 Paquete para facilitar mi vida]
+
+%%Declaración de paquetes necesarios 
+\RequirePackage{xcolor}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{graphicx}
+\RequirePackage{sectsty} % Colorear títulos
+\RequirePackage{tabularx} 
+
+%Estableciendo PATH para imágenes 
+\graphicspath{ {images/} }
+
+%Cambio del símbolo QED
+%\renewcommand\qedsymbol{$\blacksquare$}
+
+%%Declaración de colores para entornos, etc... (Xcolor) 
+\definecolor{verdeITAM}{RGB}{0, 108, 84}
+%Creando comandos para obtener colores principales
+\definecolor{mainClr}{RGB}{0, 46, 127}
+\definecolor{mainDarkClr}{RGB}{0, 46, 127}
+\definecolor{mainLightClr}{RGB}{0, 92, 255}
+
+%% Coloreando secciones 
+\sectionfont{\color{mainDarkClr}}
+\subsectionfont{\color{mainDarkClr}}
+\subsubsectionfont{\color{mainDarkClr}}
+
+\def\calloutsym{%
+  \ensurestackMath{%
+  \scalebox{1.7}{\color{red}\stackunder[0pt]{\bigcirc}{\downarrow}}}%
+}
+\newcommand\callouttext[1]{%
+  \def\stacktype{S}\renewcommand\useanchorwidth{T}\stackText%
+  \stackunder{\calloutsym}{\scriptsize\Longstack{#1}}\stackMath%
+}
+\newcommand\callout[3][1.5pt]{%
+  \def\stacktype{L}\stackMath\stackunder[#1]{#2}{\callouttext{#3}}%
+}
+
+%%%%% Entornos personalizados
+% Entorno no numerado de observación: 
+\newenvironment{obs}
+{
+    \color{mainClr}
+    \tabularx{0.9\textwidth}{||l X||}
+    \textbf{Nemotécnico:} & \dotfill \\ &
+}
+%%Aqui va el texto introducido
+{ 
+    \endtabularx
+    \vspace{\baselineskip}
+}
+
+\newenvironment{nota}[1][\unskip]
+{
+    \begin{center}
+    \color{mainClr}
+    \begin{tabular}{|p{0.9\textwidth}|}
+        \hline \vspace{0.8em}
+        \textbf{Nota #1:}
+}                  %%Aqui va el texto introducido
+{ \vspace{0.8em}\\
+\hline
+\end{tabular} 
+\end{center}
+}
+    
+% Entorno numerado de ejemplo
+\newcounter{ej}[subsubsection]
+\newenvironment{ejemplo}
+{
+    \noindent
+    \refstepcounter{ej}
+    {\color{mainClr}
+    \textbf{Ejemplo~\theej:}
+    }
+}{
+    \begin{center}
+        \color{mainClr}\rule{0.5\textwidth}{1pt}
+    \end{center}
+} 
+
+%Entorno solución
+\newenvironment{solucion}{
+\begin{center}
+    {\color{mainLightClr} Solucion:}
+\end{center}
+}
+%Aqui va el introducido
+{\vspace{5pt}}
+
+% Entorno para matrices aumentadas
+\newenvironment{augMat}[1]
+{
+    \left[
+        \begin{array}{@{}*{#1}{c}|c@{}}
+}
+{
+        \end{array}
+    \right] 
+}
+    
+%Comando para pasos en matrices 
+\newcommand{\matrixStep}[1]{\stackrel{#1}{\longrightarrow}}
+    

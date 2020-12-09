@@ -1,0 +1,181 @@
+\documentclass[a4paper]{article}
+\usepackage{paquetePreset}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[margin=3cm]{geometry} 
+\usepackage{mathtools}
+\usepackage{xcolor}
+% \usepackage{quattrocento}
+\usepackage[shortlabels]{enumitem}
+\usepackage{extarrows}
+\usepackage[usestackEOL]{stackengine}
+
+\newcommand{\dif}[1]{\;\mathrm{d}#1}
+
+\begin{document}
+\begin{raggedleft}
+    \Large
+    \textsc{Métodos de resolución}
+\end{raggedleft}
+
+\section{Ecuaciones separables}
+\section{Ecuaciones exactas}
+Ecuación de la forma 
+
+\begin{equation}
+    \label{eq:forma-exacta}
+    \underbrace{{\color{red}M}(x,y) \dif{{\color{blue}x}}}_{A} + \underbrace{{\color{blue}N}(x,y) \dif{{\color{red} y}}}_{B} = 0  
+\end{equation}
+que cumple:
+\begin{equation*}
+    \frac{\partial {\color{red}M}(x,y)}{\partial {\color{red}y }} = \frac{\partial {\color{blue} N}(x,y)}{\partial {\color{blue} x}}.
+\end{equation*}
+
+\begin{obs}
+    $M$ y $N$ se derivan con respecto a la variable que \textbf{no} está en el diferencial que tienen al lado.
+    Es decir, van ``cruzadas''.
+    Por ejemplo $\dif{x} \mapsto \partial y$.
+\end{obs}
+
+Recordamos que $\displaystyle \frac{\partial F(x,y)}{\partial x} = M(x,y)$, y $\displaystyle \frac{\partial F(x,y)}{\partial y} = N(x,y)$
+
+\begin{enumerate}
+    \item Elegimos $M$, o $N$ para integrar dependiendo de cual sea más fácil, e integramos con respecto a la variable del diferencial que tienen en la ec. \eqref{eq:forma-exacta}.
+    
+    Ahora hacemos la integración, agregando una función $g$ de la variable que no estamos integrando (en este caso ${\color{red} y}$)
+    \begin{align*}
+        F(x,y) &= \int \underbrace{M(x,y) \dif{{\color{blue}x}}}_{A} + g({\color{red}y}) \\
+        &= X(x,y) + g({\color{red}y}) \tag{$\star$}
+    \end{align*}
+    La expresión ($\star$) nos da la solución general más tarde.
+
+    \item Ahora derivamos $F$ con respecto a la variable que no se integró en el paso anterior (en este caso ${\color{red} y}$), para después igualar a la función que no se integró en el paso anterior (en este caso, $N$).
+    \begin{align*}
+        \frac{\partial F(x,y)}{\partial y} &= \frac{\partial X(x,y)}{\partial y} + g'(y) = N(x,y) 
+    \end{align*}
+
+    \item Despejamos $g'$ de la ecuación obtenida en el paso anterior, y la integramos para obtener $g$.
+    \begin{align*}
+        g'(y) &= N(x,y) - \frac{\partial X(x,y)}{\partial y} \\
+        g(y) &= \int \left[ N(x,y) - \frac{\partial X(x,y)}{\partial y}  \right] \dif{y} \\
+    \end{align*}
+
+    \item 
+    Tomando la ecuación ($\star$), la solución general es
+    \begin{align*}
+        (\star) &= c \\
+        X(x,y) + g(y) &= c
+    \end{align*}
+    Con $c$ una constante, $X(x,y)$ obtenida en paso 1, y $g(y)$ obtenida en paso 3.
+\end{enumerate}
+
+
+\section{Ecuaciones con factor integrante}
+Ecuación de la forma 
+
+\begin{equation}
+    \label{eq:forma-exacta-2}
+    \underbrace{{\color{red}M}(x,y) \dif{{\color{blue}x}}}_{A} + \underbrace{{\color{blue}N}(x,y) \dif{{\color{red} y}}}_{B} = 0  
+\end{equation}
+que cumple:
+\begin{equation*}
+    \frac{\partial {\color{red}M}(x,y)}{\partial {\color{red}y }} \neq \frac{\partial {\color{blue} N}(x,y)}{\partial {\color{blue} x}}.
+\end{equation*}
+
+Definimos
+\begin{align*}
+    p(x) &= \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N} &\text{\&} && p(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M}
+\end{align*}
+
+\begin{obs}
+    Una forma fácil de recordar la forma de la función $p$.
+    La empezamos a llenar por el lado ``derecho'' y el denominador.
+    \begin{equation*}
+        p({\color{red} \diamond}) = \frac{\phantom{\frac{\partial M}{\partial x}} - \frac{\partial {\color{green} \spadesuit}}{\partial{\color{red} \diamond}}}{{\color{green} \spadesuit}}
+    \end{equation*}
+    Notamos un patrón. En el numerador, el término que se resta ($\frac{\partial {\color{green} \spadesuit}}{\partial {\color{red} \diamond} }$) tiene a la variable de la función abajo, y el denominador de $p$ arriba.
+\end{obs}
+
+\begin{enumerate}
+    \item Identificar $p(x)$ o $p(y)$ dependiendo de cual sea una función univariada, o cual sea más manejable.
+    Supongamos que trabajamos con $p(x)$.
+
+    \item Calcular el factor integrante como
+    \begin{equation*}
+        \mu(x) = \exp \left( \int p(x) \dif{x} \right)
+    \end{equation*}
+
+    \item Multiplicar la ec. (2) en ambos lados por $\mu(x)$ para obtener 
+    \begin{equation}
+        \label{eq:exactificada}
+        \mu(x) M(x,y) \dif{x} + \mu(x) N(x,y) \dif{y} = 0
+    \end{equation}
+    La ecuación \ref{eq:exactificada} ya es de la forma exacta, y puede ser resuelta como en la \S 2.
+\end{enumerate}
+
+\section{Ecuaciones lineales}
+Ecuación de la forma 
+\begin{equation}
+    \label{eq:lineal}
+    \frac{\dif{y}}{\dif{x}} + p(x) \cdot y = q(x).
+\end{equation}
+
+\begin{enumerate}
+    \item Calculamos el factor integrante como 
+    \begin{equation*}
+        \mu(x) = \exp \left( \int p(x) \dif{x} \right).
+    \end{equation*}
+
+    \item Multiplicamos ambos lados de \eqref{eq:lineal} por $\mu(x)$, de tal forma que podemos escribir
+    \begin{equation*}
+        \frac{\mathrm{d}}{\dif{x}} \left( y \cdot \mu \right) = \mu(x) \cdot q(x).
+    \end{equation*}
+
+    \item Integramos de ambos lados para obtener
+    \begin{equation*}
+        y \cdot \mu(x) = \int \mu(x) \cdot q(x) \dif{x} + c.
+    \end{equation*}
+
+    \item La solución general en forma estándar es
+    \begin{equation*}
+        y = \frac{\int \mu(x) q(x) \dif{x} + c }{\mu(x)}.
+    \end{equation*}
+\end{enumerate}
+
+\section{Ecuaciones de Bernoulli}
+
+\section{Ecuaciones de Riccati}
+Ecuación de la forma 
+\begin{equation}
+    \label{eq:riccati}
+    \frac{\dif{y}}{\dif{x}} = p(x) + q(x)y + r(x)y 2
+\end{equation}
+se convierte en lineal con el cambio de variable $z = (y - y_p)^{-1}$ donde $y_{p}$ es una solución particular.
+
+\begin{enumerate}
+    \item Del cambio de variable obtenemos
+    \begin{equation*}
+        y = z^{-1} + y_{p}
+    \end{equation*}
+
+    \item Calculamos el lado izquierdo de la ec. \eqref{eq:riccati}.
+    \begin{equation*}
+        \frac{\dif{y}}{\dif{x}} = \frac{\mathrm{d}}{\dif{x}} \left( z^{-1} + y_p \right) = -z^{-2} + \frac{\dif{z}}{\dif{x}} 
+    \end{equation*}
+
+    \item Calculamos el lado derecho de la ec. original sustituyendo $y$ con $z^{-1} + y_p$.
+    Llamamos a el lado derecho con el cambio de variable:
+    \begin{align*}
+       &= p(x) + q(x) (z^{-1} - y_p) + r(x) (z^{-1} - y_p)^{2} \\
+       &= p(x) + z^{-1} q(x) - y_p q(x) + z^{-2} r(x) + y^{2}_{p} r(x) - 2 z^{-1} y_p r(x)
+    \end{align*}
+
+    \item Juntamos ambos lados, y despejamos $\frac{\dif{x}}{\dif{y}}$.
+    \begin{align*}
+        z^{-2}  \frac{\dif{z}}{\dif{x}} &= p(x) + z^{-1} q(x) - y_p q(x) + z^{-2} r(x) + y^{2}_{p} r(x) - 2 z^{-1} y_p r(x) \\
+        \frac{\dif{z}}{\dif{x}} &= z^{2} p(x) + z q(x) - y_p z^{2} q(x) + r(x) + y^{2}_{p} z^{2} r(x) - 2 z y_p r(x)
+    \end{align*}
+    La ecuación resultante es lineal 
+\end{enumerate}
+
+\end{document}

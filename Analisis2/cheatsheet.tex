@@ -1,0 +1,591 @@
+\documentclass[a4paper]{article}\usepackage{/home/alonso/Documents/Projects/formularios/styles}
+\usepackage{amssymb, amsthm}
+\usepackage{amsmath}
+\usepackage[landscape]{geometry}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{quattrocento}
+\usepackage[shortlabels]{enumitem}
+
+\newtheorem{definition}{DFN}
+\newtheoremstyle{mytheoremstyle} % name
+    {\topsep}                    % Space above
+    {\topsep}                    % Space below
+    {}                   % Body font
+    {}                           % Indent amount
+    {\bfseries\scshape}                   % Theorem head font
+    {:}                          % Punctuation after theorem head
+    {.5em}                       % Space after theorem head
+    {}  % Theorem head spec (can be left empty, meaning ‘normal’)
+\theoremstyle{mytheoremstyle}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{axiom}{Axioma}
+\newtheorem{cor}{Corolario}[theorem]
+\newtheorem*{obs}{Obs}
+
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+
+\title{}
+\author{}
+
+% Macros útiles
+\newcommand{\IP}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{\mathds{1}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\DeclareMathOperator{\abs}{abs}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+
+
+\begin{document}
+\formTitle{Análisis Matemático II}
+\begin{multicols*}{3}
+
+\begin{roundbox}{Continuidad}
+\begin{definition}[Continuidad puntual]
+Una función $f$ es continua en $a\in D(f)\subseteq X$ si para toda $\varepsilon>0$ existe $\delta>0$ tal que
+\[
+   x\in D(f)\cap B_\delta(a) \implies f(x)\in B_\varepsilon(f(a))
+\]
+o alternativamente, $f$ es continua en $a$ si para toda $\varepsilon>0$ existe $\delta>0$ tal que
+\[
+f^{-1}\big(B_\varepsilon(f(a))\big)\supseteq D(f)\cap B_\delta(a).
+\
+\]
+\end{definition}
+
+
+\begin{theorem}[Teorema de Continuidad Global]
+Para $f:\R^{p}\to\R^{q}$ son equivalentes las siguientes condiciones:
+\begin{itemize}
+\item $f$ es continua en $\R^{p}$;
+\item Si $G\subseteq\R^{q}$ es abierto entonces $\displaystyle f^{-1}(G)$ es abierto en $\R^{p}$;
+\item Si $H\subseteq\R^{q}$ es cerrado entonces $\displaystyle f^{-1}(H)$ es cerrado en $\R^{p}$;
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}[Preservación de la conexidad]
+Sean $f:D(f)\subseteq\R^{p}\to\R^{q}$ y $H\subseteq D(f)$ conexo en $\R^{p}$. Si $f$ es continua en $H$, entonces $f(H)$ es conexo en $\R^{q}$.
+\end{theorem}
+
+\begin{definition}[Continuidad uniforme]
+Dada $f:D(f)\subseteq\R^{p}\to\R^{q}$ y $A\subseteq D(f)$, se dice que $f$ es uniformemente continua en $A$ si para toda $\varepsilon>0$ existe $\delta>0$  tal que para todo $x,u\in A$ que cumpla $\|x-u\|<\delta$ se tendrá $\|f(x)-f(u)\|<\varepsilon$.
+\end{definition}
+
+\begin{obs}
+Continuidad uniforme$\implies$continuidad.
+\end{obs}
+
+\begin{lemma}
+\item Para verificar que $f:D(f)\subseteq\R^{p}\to\R^{q}$ \textbf{NO} es uniformemente continua en $A\subseteq D(f)$ basta exhibir una $\varepsilon_0>0$ y dos sucesiones $(x_n)$ y $(y_n)$ en $A$ tales que, aunque $\|x_n-y_n\|<1/n$, se cumplirá $\|f(x_n)-f(y_n)\|\geq\varepsilon_0$.
+\end{lemma}
+
+\begin{theorem}
+Sea $f:D(f)\subseteq\R^{p}\to\R^{q}$ continua en su dominio. Si $K\subseteq D(f)$ es compacto entonces $f$ es uniformemente continua en $K$
+\end{theorem}
+\end{roundbox}
+
+
+\begin{roundbox}{Continuidad}
+\begin{definition}[Condición de Lipschitz]
+    Decimos que $f: D(f) \subseteq \R \to \R$ cumple la condición se Lipschitz si para cualesquiera $x, y \in D(f)$ se cumple
+    \[
+        \norm{f(x) - f(y)} \leq M \norm{x - y}
+    \]
+\end{definition}
+
+\begin{definition}[Contracción]
+    Decimos que $f$ que cumple la condición de Lipschitz con $M \in (0,1)$ es una contracción.
+\end{definition}
+
+\begin{lemma}
+    Toda función $f$ que cumple la condición de Lipschitz es uniformemente contínua.
+    Sin embargo, no todas las funciones uniformemente contínuas son Lipschitz.
+\end{lemma}
+
+\begin{theorem}[Teorema del punto fijo]
+Sean $(X;d)$ un espacio métrico completo y $f:X\to X$ una contracción. Entonces existe $u\in X$ que es punto fijo de $f$.
+\end{theorem}
+
+\begin{definition}[Espacios de funciones]
+    Definimos
+    \[
+        C_{pq}(D) \coloneqq \left\{ f:D \to \R^{q} \mid f \text{es contínua en } D \right\}
+    \]
+    como el espacio de funciones contínuas en $D$, y a
+    \[
+        BC_{pq}(D) \coloneqq \left\{ f:D \to \R^{q} \mid f \text{es contínua y acotada en } D \right\}
+    \]
+    como el espacio de funciones contínuas \underline{y} acotadas en $D$.
+\end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Sucesiones de funciones}
+\begin{definition}[Norma infinito]
+    Definimos una nueva norma sobre $C_{pq}(D)$:
+    \[
+    \norm{f}_{\infty,D} \coloneqq \sup\big\{\|f(x)\|:x\in D\big\}
+    \]
+\end{definition}
+
+\begin{definition}[Sucesión de funciones]
+\end{definition}
+
+\begin{definition}[Convergencia puntual]
+    Decimos que la sucesión $(f_n)$ converge puntualmente en $D$ a cierta función $f:D \to \R^{q}$ si $\forall x \in D$ la sucesión $(f_n (x))$, en $\R^{q}$, converge a $f(x)$.
+    Como notación, usamos $f = \lim_{n\to \infty} f_n$ o bien $f_n \to f$ para decir que $f_n$ converge puntualmente.
+\end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Sucesiones de funciones}
+\begin{lemma}
+    Sea $(x_n)$ una sucesión.
+    Si se tiene que $|x_n - L| \leq C \cdot a_n$ con $a_n \to 0$, y $C >0$ constante, entonces $x_n$ converge a $L$.
+\end{lemma}
+
+\begin{definition}[Convergencia uniforme]
+    Decimos que la sucesión $(f_n)$ con $f_n: D \subseteq \R^{p} \to \R^{q}$, converge \textbf{uniformemente} a $f: D \subseteq \R^{p} \to \R^{q}$ si, $\forall \varepsilon > 0$, existe $k=k(\varepsilon) \in \N$ tal que $n \geq k \implies \norm{f_n(x) - f(x)} > \varepsilon$,
+    $\boldsymbol{\forall x \in D}$.
+\end{definition}
+
+\begin{lemma}
+La sucesión de funciones $(f_n)$, con $f_n:D\subseteq\R^{p}\to\R^{q}$, no converge uniformemente a la función $f:D\subseteq\R^{p}\to\R^{q}$ en $D$ si existe $\varepsilon_0>0$, una sucesión $(x_k) \in D$ tal que la subsucesión $(f_{n_k})$ cumple $\|f_{n_k}(x_k)-f(x_k)\|\geq\epsilon_0$
+\end{lemma}
+
+\begin{theorem}
+Una sucesión en $B_{p,q}(D)$ es uniformemente convergente en $D$ a cierta $f:D\to\R^{q} \iff \|f_n-f\|_{\infty,D}\to0$ si $n\to\infty$.
+\end{theorem}
+
+\begin{theorem}[Criterio de Cauchy]
+Sea $(f_n)$ una sucesión de funciones en $B_{p,q}(D)$. Entonces existe $f\in B_{p,q}(D)$ tal que $f_n\to f$ uniformemente en $D \iff$ dada $\varepsilon>0$ existe $M\in\N$ tal que
+\[
+m,n\geq M \implies \|f_n-f_m\|_{\infty,D}<\varepsilon
+\]
+\end{theorem}
+
+\begin{theorem}[Preservación de la continuidad]
+Sea $(f_n)$ una sucesión de funciones continuas definidas en $D\subset\R^{p}$, tomando valores en $\R^{q}$. Si $f_n\to f$ uniformemente en $D$ entonces $f$ es continua en $D$.
+
+Equivalentemente, si $(f_n)$ es una sucesión en $BC_{p,q}(D)$ tal que $\|f_n-f\|_{\infty,D}\to0$ entonces $f\in BC_{p,q}(D)$.
+\end{theorem}
+
+\begin{theorem}[Dini]
+Sea $(f_n)$ una sucesión de funciones continuas definidas en un espacio métrico compacto $K$. Supóngase además que para cualquier $x\in K$ ocurre que $f_n(x)$ converge a $f(x)$ puntualmente \underline{como una sucesión decreciente}, para cierta $f\in C(K)$. Entonces $f_n\to f$ uniformemente
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Teoría de Aproximación}
+\begin{definition}[Aproximación uniforme]
+    Dadas $f,g:D\subseteq\R^{p}\to\R^{q}$, se dice que $g$ aproxima uniformemente a $f$ con error $\varepsilon>0$ si $\|f-g\|_{\infty,D}<\varepsilon$.
+
+    Dada $\mathcal F$ una familia de funciones de $D\subseteq\R^{p}$ en $\R^{q}$ y $f:D\to\R^{q}$, se dice que $f$ es aproximada uniformemente en $D$ por elementos de $\mathcal F$ si para toda $\varepsilon>0$ existe $g_\varepsilon\in\mathcal F$ tal que $\|f-g_\varepsilon\|_{\infty,D}<\varepsilon$
+\end{definition}
+
+\begin{definition}[Función escalera]
+    Una función $g: \R^{p} \to \R^{}$ es una función escalera sobre $D \subseteq \R^{p}$ si toma un número finito de valores diferentes, y los valores distintos de cero los toma en celdas acotadas de $\R^{p}$.
+
+    Denotamos por $\Sigma(D)$ a la familia de funciones escalera sobre $D$.
+\end{definition}
+
+\begin{theorem}
+Sea $f:J\subset\R^{p}\to\R^{q}$ una función continua en $J$, que suponemos una celda cerrada y acotada. Entonces $f$ puede aproximarse uniformemente en $J$ por elementos de $\Sigma(J)$.
+\end{theorem}
+
+\begin{definition}[Función lineal por pedazos]
+Decimos que $g:J=[a,b]\to\R$ es lineal por pedazos si existen $(n+1)$ puntos $c_k\in J$ cumpliendo $a=c_0<c_1<\cdots<c_n=b$, y para cada $k$ dos números $A_k,B_k\in\R$ tales que para $x\in[c_{k-1},c_k]$ se tiene $g(x)=A_kx+B_k$.
+\end{definition}
+
+\begin{theorem}
+Si $f:J=[a,b]\to\R$ es continua en el intervalo compacto $J$ entonces puede aproximarse uniformemente en $J$ por funciones lineales por pedazos continuas.
+\end{theorem}
+
+\begin{theorem}[Weierstrass]
+Si $f:[0,1]\to\R$ es continua en el intervalo compacto $[0,1]$ entonces existe una sucesión de polinomios $(p_n)$ tales que $p_n\to f$ uniformemente en $[0,1]$.
+\end{theorem}
+
+\begin{cor}
+Para todo intervalo de la forma $[-a,a]$ (con $a>0$) existe una sucesión de polinomios $(p_n)$ tales que $p_n(0)=0$ para toda $n$, y tal que
+\[
+\lim_{n\to\infty}p_n(x)=|x|\qquad\text{uniformemente en }\,[-a,a].
+\]
+\end{cor}
+
+\begin{definition}[Polinomios de Bernstein]
+    Dada una función $f: \I \to \R$, definimos el $n$-ésimo polinomio de Bernstein asociado a $f$ como:
+    \[
+        B_n(x) \equiv B_n f(x) \coloneqq \sum_{k=0}^{n} f\left( \frac{k}{n} \right) \binom{n}{k} x^{k} (1-x)^{n-k}, \; x \in \I.
+    \]
+\end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Teoría de Aproximación}
+\begin{theorem}[Bernstein]
+Sea $f:\I\to\R$ continua en $\I$. Entonces la sucesión $(B_nf)$ de polinomios de Bernstein asociados a $f$ converge uniformemente a $f$ en $\I$.
+\end{theorem}
+
+\begin{theorem}[Teo. de extensión de Tietze]
+Sea $f:D\subset\R^{p}\to\R$ continua y acotada, con $D\subset\R^{p}$ cerrado.
+Entonces existe $g:\R^{p}\to\R$ tal que $g(x)=f(x)$ para $x\in D$, y tal que $\|g\|_{\infty}=\|f\|_{\infty,D}$, es decir
+\[
+\sup\big\{|g(x)|:x\in\R^{p}\big\}=\sup\big\{|f(x)|:x\in D\big\}
+\]
+\end{theorem}
+
+\begin{theorem}
+Si $f:\I\to\R$ es continua y lineal por pedazos, entonces $f$ es combinación lineal de funciones $\abs_a$ para ciertas $a\in\I$.
+\end{theorem}
+
+\begin{definition}[Propiedad de Lindel\"of]
+    Un espacio métrico $X$ tiene la propiedad de Lindel\"of si de cualquier cubierta abierta de $X$ se puede obtener una subcubierta contable.
+\end{definition}
+
+\begin{theorem}[Teo. de Lindel\"of]
+    El espacio $\R^{p}$ cumple la propiedad de Lindel\"of
+\end{theorem}
+
+\begin{lemma}
+    Dado $A \subseteq \R^{p}$, existe $X \subseteq A$ contable tal que $\forall x \in A$ y $\varepsilon >0$ se puede hallar $z \in C$ tal que $\norm{x-z} < \varepsilon$.
+    Es decir, $A$ contiene un denso numerable $C$.
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Densidad de espacios de funciones}
+\begin{definition}[$\varepsilon$-red]
+    Dados $A \subseteq X, \varepsilon > 0$, una $\varepsilon$-red de $A$ es una colección de puntos $\left\{ x_{\alpha} \mid \alpha \in \mathcal{A} \right\}$ tal que $\left\{ B_{\varepsilon}(x_{\alpha}) \mid \alpha \in \mathcal{A} \right\}$ forma una cubierta de $A$
+
+    Se dice que la $\varepsilon$-red es finita si $\mathcal{A}$ es finito.
+\end{definition}
+
+\begin{definition}[Totalmente Acotado]
+    Un $A \subseteq X$ es totalmente acotado si $\forall \varepsilon > 0$, $A$ tiene una $\varepsilon$-red finita.
+\end{definition}
+
+\begin{lemma}
+    Totalmente acotado$\implies$acotado, pero no al revés.
+\end{lemma}
+
+\begin{theorem}
+    Para un espacio métrico $(X,d)$ son equivalentes:
+    \begin{itemize}
+        \item $X$ es compacto,
+        \item $X$ es compacto por sucesiones,
+        \item $X$ completo y totalmente acotado.
+    \end{itemize}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Densidad de espacios de funciones}
+\begin{lemma}[Separabilidad de conjuntos secuencialmente compactos]
+    Sea $(X,d)$ un espacio métrico y $A \subseteq X$ secuencialmente compacto.
+    Entonces $A$ contiene a un conjunto denso numerable.
+\end{lemma}
+
+\begin{definition}[Cota uniforme]
+    Una familia $\mathcal{F} \subseteq C_{pq}(K)$ es uniformemente acotada en $K$ si $\exists M > 0$ tal que
+    \[
+        \norm{f}_{\infty} \leq M \qquad \forall f \in \mathcal{F}
+    \]
+\end{definition}
+
+\begin{definition}[Equicontinuidad]
+    Una familia $\mathcal{F} \subseteq C_{pq}(K)$ es uniformemente equicontínua en $K$ si para cada $\varepsilon > 0, \exists \delta = \delta(\varepsilon)$ tal que
+    \[
+        \norm{x-y} < \delta \implies \norm{f(x) - f(y)} < \varepsilon
+    \]
+    \underline{con la misma $\delta$ para toda $f \in \mathcal{F}$}
+\end{definition}
+
+\begin{theorem}[\`Arzela-Ascoli en $\R^{p}$]
+    Sea $K \in \R^{p}$ compacto, y $\mathcal{F} \subseteq C_{pq}(K)$.
+    Entonces, son equivalentes
+    \begin{enumerate}
+        \item La familia $\mathcal{F}$ es uniformemente acotada y equicontínua en $K$
+        \item Toda sucesión $(f_n) \subseteq \mathcal{F}$ tiene una subsucesión uniformemente convergente en $C_{pq}(K)$.
+    \end{enumerate}
+\end{theorem}
+
+Una presentación para espacios métricos generales:
+
+\begin{theorem}[\`Arzela-Ascoli]
+    Sea $(X,d)$ un espacio métrico y $K \subseteq X$ compacto.
+    Para $\mathcal{F} \subseteq C(K)$ son equivalentes:
+    \begin{enumerate}
+        \item $\mathcal{F}$ es uniformemente acotada y equicontínua en $K$
+        \item Toda sucesión $(f_n) \subseteq \mathcal{F}$ tiene una subsucesión uniformemente convergente en $K$.
+    \end{enumerate}
+\end{theorem}
+
+Otra versión
+
+\begin{theorem}
+    Sea $(X,d)$ un espacio métrico y $K \subseteq X$ compacto.
+    Entonces un conjunto en $C(K)$ es compacto$\iff$es cerrado bajo la norma uniforme, uniformemente acotado \& uniformemente equicontínuo en $K$.
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Densidad de espacios de funciones}
+\begin{theorem}[Teo. de Stone]
+    Sea $K \subseteq \R^{p}$ compacto y $\mathcal{F} \subseteq C(K)$ una familia de funciones que cumple
+    \begin{itemize}
+        \item Si $f,g \in \mathcal{F} \implies \min{f,g}$ y $\max{f,g} \in \mathcal{F}$.
+        \item Para $\alpha, \beta \in \R, x,y \in K$ tal que $x\neq y, \exists f \in \mathcal{F}$ tal que $f(x) = \alpha$ y $f(y) = \beta$
+    \end{itemize}
+    Entonces, $\mathcal{F}$ es denso en $C(K)$
+\end{theorem}
+
+\begin{theorem}[Teo. de Stone-Weierstrass]
+    Sea $K \subseteq \R^{p}$ compacto y $\mathcal{A} \subseteq C(K)$ una familia de funciones cumpliendo:
+    \begin{itemize}
+        \item La función constante $\varphi_{0}(x) = 1 \in \mathcal{A}$
+        \item Si $f,g \in \mathcal{A} \implies \alpha f + \beta g \in \mathcal{A}, \quad \forall \alpha, \beta \in \R$
+        \item Si $f,g \in \mathcal{A} \implies f \cdot g \in \mathcal{A}$
+        \item Para $x\neq y \in K, \exists f \in \mathcal{A}$ tal que $f(x) \neq f(y)$
+    \end{itemize}
+    Entonces, $\mathcal{A}$ es densa en $C_{p}(K)$
+\end{theorem}
+
+\begin{theorem}[Weierstrass extendido]
+    Sean $K \subseteq \R^{p}$ compacto y $F: K \to \R^{q}$ contínua en $K$.
+    Entonces, dada $\varepsilon > 0$, existe $P:\R^{p} \to \R^{q}$ una función polinomial tal que
+    \[
+        \norm{f - P}_{\infty} < \varepsilon
+    \]
+\end{theorem}
+
+\begin{definition}[Operador Lineal]
+    Una transformación lineal en el espacio de funciones
+\end{definition}
+
+\begin{lemma}
+    Los operadores lineales son monótonos
+\end{lemma}
+
+\begin{theorem}[Teo. de Korovkin]
+    Sea $J \in \R$ compacto. Suponga que $(L_n)$ es una sucesión de operadores lineales positivos tal que $L_n(\varphi_k) \to \varphi_k$ uniformemente si $n \to \infty$ para $k=0,1,2$.
+    Entonces, para cualquier $f \in C(J)$
+    \[
+        L_n(f) \to f
+    \]
+    uniformemente en $J$.
+\end{theorem}
+
+\begin{lemma}
+    Si $L:C(X) \to C(X)$ es operador lineal positivo, entonces para $f,g \in C(X)$ tal que $|f(x)| < g(x)$ para $x\in X$, entonces
+    \[
+        |L(f)(x)| \leq L(g)(x)
+    \]
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Densidad de espacios de funciones}
+\begin{definition}[Diagonal y Kernel de una función]
+    Sea $f \in C(X)$.
+    Definimos la diagonal de $f$ como
+    \[
+        \Delta(f) \coloneqq \left\{ (x,t) \in X \times X \mid f(x) = f(t) \right\}
+    \]
+    Definimos el kernel de $f$ como
+    \[
+        \mathcal{Z}(f) \coloneqq \left\{ z \in X \mid f(z) < 0 \right\}
+    \]
+\end{definition}
+
+\begin{lemma}[Lema auxiliar]
+    Sea $(X,d)$ un espacio métrico y $K \subseteq X$ compacto, $f \in C(K), G \in C(K \times K)$ positiva y $(L_n)$ una sucesión de operadores lineales positivos tal que
+    \begin{itemize}
+        \item $\mathcal{Z}(G) \subseteq \Delta(f)$
+        \item $L_n(\varphi_0) \to \varphi_o$ uniformemente en $K$
+        \item Para cada $t \in K$ se tiene que $L_n(G_t)(t) \to 0$ independientemente de $t$.
+    \end{itemize}
+    Entonces,
+    \[
+        L_n(f) \to f  \qquad \text{uniformemente en } K
+    \]
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Teoría de aproximación}
+\begin{theorem}
+    Sea $X$ un espacio normado y $Y \subseteq X$ un subespacio de dimensión finita.
+    Entonces para $x_0 \in X$, existe $y^* \in Y$ tal que $\norm{x_0 - y^*}_{X} \leq \norm{x_0 - y}_{X}$ para toda $y \in Y$.
+\end{theorem}
+
+El problema clásico: Dado $J=[-1, 1]$ y $f \in C(J)$ dada $f(t)=t^n$ p.a $n \in \N$ fijo.
+Hallar la mejor aproximación a $f$ en $P_{n-1}[t]$ (el espacio de polinomios mónicos de grado menor o igual a $n-1$ en la variable $t$).
+
+\begin{definition}[Conjunto alternante]
+   Dada $f \in C(J)$ un conjunto $\left\{ t_0, \dots, t_k\right\} \subseteq J$ es alternante si $t_0 < \cdots <t_k$ y $f(t_j)$ toma alternadamente los valores $\pm \norm{g}_{\infty}$.
+\end{definition}
+
+\begin{lemma}[Lema de aproximación óptima]
+    Sea $Y \leq C(I)$ (subespacio vectorial de $C(I)$) de dimensión $n$ que cumple la condición de Haar.
+    Dada $f \in C(I)$, sea $\varphi \in Y$ t.q $f-\varphi$ tiene conjunto alternante de $n+1$ puntos.
+Entonces $\varphi$ es la major aproximación a $f$ dentro de $Y$.
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Integral Riemann-Stieltjes}
+\begin{definition}[Suma de Riemann-Stieltjes]
+	Sea $P = \{x_1, \ldots, x_n\}$ una partición de $[a,b]$ y $t_k \in [x_{k-1}, \cdots, x_k]$.
+	La suma de Riemann-Stieltjes de $f$ con respecto a $\alpha$ en $[a,b]$ es
+	\[
+		S(P, f, \alpha) = \sum_{k=1}^{n} f(tk) \Delta x_k
+	\]
+\end{definition}
+
+Decimos que $f$ es Riemann-Stieltjes integrable con respecto a $\alpha$ en $[a,b]$ ($f \in \mathcal{R}_{\alpha}[a,b]$) si
+$\exists I \in \R$ tal que $\forall\varepsilon > 0$,
+existe $P_{\varepsilon}$ una partición de $[a,b]$ tal que si $\norm{P} < \norm{P_{\varepsilon}}$
+y cualesquiera $t_k \in [x_{k-1}, x_k] \implies |S(p, f, \alpha) - I | < \varepsilon$.
+
+\begin{theorem}[Linealidad sobre el integrando e integrador]
+$f, g \in \mathbb{R}_{\alpha} [a,b] \implies c_1 f + c_2 g \in \mathbb{R}_{\alpha} [a,b]$ y además
+\begin{align*}
+	\int_{a}^{b} (c_1 f + c_2 g) \; \diff{\alpha} = \int_{a}^{b} = c_1 \int_{a}^{b} f \; \diff{\alpha} + c_2 \int_{a}^{b} g \; \diff{\alpha} \\
+	\int_{a}^{b} f \; \diff{(c_1 \alpha + c_2 \beta)} = c_1 \int_{a}^{b} f \; \diff{\alpha} + c_2 \int_{a}^{b} f \; \diff{\beta}
+\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Sup $c \in (a,b)$. Si 2 de las sig. integrales existen, todas existen
+	\[
+		\int_{a}^{c} f \; \diff{\alpha} + \int_{c}^{b} f \; \diff{\alpha} = \int_{a}^{b} f \; \diff{\alpha}
+	\]
+\end{theorem}
+
+\begin{obs}
+	Si $\alpha \equiv c \implies$ para toda $f$ se cumple $f \in \mathcal{R}_{\alpha}[a,b]$
+	y ademas $\int_{a}^{b} f \; \diff{\alpha} = 0$
+\end{obs}
+
+\begin{theorem}[Equivalencia con integal de Riemann]
+	Sup. $f \in \mathcal{R}_{\alpha} [a,b]$ y sup. $\alpha \in C^{1} [a,b]$. Entonces, $\int_{a}^{b} f \; \diff{\alpha}  = \int_{a}^{b} f(x) \alpha(x) \; \diff{x} $
+\end{theorem}
+
+\begin{theorem}[Integración por partes]
+	Si $f \in \mathcal{R}_{\alpha} [a,b] \implies \alpha \in \mathcal{R}_{\alpha} [a,b]$ y
+	\[
+		\int_{a}^{b} f \; \diff{\alpha}  + \int_{a}^{b} \alpha \; \diff{f} = f(b) \alpha(b) - f(a) \alpha(a)
+	\]
+\end{theorem}
+
+\begin{theorem}[Cambio de variable]
+	Sea $f \in \mathcal{R}_{\alpha} [a,b]$ y $g \nearrow [a,b]$ y contínua, cumpliendo $g(c) = a, g(d) =b$.
+	Definimos $h(x) = f(g(x)), \beta(x) = \alpha(g(x))$ con $x \in [c,d]$. Entonces, $h \in \mathcal{R}_{\alpha}[a,b]$ y además:
+	\[
+		\int_{a}^{b} f \; \diff{\alpha}  = \int_{c}^{d} h \; \diff{\beta} = \int_{g(c)}^{g(a)} f(t) \; \diff{\alpha(t)}
+	\]
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Integral de Riemann-Stieltjes}
+	\begin{theorem}
+	Dados $a < c < b$, definimos $ \alpha : [a,b] \to \R  $ con $ \alpha(a), \alpha(c), \alpha(b)$ arbitrarios tal que,
+	\[
+		\alpha =
+		\begin{cases}
+			\alpha(x) = \alpha(a) & a \leq x \leq c \\
+			\alpha(x) = \alpha(b) & c < x \leq b
+		\end{cases}
+	\]
+	y  $ f : [a,b] \to \R $ tal que al menos una de $ \alpha, f $ sea contínua por la izq en $ c $, y al menos una sea contínua en $ c $ por la derecha. Entonces, $ f \in \mathcal{R}_{\alpha}[a,b] $ y
+	\[
+		\int_{a}^{b} f \; \diff{\alpha}  = f(c) [ \alpha(c+) - \alpha(c-)]
+	\]
+	\end{theorem}
+
+	\begin{theorem}[Reducción a una suma finita]
+		Sea $ \alpha : [a,b] \to \R $ una función escalón con saltos de altura $ \alpha_k $ en $ x_k $ con $ x_1, \ldots, x_n$ partición de $ [a,b] $ de tal forma que no suceda que ambas $ f, \alpha $ sean discontínuas en $ x_k $ simultáneamente.
+		Entonces $  f \in \mathcal{R}_{\alpha}[a,b] $ y
+		\[
+			\int_{a}^{b} f(x) \; \diff{\alpha(x)} = \sum_{K=1}^{n} f(x_k) \alpha_k
+		\]
+	\end{theorem}
+
+	\begin{theorem}[Correspondencia de suma finita a integral R-S]
+		Dada una suma $ \sum_{k=1}^{n} \alpha_k  $, se define $ f : [0,n] \to \R  $ como $ f(x) = \alpha_k $ si $ x \in (k-1, k] $.
+		Entonces
+		\[
+			\sum_{k=1}^{n} \alpha_k = \sum_{k=1}^{n} f(k) = \int_{0}^{n} f(x) \; \diff{\lfloor x \rfloor}
+		\]
+	\end{theorem}
+
+	\begin{theorem}[Fórmula de la suma Euler-Maclaurin]
+		Si $ f \in C^{1}[a,b] $, entonces
+		\[
+			\begin{split}
+			\sum_{n=a}^{b} f(n) = \int_{a}^{b} f(x) \; \diff{x} + \int_{a}^{b} f'(x) \left(x - \lfloor x \rfloor - \frac{1}{2} \right) \; \diff{x} + \\ \frac{f(a) + f(b)}{2}
+			\end{split}
+		\]
+	\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Integral R-S con integrador creciente}
+	Como definiciones preeliminares definimos:
+\begin{align*}
+	M_k (f) \coloneqq \sup \{ f(x) | x \in [x_{k-1}, x_k] \} \\
+	m_k (f) \coloneqq \inf \{ f(x) | x \in [x_{k-1}, x_k] \}
+ \end{align*}
+
+\begin{definition}[Suma superior]
+	$ \displaystyle U(P, f, \alpha) = \sum_{k=1}^{n} M_k (f) \Delta_k \alpha $
+\end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Integral R-S con integrador creciente}
+	\begin{definition}[Suma inferior]
+		$ \displaystyle L(p,f,\alpha) = \sum_{k=1}^{n} m_k (f) \Delta_k \alpha $
+	\end{definition}
+
+	\begin{obs}
+		$ L(P,f,\alpha) \leq S(P,f,\alpha) \leq U(P,f,\alpha)$
+	\end{obs}
+
+	\begin{definition}[Integral superior]
+		Se define la integral superior de $ f $ en $ [a,b] $
+		$ \overline{I}(f,\alpha) = \inf \{ U(P,f,\alpha) | P \in \mathcal{P}[a,b]\} $
+	\end{definition}
+
+	\begin{definition}[Integral inferior]
+		Se define la integral inferior de $ f $ en $ [a,b] $
+		$ \underline{I} = \sup \{ L(P,f,\alpha) | P \in \mathcal{P}[a,b]\} $
+	\end{definition}
+
+	\begin{obs}
+		$ \underline{I}(f,\alpha) \leq \overline{I}(f,\alpha) $. Es más, dada $ \varepsilon > 0, \exists P \in \mathcal{P}[a,b] $ tal que $ U(P,f,\alpha) < \overline{I}(f,\alpha) + \varepsilon $
+	\end{obs}
+
+	\begin{theorem}[Criterio de Riemann]
+		Sup. $ \alpha : [a,b] \to \R  $ tal que $ \alpha \nearrow [a,b] $. Entonces, son equivalentes:
+		\begin{itemize}
+			\item $ f \in \mathcal{R}_{\alpha}[a,b] $
+			\item (Condición de Riemann) Dada $ \varepsilon > 0, \exists P_{\varepsilon} \in \mathcal{P}[a,b]$ tal que si $  P \supseteq  P_{\varepsilon} \implies 0 \leq U(P,f,\alpha) - L(P,f,\alpha) < \varepsilon$
+			\item $ \underline{I}(f,\alpha) = \overline{I}(f,\alpha) $
+		\end{itemize}
+	\end{theorem}
+
+	\begin{theorem}[Teorema de comparación]
+		Sup. $ \alpha \nearrow [a,b] $ y que $ f,g \in \mathcal{R}_{\alpha}[a,b]$ tal que $ f(x) \leq g(x) \, \forall \in [a,b] $, entoncees:
+		\[
+			\int_{a}^{b} f \; \diff{\alpha}  \leq \int_{a}^{b} g \; \diff{\alpha}
+		\]
+	\end{theorem}
+
+\end{roundbox}
+
+
+\end{multicols*}
+\end{document}

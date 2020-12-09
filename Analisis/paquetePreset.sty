@@ -1,0 +1,101 @@
+%% Paquete de conveniencia
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{paquetePreset}[2018/06/13 Paquete para facilitar mi vida]
+
+%%Declaración de paquetes necesarios 
+\RequirePackage{xcolor}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{graphicx}
+\RequirePackage{sectsty} % Colorear títulos
+% Paquetes para entorno de "formulario"
+\RequirePackage{multicol}
+\RequirePackage{tikz}
+
+%Estableciendo PATH para imágenes 
+\graphicspath{ {images/} }
+
+%Cambio del símbolo QED
+%\renewcommand\qedsymbol{$\blacksquare$}
+
+%%Declaración de colores para entornos, etc... (Xcolor) 
+\definecolor{verdeITAM}{RGB}{0, 108, 84}
+%Creando comandos para obtener colores principales
+\definecolor{mainClr}{RGB}{0, 46, 127}
+\definecolor{mainDarkClr}{RGB}{0, 46, 127}
+\definecolor{mainLightClr}{RGB}{0, 92, 255}
+
+%% Coloreando secciones 
+\sectionfont{\color{mainDarkClr}}
+\subsectionfont{\color{mainDarkClr}}
+\subsubsectionfont{\color{mainDarkClr}}
+
+%%Comandos utilizados con frecuencia 
+\newcommand{\R}{\mathbb{R}}
+
+
+%Comando para pasos en matrices 
+\newcommand{\matrixStep}[1]{\stackrel{#1}{\longrightarrow}}
+
+%%%%% Entornos personalizados
+
+% Entorno no numerado de nota: 
+\newenvironment{nota}[1][\unskip]
+{
+    \begin{center}
+    \color{mainLightClr}
+    \begin{tabular}{|p{0.85\textwidth}|}
+        \hline \vspace{2pt}
+        Nota #1:
+}                  %%Aqui va el texto introducido
+{ \vspace{4pt}\\
+\hline
+\end{tabular} 
+\end{center}
+    
+}
+    
+% Entorno numerado de ejemplo
+\newcounter{ej}[subsubsection]
+\newenvironment{ejemplo}{
+    \refstepcounter{ej}
+    {\color{mainLightClr}
+    \vspace{15pt}\textbf{Ejemplo~\theej:}}     }{
+    \vspace{5pt}
+    \begin{center}
+        \rule{7cm}{1pt}
+    \end{center}
+} 
+
+%Entorno solución
+\newenvironment{solucion}{
+\begin{center}
+    {\color{mainLightClr} Solucion:}
+\end{center}
+}
+%Aqui va el introducido
+{\vspace{5pt}}
+
+% Entorno para matrices aumentadas
+\newenvironment{augMat}[1]
+{
+    \left[
+        \begin{array}{@{}*{#1}{c}|c@{}}
+}
+{
+        \end{array}
+    \right] 
+}
+
+% Entorno de caja usada en "formularios"
+\newenvironment{formulaBox}
+{\begin{tikzpicture}
+\node[mybox] (box){
+\begin{minipage}{0.3\textwidth}
+}{
+\end{minipage}
+};
+\end{tikzpicture}
+}
+    
+    

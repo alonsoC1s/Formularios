@@ -1,0 +1,646 @@
+\documentclass[a4paper]{article}
+\usepackage{/home/alonso/Documents/Projects/formularios/styles}
+\usepackage{amssymb, amsthm}
+\usepackage{amsmath}
+\usepackage[landscape]{geometry}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{quattrocento}
+\usepackage[shortlabels]{enumitem}
+\usepackage{extarrows}
+\usepackage{dsfont} % Indicator 
+\usepackage[spanish]{babel}
+\usepackage{inputenc}
+
+\newtheorem{definition}{DFN}
+\newtheoremstyle{mytheoremstyle} % name
+    {\topsep}                    % Space above
+    {\topsep}                    % Space below
+    {}                   % Body font
+    {}                           % Indent amount
+    {\bfseries\scshape}                   % Theorem head font
+    {:}                          % Punctuation after theorem head
+    {.5em}                       % Space after theorem head
+    {}  % Theorem head spec (can be left empty, meaning ‘normal’)
+\theoremstyle{mytheoremstyle}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{axiom}{Axioma}
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem*{obs}{Obs}
+    
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+
+\title{}
+\author{}
+
+% Macros útiles
+\newcommand{\IP}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{\mathds{1}}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\providecommand{\abs}[1]{\left|#1\right|}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\unif}{unif}
+\DeclareMathOperator{\Ber}{Ber}
+\DeclareMathOperator{\bin}{Bin}
+\DeclareMathOperator{\geo}{Geo}
+\DeclareMathOperator{\binneg}{bin\,neg}
+\DeclareMathOperator{\hipergeo}{hipergeo}
+\DeclareMathOperator{\Po}{Po}
+\DeclareMathOperator{\dgamma}{Ga}
+\DeclareMathOperator{\dbeta}{Beta}
+\DeclareMathOperator{\Weibull}{Weibull}
+\DeclareMathOperator{\dnormal}{\mathcal{N}}
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\corr}{Corr}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\mult}{Mult}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+
+\begin{document}
+\formTitle{Cálculo de Probabilidades II}
+\begin{multicols*}{3}
+
+\begin{roundbox}{Vectores Aleatorios}
+Inicialmente nos concentramos en la definición para un vector aleatorio en $\R^2$, con cada variable aleatoria contínua.
+
+\begin{definition}[Función de distribución conjunta]
+Definimos la función de distribución conjunta (\texttt{f.d.c}) del vector aleatorio $\vec{X}=(X_1, X_2)$ como: 
+    \begin{align*}
+        F_{X_1, X_2} &\coloneqq F_{\vec{X}} (x_1, x_2) = \IP(X_1 \leq x_1, X_2 \leq x_2) \\
+        &= \IP(\set{\omega \mid X_1(\omega) \leq x_1 \cap X_2(\omega) \leq x_2})
+    \end{align*}
+\end{definition}
+
+\begin{theorem}[Propiedades de $F_{\vec{X}}$]
+La \texttt{f.d.c} cumple con las siguientes:
+    \begin{enumerate}
+        \item
+        \begin{itemize}
+            \item $\lim_{x_1 \to -\infty} F_{X_1, X_2} (x_1, x_2) = 0$
+            \item $\lim_{x_2 \to -\infty} F_{X_1, X_2} (x_1, x_2) = 0$
+            \item $\lim_{x_1, x_2 \to \infty} F_{X_1, X_2} (x_1, x_2) = 1$
+        \end{itemize}
+        \item Análogo a la monotonicidad no-decreciente. Si $a_1 \leq x_1$, $a_2 \leq x_2$ entonces,
+        \begin{equation*}
+            \IP(a_1 \leq X_1 \leq b_1, a_2 \leq X_2 \leq b_2 ) \geq 0.
+        \end{equation*}
+        \item Es contínua por la derecha en cada argumento.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[Función de distribución marginal]
+    Sea $(X_1, X_2)$ un vec. aleatorio con función de distribución conjunta $F_{X_1, X_2}(x_1, x_2)$.
+    Entonces $F_{X_1}(x_1)$ y $F_{X_2}(x_2)$ son llamadas funciones de distribución marginales para $X_1$ y $X_2$ y se obtienen como
+    \begin{equation*}
+        F_{X_i} (x_i) = \lim_{x_i \to \infty} F_{X_1, X_2}(x_1, x_2)
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Función de densidad conjunta]
+    Sea $(X_1, X_2)$ un vec. aleatorio.
+    Una función de densidad conjunta del vector, es una función $f_{X_1, X_2} (x_1, x_2)$ que satisface:
+    \begin{enumerate}
+        \item $f_{X_1, X_2} (x_1, x_2) \geq 0 \quad \forall (x_1, x_2) \in \R^2$.
+        \item $\iint_{\R^2} f_{X_1, X_2} (x_1, x_2) \diff{x_1} \diff{x_2} = 1.$
+        \item $F_{X_1, X_2} (x_1, x_2) = \int_{-\infty}^{x_1} \int_{-\infty}^{x_2} f_{X_1, X_2} (u_1, u_2) \diff{u_1} \diff{u_2} $
+    \end{enumerate}
+\end{definition}
+
+En general se pueda calcular $\IP(A)$ con $A \subseteq \R^{2}$ como $\iint_{A} f(x_1, x_2) \diff{x_1} \diff{x_2}$.
+\end{roundbox}
+
+\begin{roundbox}{Vectores Aleatorios}
+\begin{theorem}
+    Sea $(X_1, X_2)$ un vector aleatorio con función de densidad conjunta $f(x_1, x_2)$.
+    Entonces, las funciones de densidad marginales se pueden obtener como
+    \begin{equation*}
+        f_{X_1}(x_1) = \int_{\R} f_{X_1, X_2} (x_1, x_2) \diff{x_2}.
+    \end{equation*}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Distribuciones condicionales}
+\begin{definition}[Función de densidad condicional]
+    Sea $(X_1, X_2)$ un vec. aleatorio con funciones de distrigución acumulada y conjuntas $f_{X_1, X_2}, f_{X_1}, f_{X_2}$.
+    La función de densidad condicional de $X_1$ con respecto a $X_2$ se define como:
+    \begin{equation*}
+        f_{X_1 | X_2} \coloneqq \frac{f_{X_1, X_2}(x_1, x_2)}{f_{X_2}(x_2)}
+    \end{equation*}
+    dado $f_{X_2}(x_2) > 0$.
+\end{definition}
+
+Las funciones de distribución condicionales son funciones propias.
+Es decir, cumplen con las propiedades de cualquier otra función de densidad.
+
+\begin{obs}
+Una función de densidad condicional $f_{X_1 | X_2}$ \underline{es univariada}, y su argumento es $x_1$.
+Al calcularse se debe cancelar el soporte de $X_2$.
+\end{obs}
+
+\begin{definition}[Función de distribución condicional]
+    Se define la función de distribución acumulada de $X_1$ dado $X_2$ como: 
+    \begin{equation*}
+        F_{X_1 | X_2} \coloneqq \int_{-\infty}^{x_1} f_{X_1 | X_2} (u_1 | x_2) \diff{u_1}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Independencia estocástica]
+    Sea $(X_1, X_2)$ un vec. aleatorio.
+    Se dice que $X_1$ y $X_2$ son independientes $(X_1 \perp X_2)$ si y solo se se satisface alguno de los siguientes:
+    \begin{enumerate}[a)]
+        \item $f_{X_1 | X_2} (x_1 | x_2) = f_{X_1} (x_1)$, \quad si $f_{X_2}(x_2) > 0$,
+        \item $f_{X_2 | X_2} (x_2 | x_1) = f_{X_2} (x_2)$, \quad si $f_{X_1}(x_1) > 0$,
+        \item $f_{X_1, X_2} (x_1, x_2) = f_{X_1} (x_1) \cdot f_{X_2} (x_2)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{obs}
+$A \cap B \implies A \not\perp B$.
+\end{obs}
+\end{roundbox}
+
+\begin{roundbox}{Distribuciones condicionales}
+\begin{theorem}
+    Sea $(X_1, X_2)$ un vec. aleatorio con $f_{X_1 | X_2}$ y $f_{X_2 | X_1}$.
+    Entonces, la función de densidad marginal de $X_1$ es
+    \begin{equation*}
+        f_{X_1}(x_1) = \int_{\R} f_{X_1 | X_2} (x_1 | x_2) \cdot f_{X_2} (x_2) \diff{x_2} \tag{$\triangle$}
+    \end{equation*}
+    y
+    \begin{equation*}
+        f_{X_1 | X_{2}} (x_1 | x_2) = \frac{f_{X_2 | X_1}(x_2 | x_1) \cdot f_{X_1}(x_1) }{f_{X_2}(x_2)} \tag{$\square$}
+    \end{equation*}
+\end{theorem}
+
+Los resultados $\triangle$ y $\square$ pueden ser pensados como generalizaciones del Teorema de Probabilidad Total y el Teorema de Bayes, respectivamente. 
+
+\begin{theorem}
+    Sea $(X, Y)$ un vec. aleatorio.
+    Entonces, $X \perp Y \iff f_{X_1, X_2} (x_1, X_2) = g(x_1) \1_{A}(x) \cdot h(x_2) \1_{B}(y)$
+\end{theorem}
+
+\begin{obs}
+    El teorema anterior nos permite concluír que dos v.a's son dependientes si su función de densidad está escita en términos de una indicadora que no se puede ``factorizar'' en expresiones que dependan únicamente de $x$ y de $y$.
+\end{obs}
+
+\begin{theorem}
+    Si $X_1, \dots , X_n$ son v.a's independientes$\implies g(X_1), \dots, g(X_n)$ son también v.a's independientes.
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Momentos multivariados}
+\begin{definition}[Esperanza de una función]
+    Sea $g: \R^{k} \to \R$ una función.
+    Sea $\vec{X}$ un vec. aleatorio $k$-dimensional con fn. de densidad conjunta $f_{\vec{X}} (\vec{x})$.
+    Entonces, 
+    \begin{equation*}
+        \E \left[ g(\vec{X}) \right] \coloneqq \idotsint_{\R^{k}} g(\vec{x}) f_{\vec{X}} (\vec{x}) \diff{\vec{x}}
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Linealidad de $\E$]
+    Sea $\vec{X}$ un vec. a. tal que $\mu_i = \E[X_i]$ existe y es finita $\forall i = 1, \dots, k$. Entonces
+    \begin{equation*}
+    \E \left[ \sum_{i=1}^{k} \alpha_i X_i  \right] = \sum_{i=1}^{k} \alpha_i \E \left[ X_i \right]
+    \end{equation*}
+\end{theorem}
+
+\begin{definition}[Covarianza]
+    Se define la covarianza entre $X$ y $Y$ como:
+    \begin{equation*}
+        \cov(X,Y) \coloneqq \E \left[ \{ X - \E(X) \} \cdot \{ Y - \E(Y) \} \right]
+    \end{equation*}
+\end{definition}
+\end{roundbox}
+
+
+\begin{roundbox}{Momentos multivariados}
+Notación: $\cov(X,Y) = \sigma_{X,Y}$
+
+\begin{obs}
+    Independencia estocástica$\implies \cov(X,Y) = 0$.
+    Pero cuidado, $\cov(X,Y)$ no necesariamente implica $X\perp Y$.
+\end{obs}
+
+\begin{theorem}
+    $\cov(X,Y) = \E[X \cdot Y] = \mu_X \mu_Y$.
+\end{theorem}
+
+\begin{theorem}[Propiedades de Varianza \& Covarianza]
+    Sea $\vec{X}$ un vec. a. $k$-dimensional, $\alpha_i, \beta_i$ constantes, y t.q $\E[X_i]$ es finita.
+    \begin{enumerate}[a)]
+        \item $\displaystyle \Var\left[\sum_{i=1}^{k} \alpha_i X_i \right] = \sum_{i=1}^{k} \alpha_i^{2} \Var(X_i) + 2 \sum_{i\leq j} \alpha_i \alpha_j \cov(X_i, X_j)$
+        \item $\cov(\alpha_1 + \alpha_2 X_1, \beta_1 + \beta_2 X_2) = \alpha_2 \beta_2 \cov(X_1, X_2)$
+        \item $\displaystyle \cov\left[ \sum_{i=1}^{k} \alpha_i X_i, \sum_{j=1}^{k} \beta_i X_j \right] = \sum_{i=1}^{k} \sum_{j=1}^{k} \alpha_i \beta_i \cov(X_i, X_j)$
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[Coeficiente de correlación]
+    Sea $\vec{X} = (X_1, X_2)$ un vec. a.
+    Entonces el coeficiente de correlación entre $X_1$ y $X_2$ se define como: 
+    \begin{equation*}
+        \rho_{X_1, X_2} \coloneqq \frac{\cov(X_1, X_2)}{\sqrt{\Var(X_1) \Var(X_2)}} = \frac{\sigma_{X_1, X_2}}{\sigma_{X_1} \cdot \sigma_{X_2}}
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Propiedades de $\rho_{X,Y}$]
+    El coef. de correlación entre $X$, $Y$ cumple:
+    \begin{enumerate}
+        \item $\abs{\rho_{X,Y}} \leq 1$
+        \item $\abs{\rho_{X,Y}} = 1 \iff \exists \alpha, \beta \in \R$ tal que $\IP(Y=\alpha + \beta X) = 1$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Desigualdad de Cauchy-Schwarz]
+    Sean $X$, $Y$ v.a's con segundos momentos finitos.
+    Entonces
+    \begin{equation*}
+        \abs{\E\left[ X \cdot Y \right]}^{2} \leq \E\left( X^{2} \right) \cdot \E\left( Y^{2} \right)
+    \end{equation*}
+    con igualdad si y solo si $\IP(Y = a + bX) = 1$
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Esperanza y Varianza de vectores aleatorios}
+\begin{definition}[Momentos conjuntos]
+    Sea $\vec{X} = (X_1, \dots , X_k)$ un vec. aleatorio.
+    Sean $g_1(\vec{X}) = X_{1}^{s_1} X_{2}^{s_2} \cdots X_{k}^{s_k}$ y $g_2(\vec{X}) = \left( X_1 - \mu_1 \right)^{s_1} \cdots \left( X_k - \mu_k  \right)^{s_k}$.
+    Entonces 
+    \begin{equation*}
+        \mu_{s_1, \dots, s_k}^{'} \coloneqq \E \left[ g_1(\vec{X}) \right] = \E \left[ X_{1}^{s_1} X_{2}^{s_2} \cdots X_{k}^{s_k} \right] 
+    \end{equation*}
+    es el momento de orden $r = \sum_{i=1}^{k} s_i$ no-central, y
+    \begin{equation*}
+        \mu_{s_1, \dots, s_k} \coloneqq \E \left[ g_2(\vec{X}) \right] = \E \left[ \left( X_1 - \mu_1 \right)^{s_1} \cdots \left( X_k - \mu_k \right)^{s_k} \right]
+    \end{equation*}
+    es el momento de orden $r$ central.
+\end{definition}
+
+\begin{definition}[Esperanza de un vector aleatorio]
+    Sea $\vec{X}^{T} = (X_1, \dots , X_k)$ un vec. a.
+    Definimos
+    \begin{equation*}
+        \E[\vec{X}] \coloneqq \E \left( \begin{array}{c}
+            X_1 \\ 
+            \vdots \\
+            X_n
+        \end{array} \right) = 
+        \begin{bmatrix}
+            \E(X_1) \\
+            \vdots \\
+            \E(X_k)
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \mu_1 \\
+            \vdots \\
+            \mu_k
+        \end{bmatrix}
+        = \vec{\mu}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Varianza de un vector aleatorio]
+    \begin{align*}
+        \Var(\vec{X}) &= \E \left[ \left( \vec{X} - \vec{\mu} \right) \left( \vec{X} - \vec{\mu} \right)^{T} \right] = \Sigma \in \R^{k \times k} \\
+        &= \begin{bmatrix}
+            \sigma_1^{2} & \sigma_{1,2} & \cdots & \sigma_{i,k} \\
+            \sigma_{2,1} & \sigma_{2}^{2} & \cdots & \sigma_{2,k} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \sigma_{k,1} & \sigma_{k,2} & \cdots & \sigma_{k}^{2}
+        \end{bmatrix}
+    \end{align*}
+    A veces se define la varianza total como 
+    \begin{equation*}
+        \tr(\Sigma) = \sum_{i=1}^{k} \sigma_{i}^{2}
+    \end{equation*}
+    Si $\vec{Y}^{T} = (Y_1, \dots, Y_k)$ es otro vec. a.
+    \begin{equation*}
+        \cov(\vec{X}, \vec{Y}) = \E \left\{ \left( \vec{X} - \vec{\mu_{\vec{X}}} \right) \left( \vec{Y} - \vec{\mu_{\vec{Y}}} \right) \right\}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Matriz de correlación]
+    Sea $R = \corr(\vec{X})$ dada como 
+    \begin{equation*}
+        R = (\rho_{ij}) \quad i,j = 1, \dots , k
+    \end{equation*}
+    Si $V_{\vec{X}} = \diag(\sigma_{1}^{2}, \dots , \sigma_{k}^{2})$ entonces 
+    \begin{equation*}
+        R = V_{\vec{X}}^{-1/2} \, \Sigma \,  V_{\vec{X}}^{1/2}
+    \end{equation*}
+\end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Momentos condicionales}
+\begin{definition}[Esperanza condicional]
+    Sea $\vec{X}^{T} = (X_1, X_2)$ un vec. a. y $g(\cdot, \cdot)$ una función con imágen subconjunto de $\R$.
+    La esperanza condicional de $g(X_1, X_2)$ dado $X_2 = x_2$ se define como 
+    \begin{equation*}
+        \E \left[ g(X_1, X_2) | X_2 = x_2  \right] = \int_{\R} g(X_1, X_2) \cdot f_{X_1 | X_2} (x_1 | x_2) \diff{x_1}
+    \end{equation*}
+\end{definition}
+\begin{obs}
+    Es muy importante notar que $\E[X_1 | X_2]$ es función de $x_2$.
+\end{obs}
+\begin{theorem}[Esperanza y Varianza iterada]
+    Sea $(X_1, X_2)$ un vec. a. Entonces 
+    \begin{enumerate}[a)]
+        \item $\E[X_1] = \E_{X_2} \E [X_1 | X_2]$
+        \item $\Var(X_1) = \E_{X_2} \Var(X_1 | X_2) + \Var_{X_2} \E(X_1 | X_2)$.
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Distribuciones multivariadas importantes}
+\subsection*{Distribución multinomial}
+Generalización de la distribución binomial para $k$ clases.
+La distribución binomial es una multinomial con $k=2$
+
+Suponga que el resultado de un experimento se puede clasificar en $k$ clases $c_1, c_2, \dots , c_k$ con probabilidades $p_1, \dots , p_k$ tal que $\sum_{i=1}^{k} p_i = 1$.
+Definimos $X_i=$ número de los $n$ ensayos cuyo resultado está en $c_i$.
+Entonces
+\begin{equation*}
+    f(x_1,\dots, x_k) = \binom{n}{x_1, \dots, x_k} \prod_{i=1}^{n} p_{i}^{x_i} \1_{\left\{ \sum_{i=1}^{k} x_i  = n\right\}} (\vec{x})
+\end{equation*} 
+donde
+\begin{equation*}
+    \binom{n}{x_1, \dots , x_k} \coloneqq \frac{n!}{x_1! \cdots x_k !}
+\end{equation*}
+
+Denotamos $\vec{X}^{T} \sim \mult(n, p_1, \dots, p_k)$
+
+\begin{theorem}[Propiedades de la multinomial]
+    Tomando $\vec{X}^{T} = (X_1, X_2, X_3) \sim \mult(n, p_1, p_2, p_3)$
+    \begin{enumerate}[a)]
+        \item $M_{\vec{X}}(\vec{t}) = \left( p_1 e^{t1} + p_2 e^{t_2} + p_3 \right)^{n}$
+        \item $X_i \sim \bin(n, p_i)$
+        \item $X_1 | X_2 \sim \bin\left( n-X_2, \frac{p_1}{1-p_2} \right)$
+        \item $\cov(X_i, X_j) = -n \, p_i \, p_j$
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Distribuciones multivariadas importantes}
+\subsection*{Distribución Normal multivariada}
+Comenzando con el caso bivariado, $\vec{X}^{T} = (X_1, X_2)$ tiene una distribución normal bivariada con media $\vec{\mu}^{T} = (\mu_1, \mu_2)$, varianzas $\sigma_{1}^{2}, \sigma_{2}^{2}$ y correlación $\rho$ si su función de densidad es 
+\begin{align*}
+    f(x_1,x_2 ) = \frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{1- \rho^2}} \exp \left( -\frac{1}{2(1-\rho^{2})} \right. \\ \left.  \left[ \left( \frac{x_1 - \mu_1}{\sigma_1} \right)^{2} + \left( \frac{x_2 - \mu_2 }{\sigma_2} \right)^{2} - 2 \rho \frac{(x_1 - \mu_1)(x_2 - \mu_2)}{\sigma_1 \sigma_2} \right] \right)
+\end{align*}
+con $(x_1, x_2) \in \R^{2}, (\mu_1, \mu_2) \in \R^{2}, \sigma_1^{2}, \sigma_2^{2} > , \rho \in [-1, 1]$.
+
+\begin{theorem}[Propiedades de la normal multivariada]
+    Tomando el caso bivariado
+    \begin{enumerate}[a)]
+        \item \begin{align*} M_{X_1, X_2}(t_1, t_2) = \exp\left( t_1 \mu_1 + t_2 \mu_2 + \frac{1}{2} \left[t_1^2 \sigma_1^{2} \right. \right. \\ \left. \left.  + 2 \rho \sigma_1 \sigma_2 t_1 t_2 + t_2^{2} \sigma_2^{2} \right] \right) \end{align*}
+        \item $X_i \sim \dnormal(\mu_i, \sigma_i^{2})$
+        \item $X_1 \perp X_2 \iff X_1$ y $X_2$ son no-correlacionadas
+        \item \[X_2 | X_1 = x_1 \sim \dnormal\left( \mu_2 + \rho \frac{\sigma_1}{\sigma_2}(x_1 - \mu_1), \sigma_{2}^{2} (1- \rho^{2}) \right)\]
+    \end{enumerate}
+\end{theorem}
+
+\begin{obs}
+    En cualquier distribución $X_1 \perp X_2 \implies \rho_{X_1, X_2} = 0$, pero $X_1, X_2$ no-correlacionados implica independencia solo se cumple en el caso de la normal.
+\end{obs}
+
+Ahora, en el caso multivariado:
+\begin{equation*}
+    f_{\vec{X}}(\vec{x}) = \frac{\exp\left[ -\frac{1}{2} (\vec{X} - \vec{\mu})^{T} \Sigma^{-1} (\vec{X} - \vec{\mu}) \right]}{\sqrt{(2\pi)^{k} \abs{\Sigma} }}
+\end{equation*}
+Denotada $\vec{X} \sim \dnormal(\vec{\mu}, \Sigma)$ y cumple:
+\begin{enumerate}
+    \item $M_{\vec{X}}(\vec{t}) = \exp\left(\vec{t}^{T} \vec{\mu} + \dfrac{1}{2} \vec{t}^{T} \sigma \vec{t} \right)$
+\end{enumerate}
+\end{roundbox}
+
+\begin{roundbox}{Función característica de un vector aleatorio}
+\begin{theorem}[Unicidad de la función generadora de momentos]
+    Sean $X,Y$ dos v.a's con fn. de densidad $f_{X}(x)$ y $f_{Y}(y)$.
+    Sup. que $M_{X}(t)$ y $M_{Y}(t)$ existen y son iguales $\forall t \in (-h, h), h>0$.
+    Entonces, se cumple que $f_{X}(x) = f_{Y}(y)$.
+\end{theorem}
+\begin{corollary}
+    Para cada función generadora de momentos, existe una única función de densidad de probabilidades asociada.
+\end{corollary}
+
+A partir de ahora adoptamos la convención de abreviar función generadora de momentos como f.g.m.
+
+\begin{definition}[Generadora de momentos multivariada]
+    Sea $X^{T} = (X_1, \dots, X_n)$ un vec. aleatorio.
+    Su f.g.m es
+    \begin{equation*}
+        M_{\vec{X}}(\vec{t}) = \E\left[ e^{\vec{t}^{T} \vec{X}} \right] = \E \left[ \exp(t_1 X_1 + \cdots + t_k X_k) \right]
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Propiedades de la f.g.m multivariada]
+    Sea $M_{\vec{X}}(\vec{t})$ la f.g.m asociada a $X^{T} = (X_1, \dots, X_n)$.
+    \begin{enumerate}[a)]
+        \item $\displaystyle \E\left[ X_{i}^{r} \right] = \frac{\partial^{r}}{\partial t_{i}^{r}} M_{\vec{X}} (\vec{0})$
+        \item $\displaystyle \E\left[ X_{i}^{r} X_{j}^{s} \right] = \frac{\partial^{r+s}}{\partial t_{i}^{r} \, \partial t_{j}^{s}} M_{\vec{X}} (\vec{0})$
+    \end{enumerate} 
+\end{theorem}
+
+\begin{theorem}
+    Sean $g_1, g_2: \R \to \R$ funciones. Si $X_1 \perp X_2 \implies \E\left[ g_1(X_1) g_2(X_2) \right] = \E \left[ g_1(X_1) \right] \E \left[ g_2(X_2) \right]$
+\end{theorem}
+
+\begin{theorem}
+    Las variables aleatorias $X_1, \dots , X_n$ son independientes$\iff M_{\vec{X}}(\vec{t}) = \prod_{i=1}^{k} M_{X_i} (t_i)$ 
+\end{theorem}
+
+\begin{definition}[Función característica]
+    Sea $X$ una v.a.
+    La función característica $\varphi_{X} (t)$ para $x$ es una función compleja de $t$  dada como:
+    \begin{equation*}
+        \varphi_{X}(t) \coloneqq \E \left[ e^{itX} \right], \quad \forall t \in \R
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Propiedades de $\varphi_{X}(t)$]
+    La función característica de $X$ cumple:
+    \begin{enumerate}[a)]
+        \item $\varphi_{X}(t)$ siempre existe $\forall t \in \R$ 
+        \item $\frac{\partial^{r}}{\partial t^{r}} \varphi_{X}(0) = i^{r} \E\left[ X^{r} \right]$
+        \item $\varphi_{X}(t)$ es uniformemente contínua
+        \item Si $\varphi_{X}(t) = \varphi_{Y}(t) \implies f_{X}(x) = f_{Y}(y)$
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Función característica}
+\begin{definition}[Fórmula de inversión]
+    Sea $X$ una v.a. con función característica $\varphi_{X}(t)$. Entonces, la función de densidad está dada como:
+    \begin{equation*}
+        f_{X}(x) = \begin{dcases*}
+            \frac{1}{2\pi} \int_{-\pi}^{\pi} e^{-itx} \varphi_{X}(t) \diff{t} & si $X$ es discreta \\
+            \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{-itx} \varphi_{X}(t) \diff{t} & si $X$ contínua
+        \end{dcases*}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Función característica multivariada]
+    Sea $\vec{X}^{T} = (X_1, \dots , X_k)$ un vec. a.
+    Su función característica multivaluada está dada como:
+    \begin{equation*}
+        \varphi_{\vec{X}} (\vec{t}) = \E\left[ e^{i \vec{t}^{T} \vec{X}} \right] \quad \forall t \in \R
+    \end{equation*}
+    y cumple:
+    \begin{itemize}
+        \item $\displaystyle \frac{\partial^{r}}{\partial t_{1}^{s_1} \cdots \partial t_{k}^{s_k}} \varphi_{\vec{X}} (\vec{0}) = i^{r} \cdot \E \left[ X_{1}^{s_1} \cdots X_{k}^{s_k} \right]$ con $r = \sum s_i$
+        \item $(X_1, \dots , X_k)$ es un vec. a. independiente si y solo si $\varphi_{X} (\vec{t}) = \prod_{i=1}^{k} \varphi_{X_i} (t_i)$.
+    \end{itemize}
+\end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Distribuciones mezcla}
+\begin{definition}[Distribución mezcla]
+    Sea $f_i (x)$ para $i=1, \dots , n$ un conjunto de funciones de densidad univariadas.
+    Sea $p_i$ con $i=1, \dots , n$ números no-negativos t.q $\sum_{i} p_i = 1$.
+    Entonces
+    \begin{equation*}
+        f_X (x) \coloneqq \sum_{i=1}^{n} p_i f_i (x)
+    \end{equation*}
+    es otra función de densidad llamada distribución mezcla.
+\end{definition}
+
+Una distribución mezcla satisface las propiedads básicas de cualquier otra distribución.
+\end{roundbox}
+
+\pagebreak
+
+\begin{roundbox}{Transformaciones de vectores aleatorios}
+Sean $X_1, \dots, X_n$ v.a's y sea $g: \R^{n} \to \R^{m}$ una función medible.
+Queremos encontrar la distribución de $\vec{Y} = g(\vec{X})$.
+Para hacerlo, hay 3 técnicas:
+\begin{enumerate}
+    \item Técnica de las funciones característica y generadora de momentos
+    \item Técnica de la función de distribución
+    \item Técnica de cambio de variable
+\end{enumerate}
+
+\begin{definition}[Distribución $\chi^2$]
+    Si $X \sim \dgamma(k/2, k/2)$ con $k \in \N$ entonces $X \sim \chi^2_{(k)}$ con $k$ grados de libertad.
+
+    Adicionalmente si $X \sim \chi^2_{(1)} \implies Y = \sum_{j=1}^{n} X_j \sim \chi^{2}_{(n)}$.
+\end{definition}
+
+\begin{theorem}[Transformación distribución o transformación integral de probabilidad]
+    Si $X$ es una v.a contínua con fn. de distribución $F_X(x)$.
+    Entonces la transformación $Y=F_X(X)$ es una v.a $\unif(0,1)$.
+    
+    De igual manera, si $Y = \unif(0,1) \implies X = F_{X}^{-1}(Y)$ es una v.a con función de distribución $F_X$.
+\end{theorem}
+
+\begin{theorem}[Distribución de suma y resta de v.a's]
+    Sea $(X_1, X_2)$ un vec. a. con función de densidad conjunta $f_{X_1, X_2}(x_1, x_2)$.
+    Sean $Z=X_1 + X_2$, $W=X_1 - X_2$, entonces:
+    \begin{align*}
+        f_Z(z) &= \int_{-\infty}^{\infty} f_{X_1, X_2} (x_1, z-x_1) \diff{x_1}\\  
+        &= \int_{\infty}^{\infty} f_{X_1, X_2}(z-x_1, x_2) \diff{x_2} \\
+        f_W(w) &= \int_{\infty}^{\infty} f_{X_1, X_2}(x_1, x_1- w) \diff{x_1} \\
+        &= \int_{\infty}^{\infty} f_{X_1, X_2}(x+x_2, x_2) \diff{x_2 }
+    \end{align*}
+\end{theorem}
+
+\begin{theorem}[Distribución del producto y cociente de v.a's]
+    Sea $(X_1, X_2)$ un v.a contínuo con densidad $f_{X_1, X_2}(x_1, x_2)$ y sean $Z=X_1X_2$ y $W=X_1 / X_2$, entonces:
+    \begin{align*}
+        f_Z(z) &= \int_{-\infty}^{\infty} \frac{1}{|x_1|} f_{X_1, X_2} \left( x_1, \frac{z}{x_1} \right) \diff{x_1} \\
+        &= \int_{-\infty}^{\infty} \frac{1}{|x_2|} f_{X_1, X_2} \left( \frac{z}{x_2}, x_2 \right) \diff{x_2}\\
+    \end{align*}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Transformaciones de vectores aleatorios}
+\begin{align*}
+    f_W(w) &= \int_{-\infty}^{\infty} \frac{1}{|x_2|} f_{X_1, X_2} \left( w \cdot x_2, x_2  \right) \diff{x_2} 
+\end{align*}
+
+\begin{definition}[Distribución $t$ de Student]
+    Sea $X$ una variable aleatoria.
+    Si la función de distribución de $T$ es:
+    \begin{equation*}
+        f_T(t) = \frac{\Gamma\left( \frac{k+1}{2}\right)}{\Gamma\left( \frac{k}{2} \right)\sqrt{k \pi}  } \left( 1 + \frac{t^{2}}{k} \right)^{-\frac{k+1}{2}} \1_{\R}(t) 
+    \end{equation*}
+    decimos que $T \sim t_k$. Es decir, se distribuye $t$ con $k$ grados de libertad.
+\end{definition}
+
+\begin{theorem}[Propiedades de la distribución $t$]
+    Si $T \sim t_k$, se cumple:
+    \begin{enumerate}
+        \item $\E(T) = 0$ si $k>0$
+        \item $\Var(T) = \frac{k}{k-2}$ si $k>2$
+        \item Si $k=1$, entonces $T \sim \operatorname{Cauchy}(0,1)$
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[Distribución $F$]
+    Decimos que $X \sim F_{n,m}$ ($X$ se distribuye $F$ con $n, m$ grados de libertad) si $X$ tiene función de densidad
+    \begin{equation*}
+        f_X(x) = \frac{\Gamma \left( \frac{n+m}{2} \right)}{\Gamma \left( \frac{n}{2} \right) \Gamma \left( \frac{m}{2} \right)} \left( \frac{n}{m} \right)^{\frac{n}{2}} \frac{x^{\frac{n}{2} - 1}}{\left[ 1 + (n/m)x \right]^{(n+m)/2}}
+    \end{equation*}    
+\end{definition}
+
+\begin{theorem}[Propiedades de la distribución $F$]
+    Si $X \sim F_{n,m}$, se cumple:
+    \begin{enumerate}
+        \item $\E(X)= \frac{m}{m-2}$ si $m >2$.
+        \item $\Var(X) = \frac{2 m^{2} (n+m-2)}{n(m-2)^{2} (m-4)}$ si $m>4$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Distribuciones generadas a partir de la Normal]
+    Sean $X_1, \dots, X_n$ v.a.i.i.d $\dnormal(\mu, \sigma^{2})$.
+    Entonces, se cumplen:
+    \begin{enumerate}
+        \item $\overline{X} = \frac{1}{n} \sum_{i}^{n} X_i \sim \dnormal(\mu, \frac{\sigma^{2}}{2})$.
+        \item Las v.a's $\overline{X}$ y $\sum_{i=1}^{n} (X_i - \overline{X})^{2}$ son independientes.
+        \item $J= \sum_{i=1}^{n} \left( \frac{X_i - \overline{X}}{\sigma} \right)^{2} \sim \chi_{(n-2)}^{2}$
+    \end{enumerate}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Estadísticas de orden}
+\begin{theorem}
+    Sean $X_1, \dots, X_n$ v.a's independientes \& idénticamente distribuidas (v.a.i.i.d), con función de distribución acumulada $F_{X}(x)$ (es igual para cada $X_i$).
+    Definimos:
+    \begin{align*}
+        Y_1 &= \min\left\{ X_1, \dots, X_n  \right\} \\
+        Y_j &= j\text{-ésima var. más pequeña } \\
+        Y_n &= \max\left\{ X_1, \dots, X_n \right\} 
+    \end{align*}
+    La función de distribución de estas variables es:
+    \begin{align*}
+        F_{Y_1}(y) &= 1 - \left[ 1 - F_X(y) \right]^{n} \\
+        F_{Y_j}(y) &= \sum_{k=1}^{n} \binom{n}{k} \left[ F_X (y) \right]^{k} \left[ 1 - F_X(y) \right]^{n-k} \\
+        F_{Y_n}(y) &= \left[ F_X(y) \right]^{n}
+    \end{align*}
+\end{theorem}
+
+\begin{corollary}
+    Sean $X_1, \dots, X_n$ v.a.i.i.d con fn. de distribución $F_X(x)$.
+    La función de densidad $f_{Y_j}(y)$ está dada por:
+    \begin{enumerate}
+        \item $f_{Y_j}(y)= F_{Y_j} - \lim_{h\to 0^{+}} F_{Y_j}(y-h)$ si $X_i$ son discretas.
+        \item $\displaystyle f_{Y_j}(y) = \frac{n! \,f_X(y) \left[ F_X(y) \right]^{j-1} \left[ 1 - F_X(y) \right]^{n-j}}{(j-1)!(n-j)!}$ si $X_i$ son contínuas
+    \end{enumerate}
+\end{corollary}
+\end{roundbox}
+
+\end{multicols*}
+\end{document}

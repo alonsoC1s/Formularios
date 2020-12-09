@@ -1,0 +1,145 @@
+\documentclass[a4paper]{article}
+\usepackage{styles}
+\usepackage{amssymb, amsthm}
+\usepackage{amsmath}
+\usepackage[landscape]{geometry}
+\usepackage{multicol}
+\usepackage{mathtools}
+% \usepackage{quattrocento}
+\usepackage[shortlabels]{enumitem}
+\usepackage{extarrows}
+\usepackage{dsfont} % Indicator 
+\usepackage{listings}
+\usepackage{mdframed}
+
+\newtheorem{definition}{DFN}
+\newtheoremstyle{mytheoremstyle} % name
+    {\topsep}                    % Space above
+    {\topsep}                    % Space below
+    {}                   % Body font
+    {}                           % Indent amount
+    {\bfseries\scshape}                   % Theorem head font
+    {:}                          % Punctuation after theorem head
+    {.5em}                       % Space after theorem head
+    {}  % Theorem head spec (can be left empty, meaning ‘normal’)
+\theoremstyle{mytheoremstyle}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{axiom}{Axioma}
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem*{obs}{Obs}
+
+% Probando 
+
+\definecolor{bcGray}{rgb}{0.95,0.95,0.92}
+\newcounter{nalg}[section]
+\refstepcounter{nalg}
+\newenvironment{code}[1]{
+    \mdfsetup{
+        frametitle = Algoritmo~\thenalg: #1,
+        frametitlealignment = \centering,
+        frametitlerule=true,
+        backgroundcolor=bcGray,
+        linecolor=bcGray
+    }
+    \ttfamily
+    \begin{mdframed}\relax
+}{
+    \end{mdframed}
+    \refstepcounter{nalg}
+}
+    
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+
+\title{}
+\author{}
+
+% Macros útiles
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\providecommand{\abs}[1]{\left|#1\right|}
+\providecommand{\norm}[1]{\left\|#1\right\|}
+\providecommand{\dotp}[1]{\left\langle#1\right\rangle}
+\DeclareMathOperator{\spec}{spec}
+
+\begin{document}
+\formTitle{Cálculo Numérico}
+\begin{multicols*}{3}
+
+\begin{roundbox}{Eigenvalores y Eigenvectores}
+    \begin{theorem}
+        Si $A$ es una matriz triangular en bloques, entonces $\spec(A) = \bigcup_{i=1}^{m} \spec(A_{ii})$
+        \[
+          \begin{bmatrix}
+              A_{11} & \dots & \dots & a_{1n} \\
+              0 & A_{22} & \ddots & \vdots \\
+              0 & 0 & \dots & A_{nn}
+          \end{bmatrix}  
+        \]
+    \end{theorem}
+
+    \begin{definition}[Eigenpar dominante] 
+        Sea $A \in \C^{n\times n}$ con eigenvalores $\lambda_1,\dots , \lambda_n$.
+        El eigenvalor dominante es el valor $\lambda_i$ que satisface $\abs{\lambda_i} \geq \abs{\lambda_j}, \, \forall j \neq i$.
+        El eigenvector asociado a $\lambda_i$ junto con el eigenvalor dominante forman el eigenpar dominante $(\lambda_i, v_i)$.
+    \end{definition}
+
+    \begin{theorem}
+        Sea $A$ diagonalizable (hipótesis por simplicidad) y sea $(\lambda_1, v_1)$ su eigenpar dominante, y $q^0 = c_1 v_1 + \dots + c_n v_n$ \underline{con $c_1 \neq 0$}.
+        Entonces, la sucesión $q^i = \frac{1}{\lambda_1} A q^{i-1}$ con $i=1,2,\dots$ converge a $c_1 v_1$.
+    \end{theorem}
+
+    \begin{code}{Power iteration}
+        \label{alg:power-iter}
+        {\footnotesize 1} \, $x^0 = \frac{q^0}{\norm{q^0}}$ \\
+        {\footnotesize 2} \, \textbf{for} k = 1:max \\ 
+        {\footnotesize 3} \qquad $v^k = A x^{k-1}$ \\
+        {\footnotesize 4} \qquad $x^k = \frac{v^k}{\norm{v^k}}$ \\
+        {\footnotesize 5} \, end 
+    \end{code}
+
+    \begin{definition}[Método de potencia inversa] 
+        Es una variante del método de potencia, y aproxima el eigenpar más chico de $A$.
+        Se aplica el algoritmo \ref{alg:power-iter} a la matriz $A^{-1}$.
+    \end{definition}
+
+    \begin{definition}[Método de potencia inversa con shift] 
+        El método de potencia inversa con shift introduce un shift $s$ para que el método aproxime el eigenvalor más cercano a $s$.
+        Es el el método de potencia (Alg. \ref{alg:power-iter}) aplicado a la matrix $(A- sI)^{-1}$.
+    \end{definition}
+
+    \begin{definition}[Orden de convergencia] 
+        Se dice que un método numérico converge con potencia $\alpha$ si
+        \[
+            \lim_{i\to\infty} \frac{\norm{\text{\emph{error}}(i+1)}}{\norm{\text{\emph{error}}(i)}^{\alpha}} = c  
+        \] 
+    \end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Eigenvalores y Eigenvectores}
+    Los métodos de potencia inversa y sus variantes convergen todos linealmente con tasa $\frac{|\lambda_1|}{|\lambda_2|}$ donde $|\lambda_1| > |\lambda_2| > \dots$.
+    Es decir, $\lambda_1$ es el eigenvalor más grande y $\lambda_2$ el segundo más grande. 
+    
+    El shift óptimo para el método de potencia inversa con shift se calcula con el \emph{shift de Rayleigh}
+
+    \begin{definition}[Cociente de Rayleigh] 
+        Definimos el cociente de Rayleigh para $q^0$ como 
+        \[
+            \rho = \frac{\dotp{q^0, Aq^0}}{\norm{q_o}_{2}^{2}}    
+        \]
+    \end{definition}
+
+    El método de potencia inverso con shift dinámico de Rayleigh converge cuadráticamente.
+\end{roundbox}
+
+\end{multicols*}
+\end{document}
