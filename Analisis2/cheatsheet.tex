@@ -578,14 +578,119 @@ $f, g \in \mathbb{R}_{\alpha} [a,b] \implies c_1 f + c_2 g \in \mathbb{R}_{\alph
 	\end{theorem}
 
 	\begin{theorem}[Teorema de comparación]
-		Sup. $ \alpha \nearrow [a,b] $ y que $ f,g \in \mathcal{R}_{\alpha}[a,b]$ tal que $ f(x) \leq g(x) \, \forall \in [a,b] $, entoncees:
+		Sup. $ \alpha \nearrow [a,b] $ y que $ f,g \in \mathcal{R}_{\alpha}[a,b]$ tal que $ f(x) \leq g(x) \, \forall \in [a,b] $, entonces:
 		\[
 			\int_{a}^{b} f \; \diff{\alpha}  \leq \int_{a}^{b} g \; \diff{\alpha}
 		\]
 	\end{theorem}
 
+	\begin{theorem}[Otras propiedades]
+		Sup $ \alpha \nearrow [a,b] $. Si $  f \in \mathcal{R}_{\alpha}[a,b]$, entonces:
+		\begin{itemize}
+			\item $ |f| \in \mathcal{R}_{\alpha}[a,b]$ y además:
+				\[
+					\left| {\int_{a}^{b} f \; \diff{\alpha} } \right| \leq \int_{a}^{b} |f|  \; \diff{\alpha}
+				\]
+			\item $ f^{2} \in \mathcal{R}_{\alpha}[a,b] $
+			\item Si $ g \in \mathcal{R}_{\alpha[a,b]} \implies f \cdot g \in \mathcal{R}_{\alpha}[a,b] $
+		\end{itemize}
+	\end{theorem}
 \end{roundbox}
 
+\columnbreak
+
+\begin{roundbox}{Funciones de variación acotada}
+	\begin{definition}[Función de variación acotada]
+		Dada $ f : [a,b] \to \R  $ decimos que $ f $ es de variación acotada si $ \exists > 0 $ tal que $ \sum_{k=1}^{n} |\Delta_k f| \leq M $ para cualquier partición $ P = \{ x_0, \ldots, x_n \} \in \mathcal{P}[a,b] $
+
+		Donde $ \Delta_k f \coloneqq f(x_k) - (f(x_{k-1})) $
+
+		Denotamos $ BV[a,b] $ al conjunto de todas la funciones de variación acotada
+	\end{definition}
+
+	\begin{obs}
+		$ f \in BV[a,b] \implies f $ acotada en $ [a,b] $
+	\end{obs}
+
+	Notación: Para $ P \in \mathcal{P} [a,b]$, $ \sum (P,f,[a,b]) \equiv \sum (P) \coloneqq \sum_{k=1}^{n} |\Delta_k f|  $
+
+	\begin{definition}[Variación total]
+		Para $ f  $ en $ [a,b] $, se define
+		\[
+			V_f [a,b] = \sup \left\{ \sum(P) \left| P \in \mathcal{P}[a,b] \right. \right\}
+		\]
+
+		Podemos ver que $ 0 \leq V_f [a,b] < \infty $ y se da la igualdad con cero syss $ f $ es constante en el intervalo.
+	\end{definition}
+
+	\begin{theorem}
+		$ BV[a,b] $ es un espacio vectorial con la suma de funciones y la multiplicación por escalares.
+		Además, dados $ f, g \in BV[a,b], c \in (a,b) $ se cumple:
+		\begin{itemize}
+			\item Si $ f \in BV[c,b] \& f\in BV[a,a] $ entonces $ f \in BV[a,b] $ y $ V_f [a,b] = V_f [a,c] + V_f [c,b] $
+			\item $ V_{f+g} [a,b] \leq V_f [a,b] + V_g [a,b] $
+			\item $ V_{\lambda f} [a,b] =  |\lambda| + V_f [a,b] $
+			\item Si definimos $ g(x) = f(x) + \alpha $ con $ \alpha \in \mathbb{R} $, entonces $ V_f[a,b] = V_g[a,b] $
+			\item La norma sobre $ BV[a,b] $ es $ \norm{f}_{BV} = |f(a)| + V_f [a,b] $
+		\end{itemize}
+	\end{theorem}
+
+	\begin{definition}[Función Variación]
+		Dada $ f \in BV[a,b] $ se define $ V : [a,b] \to \R $ la función variación como:
+		\[
+			V(x) \equiv V_f(x) =
+			\begin{cases}
+				V_f [a,x] & a< x \leq b \\
+				0 & x=0
+			\end{cases}
+		\]
+	\end{definition}
+\end{roundbox}
+
+\pagebreak
+
+\begin{roundbox}{Variación Acotada}
+	\begin{theorem}
+		Dada $ f \in BV[a,b], V(x) $ cumple:
+		\begin{itemize}
+			\item $ V(x) \nearrow [a,b] $
+			\item $ V -f \nearrow [a,b]$
+		\end{itemize}
+	\end{theorem}
+
+	\begin{theorem}[Caracterización de funciones de var. acotada]
+		$ f \in BV[a,b]$ si y solamente si, se puede escribir como diferencia de funciones crecientes.
+	\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Integral Riemann-Stieltjes con integrador en $BV[a,b] $}
+	Empezamos notando que si $ \alpha \in BV[a,b] $, se puede escribir $ \alpha = \alpha_1 - \alpha_1 $ con $ \alpha_1, \alpha_2 \nearrow [a,b] $.
+	Por aditividad $ f \in \mathcal{R}_{\alpha_1} [a,b], f \in \mathcal{R}_{\alpha_2} [a,b]$, y entonces $ f \in \mathcal{R}_{\alpha} [a,b]$.
+	Pero, el recíproco no necesariamente es cierto.
+
+	\begin{theorem}[Reducción de la interal con integrador de variación acotada]
+		Sup $  f : [a,b] \to \R $ es acotada, que $  \alpha \in BV[a,b] $ y sea $ V(x) $ la función de variación.
+		Si $ f \in \mathcal{R}_{\alpha} [a,b] $, entonces:
+		\[
+			f \in \mathcal{R}_{V} [a,b]
+		\]
+
+		Obsérvese que es una especie de recíproco a la afiramción anterior
+	\end{theorem}
+
+	\begin{theorem}[Condiciones suficientes para la integrabilidad]
+		Si $ f \in C[a,b] $ y $ \alpha \in BV[a,b] \implies f \in \mathcal{R}_{\alpha} [a,b] $
+	\end{theorem}
+
+	\begin{cor}
+		Las siguientes implican la existencia de la integral de Riemann (a secas)
+		\begin{itemize}
+			\item $ f \in C[a,b] $
+			\item $ f \in BV[a,b] $
+		\end{itemize}
+	\end{cor}
+
+\end{roundbox}
 
 \end{multicols*}
 \end{document}

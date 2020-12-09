@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1607491540 "cheatsheet.tex" "cheatsheet.pdf" "cheatsheet" 1607491540
+["pdflatex"] 1607541057 "cheatsheet.tex" "cheatsheet.pdf" "cheatsheet" 1607541058
   "/home/alonso/.TinyTeX/texmf-dist/fonts/enc/dvips/quattrocento/qcntr_564kqe.enc" 1595972446 3200 f4c93a2669aecca5718a95a27e4bc537 ""
   "/home/alonso/.TinyTeX/texmf-dist/fonts/enc/dvips/quattrocento/qcntr_zievlx.enc" 1595972446 2908 f84b3bf2e645ba99a16831b923699f50 ""
   "/home/alonso/.TinyTeX/texmf-dist/fonts/tfm/impallari/quattrocento/Quattro-Bold-lf-ot1.tfm" 1595797409 11280 6b3bd7ed33ebb45b8c85adf23c0e3d0c ""
@@ -35,6 +35,7 @@
   "/home/alonso/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
   "/home/alonso/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb" 1248133631 36912 b448ef9ad9d7228ec3c6e71005136d55 ""
   "/home/alonso/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/home/alonso/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1248133631 31809 8670ca339bf94e56da1fc21c80635e2a ""
   "/home/alonso/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/home/alonso/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/home/alonso/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
@@ -160,9 +161,9 @@
   "/home/alonso/.TinyTeX/texmf-var/web2c/pdftex/pdflatex.fmt" 1600018443 1173483 f4e9e8e81d3d41d07d8cba74cfa608d2 ""
   "/home/alonso/.TinyTeX/texmf.cnf" 1600017429 614 6ac0f7114afdf26402b4fc286485d5f9 ""
   "/home/alonso/Documents/Projects/formularios/styles.sty" 1599765304 936 2005ab0f6450170d5126c8c57575fe98 ""
-  "cheatsheet.aux" 1607491540 8 a94a2480d3289e625eea47cd1b285758 "pdflatex"
-  "cheatsheet.tex" 1607491539 24620 81a5a499b939c1f05befb350d28ef355 ""
+  "cheatsheet.aux" 1607541058 8 a94a2480d3289e625eea47cd1b285758 "pdflatex"
+  "cheatsheet.tex" 1607541055 28570 84aabf2a671112ed7e2dbbf4f06f6248 ""
   (generated)
-  "cheatsheet.aux"
   "cheatsheet.log"
+  "cheatsheet.aux"
   "cheatsheet.pdf"
