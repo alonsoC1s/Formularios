@@ -2,7 +2,7 @@
 \usepackage{paquetePreset}
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage[margin=3cm]{geometry} 
+\usepackage[margin=3cm]{geometry}
 \usepackage{mathtools}
 \usepackage{xcolor}
 % \usepackage{quattrocento}
@@ -20,11 +20,11 @@
 
 \section{Ecuaciones separables}
 \section{Ecuaciones exactas}
-Ecuación de la forma 
+Ecuación de la forma
 
 \begin{equation}
     \label{eq:forma-exacta}
-    \underbrace{{\color{red}M}(x,y) \dif{{\color{blue}x}}}_{A} + \underbrace{{\color{blue}N}(x,y) \dif{{\color{red} y}}}_{B} = 0  
+    \underbrace{{\color{red}M}(x,y) \dif{{\color{blue}x}}}_{A} + \underbrace{{\color{blue}N}(x,y) \dif{{\color{red} y}}}_{B} = 0
 \end{equation}
 que cumple:
 \begin{equation*}
@@ -41,7 +41,7 @@ Recordamos que $\displaystyle \frac{\partial F(x,y)}{\partial x} = M(x,y)$, y $\
 
 \begin{enumerate}
     \item Elegimos $M$, o $N$ para integrar dependiendo de cual sea más fácil, e integramos con respecto a la variable del diferencial que tienen en la ec. \eqref{eq:forma-exacta}.
-    
+
     Ahora hacemos la integración, agregando una función $g$ de la variable que no estamos integrando (en este caso ${\color{red} y}$)
     \begin{align*}
         F(x,y) &= \int \underbrace{M(x,y) \dif{{\color{blue}x}}}_{A} + g({\color{red}y}) \\
@@ -51,7 +51,7 @@ Recordamos que $\displaystyle \frac{\partial F(x,y)}{\partial x} = M(x,y)$, y $\
 
     \item Ahora derivamos $F$ con respecto a la variable que no se integró en el paso anterior (en este caso ${\color{red} y}$), para después igualar a la función que no se integró en el paso anterior (en este caso, $N$).
     \begin{align*}
-        \frac{\partial F(x,y)}{\partial y} &= \frac{\partial X(x,y)}{\partial y} + g'(y) = N(x,y) 
+        \frac{\partial F(x,y)}{\partial y} &= \frac{\partial X(x,y)}{\partial y} + g'(y) = N(x,y)
     \end{align*}
 
     \item Despejamos $g'$ de la ecuación obtenida en el paso anterior, y la integramos para obtener $g$.
@@ -60,7 +60,7 @@ Recordamos que $\displaystyle \frac{\partial F(x,y)}{\partial x} = M(x,y)$, y $\
         g(y) &= \int \left[ N(x,y) - \frac{\partial X(x,y)}{\partial y}  \right] \dif{y} \\
     \end{align*}
 
-    \item 
+    \item
     Tomando la ecuación ($\star$), la solución general es
     \begin{align*}
         (\star) &= c \\
@@ -71,11 +71,11 @@ Recordamos que $\displaystyle \frac{\partial F(x,y)}{\partial x} = M(x,y)$, y $\
 
 
 \section{Ecuaciones con factor integrante}
-Ecuación de la forma 
+Ecuación de la forma
 
 \begin{equation}
     \label{eq:forma-exacta-2}
-    \underbrace{{\color{red}M}(x,y) \dif{{\color{blue}x}}}_{A} + \underbrace{{\color{blue}N}(x,y) \dif{{\color{red} y}}}_{B} = 0  
+    \underbrace{{\color{red}M}(x,y) \dif{{\color{blue}x}}}_{A} + \underbrace{{\color{blue}N}(x,y) \dif{{\color{red} y}}}_{B} = 0
 \end{equation}
 que cumple:
 \begin{equation*}
@@ -105,7 +105,7 @@ Definimos
         \mu(x) = \exp \left( \int p(x) \dif{x} \right)
     \end{equation*}
 
-    \item Multiplicar la ec. (2) en ambos lados por $\mu(x)$ para obtener 
+    \item Multiplicar la ec. (2) en ambos lados por $\mu(x)$ para obtener
     \begin{equation}
         \label{eq:exactificada}
         \mu(x) M(x,y) \dif{x} + \mu(x) N(x,y) \dif{y} = 0
@@ -114,14 +114,14 @@ Definimos
 \end{enumerate}
 
 \section{Ecuaciones lineales}
-Ecuación de la forma 
+Ecuación de la forma
 \begin{equation}
     \label{eq:lineal}
     \frac{\dif{y}}{\dif{x}} + p(x) \cdot y = q(x).
 \end{equation}
 
 \begin{enumerate}
-    \item Calculamos el factor integrante como 
+    \item Calculamos el factor integrante como
     \begin{equation*}
         \mu(x) = \exp \left( \int p(x) \dif{x} \right).
     \end{equation*}
@@ -145,7 +145,7 @@ Ecuación de la forma
 \section{Ecuaciones de Bernoulli}
 
 \section{Ecuaciones de Riccati}
-Ecuación de la forma 
+Ecuación de la forma
 \begin{equation}
     \label{eq:riccati}
     \frac{\dif{y}}{\dif{x}} = p(x) + q(x)y + r(x)y 2
@@ -160,7 +160,7 @@ se convierte en lineal con el cambio de variable $z = (y - y_p)^{-1}$ donde $y_{
 
     \item Calculamos el lado izquierdo de la ec. \eqref{eq:riccati}.
     \begin{equation*}
-        \frac{\dif{y}}{\dif{x}} = \frac{\mathrm{d}}{\dif{x}} \left( z^{-1} + y_p \right) = -z^{-2} + \frac{\dif{z}}{\dif{x}} 
+        \frac{\dif{y}}{\dif{x}} = \frac{\mathrm{d}}{\dif{x}} \left( z^{-1} + y_p \right) = -z^{-2} + \frac{\dif{z}}{\dif{x}}
     \end{equation*}
 
     \item Calculamos el lado derecho de la ec. original sustituyendo $y$ con $z^{-1} + y_p$.
@@ -175,7 +175,8 @@ se convierte en lineal con el cambio de variable $z = (y - y_p)^{-1}$ donde $y_{
         z^{-2}  \frac{\dif{z}}{\dif{x}} &= p(x) + z^{-1} q(x) - y_p q(x) + z^{-2} r(x) + y^{2}_{p} r(x) - 2 z^{-1} y_p r(x) \\
         \frac{\dif{z}}{\dif{x}} &= z^{2} p(x) + z q(x) - y_p z^{2} q(x) + r(x) + y^{2}_{p} z^{2} r(x) - 2 z y_p r(x)
     \end{align*}
-    La ecuación resultante es lineal 
+    La ecuación resultante es lineal
 \end{enumerate}
+
 
 \end{document}
