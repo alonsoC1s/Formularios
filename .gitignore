@@ -1,7 +1,7 @@
-*.aux 
-*.gdb_latexmk
-*.fls 
-*.log 
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
 *.synctex.gz
-.DS_Store 
+.DS_Store
 ._.DS_Store
