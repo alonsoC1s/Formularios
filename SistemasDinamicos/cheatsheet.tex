@@ -181,9 +181,86 @@ se convierte en lineal con el cambio de variable $z = (y - y_p)^{-1}$ donde $y_{
 \section{Reduccion de orden}%
 \label{sec:reduccion_de_orden}
 
+Los sistemas de orden $ n $ escalares se pueden convertir a sistemas de dimensión $ n $ y orden 1 con el cambio de variable:
+\begin{align*}
+	x_1 &= x \\
+	x_2 &= \dot{x} \\
+	x_3 &= \ddot{x} \\
+	&\vdots \\
+	x_n &= x^{(n-1)}
+\end{align*}
+Para después derivar y obtener $ \dot{x_1}, \dot{x_2}, \ldots $ y escribir el sistema en la forma
+\[
+	\begin{bmatrix}
+		\dot{x_1} \\
+		\dot{x_2} \\
+		\vdots \\
+		\dot{x_n}
+	\end{bmatrix} =
+	A
+	\begin{bmatrix}
+		x_1 \\
+		x_2	\\
+		\vdots \\
+		x_n
+	\end{bmatrix}
+\]
+
+Ejemplo: $ \dddot{x} - 5 \dot{x} + x = 0 $
+\[
+	\begin{array}{l}
+		x_1 = x \\
+		x_2 = \dot{x} \\
+		x_3 = \ddot{x}
+	\end{array}
+	\implies
+	\begin{array}{l}
+		\dot{x_1} = \dot{x} = x_2 \\
+		\dot{x_2} = \ddot{x} = x_3 \\
+		\dot{x_3} = \dddot{x} = 5\dot{x} - x = 5 x_2 - x_1
+	\end{array}
+	\implies
+	\begin{bmatrix}
+		\dot{x_1} \\
+		\dot{x_2} \\
+		\dot{x_3} \\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		 0 & 1 & 0 \\
+		 0 & 0 & 1 \\
+		 -1 & 5 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\
+		x_2 \\
+		x_3 \\
+	\end{bmatrix}
+\]
+
+
 \section{Ecuaciones lineales de segundo orden}%
 \label{sec:ecuaciones_lineales_de_segundo_orden}
 
+Ecuaciones de la forma
+\begin{equation}
+\label{eq:caracteristica_2o_grado}
+	\ddot{x} + p \dot{x} + qx = r
+\end{equation}
+
+La solución es $ x(t) = e^{\lambda t} $ donde $ \lambda $ satisface la ecuación
+\[
+	\lambda^{2} + p \lambda + q = 0
+\]
+
+Por lo general se obtienen dos valores distintos de $\lambda$. Cuando $ r \equiv 0 $ la solución es $x_{h} = c_1 e^{\lambda_1 t} + c_2 e^{\lambda_2 t}$. Si $ r(t) \neq 0 $, se determina una solución particular $ x_p $ con coeficientes indeterminados y la solución general es $ x = x_h + x_p $
+
+Si resulta que $  \lambda^{2} + p \lambda + q = 0$ tiene una sola raíz repetida, la solución al sistema homogéneo es $ x_h = c_1 e^{\lambda t} + c_2 t e^{\lambda t} $.
+
+En caso de que la ecuación \ref{eq:caracteristica_2o_grado} tenga raíces complejas $ \lambda_1 = \alpha + i \beta, \lambda_2 = \alpha - i \beta $, la solución del homogéneo es
+\[
+	x = e^{\alpha t} ( c_1 \cos \beta t + c_2 \sin \beta t)
+\]
 
 
 
