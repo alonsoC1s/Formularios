@@ -1,0 +1,2285 @@
+\documentclass[a4paper]{article}
+\usepackage{styles}
+\usepackage{amssymb, amsthm}
+\usepackage{amsmath}
+\usepackage[landscape]{geometry}
+\usepackage{multicol}
+\usepackage{mathtools}
+%\usepackage{quattrocento}
+\usepackage[shortlabels]{enumitem}
+\usepackage{extarrows}
+\usepackage{dsfont} % Indicator
+\usepackage{inputenc}
+\usepackage{mathtools} % Provides cramped style
+
+% Baskervald X for roman, with oldstyle figure
+\usepackage[osf]{Baskervaldx}
+% load amssymb before newtxmath to avoid problem with \Bbbk
+\usepackage{amssymb}
+% Nice math calligraphic font
+%\usepackage[cal=boondoxo]{mathalpha}
+% Math font to match
+\usepackage[bigdelims,baskervaldx]{newtxmath}
+
+%% Tikz for diagrams
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+\newtheoremstyle{mytheoremstyle} % name
+{\topsep}                    % Space above
+{\topsep}                    % Space below
+{}                           % Body font
+{}                           % Indent amount
+{\small}                     % Theorem head font
+{\itshape:}                  % Punctuation after theorem head
+{.5em}                       % Space after theorem head
+{ % Theorem head spec (can be left empty, meaning ‘normal’)
+  {\color{mainDarkClr}\bfseries\scshape\thmname{#1}\thmnumber{ #2}}%
+  \thmnote{ {(\itshape#3)}}%
+}%
+\theoremstyle{mytheoremstyle}
+\newtheorem{definition}{Dfn}
+\newtheorem{theorem}{Thm}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Prop}
+\newtheorem{axiom}{Axiom}
+\newtheorem{corollary}{Cor}[theorem]
+\newtheorem*{obs}{Obs}
+\newtheorem*{remark}{Remark}
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+
+% List settings
+\SetEnumerateShortLabel{i}{\textsc{\roman*}}
+\setlist{labelindent=\parindent, itemsep=0.5ex}
+\setlist[itemize]{label = {\color{mainDarkClr} \bfseries $\ast$}} %
+% Make blue "*" item marker
+\setlist[enumerate]{
+  label = {\color{mainDarkClr} \emph{\alph*})}, % Numerate as a), b), c), ...
+  ref = \emph{(\alph*)} % Refernce as (a), (b), (c), ...
+}
+
+\title{}
+\author{}
+
+% Macros útiles
+\newcommand{\IP}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{\mathds{1}}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\providecommand{\abs}[1]{\left|#1\right|}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\unif}{unif}
+\DeclareMathOperator{\Ber}{Ber}
+\DeclareMathOperator{\bin}{Bin}
+\DeclareMathOperator{\geo}{Geo}
+\DeclareMathOperator{\binneg}{bin\,neg}
+\DeclareMathOperator{\hipergeo}{hipergeo}
+\DeclareMathOperator{\Po}{Poi}
+\DeclareMathOperator{\dgamma}{Ga}
+\DeclareMathOperator{\dbeta}{Beta}
+\DeclareMathOperator{\Weibull}{Weibull}
+\DeclareMathOperator{\dnormal}{\mathcal{N}}
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\corr}{Corr}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\mult}{Mult}
+\DeclareMathOperator{\law}{law}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+% Convergence arrows
+\newcommand{\ASto}{\xrightarrow{\text{a.s.}}}
+\newcommand{\IPto}{\xrightarrow{\cramped[\scriptstyle]{\mathbb{P}}}}
+\newcommand{\Dto}{\xrightarrow{d}}
+\newcommand{\LPto}[1]{\xrightarrow{\cramped[\scriptscriptstyle]{L^{#1}}}}
+
+% TODO: Add a space to the left of all differentials mathds{d}
+
+\begin{document}
+\formTitle{Stochastik III}
+\begin{multicols*}{3}
+
+\begin{roundbox}{Gaussian processes \& pre-Brownian motion}
+  \begin{definition}[Gaussian Process]
+    Let $\mathbb{T} \neq \varnothing$ be an index set. A real-valued
+    stochastic process $X =
+    (X_t)_{t \in \mathbb{T}}$ is called a {\emph{(centered) Gaussian
+    process}} if for every
+    finite subset $I \subset \mathbb{T}$ and for all $(\alpha_t)_{t
+    \in I} \in \mathbb{R}^I$
+    the random variable $\sum_{t \in I} \alpha_t X_t$ is a
+    real-valued (centered) Gaussian
+    random variable.
+  \end{definition}
+
+  \begin{proposition}
+    Let $\mathbb{T} \neq \varnothing$ be an index set, let $m :
+    \mathbb{T} \rightarrow
+    \mathbb{R}$, and let $\Gamma : \mathbb{T} \times \mathbb{T} \to
+    \mathbb{R}$ be a
+    symmetric and positive semi-definite function. Then there exists
+    a Gaussian process $X$
+    with mean $m$ and covariance $\Gamma$, and the law of $X$ is
+    uniquely determined by $m$
+    and $\Gamma$.
+  \end{proposition}
+
+  \begin{lemma}[Alternative characterization of the pre-Brownian motion]
+    \label{lem:pre-Brownian}Let $(B_t)_{t \geqslant 0}$ be a
+    real-valued stochastic process.
+    Then $B$ is a pre-Brownian motion if and only if the following
+    conditions are satisfied:
+    \begin{enumerate}
+      \item $B_0 = 0$ almost surely;
+
+      \item for all $0 \leqslant s < t$ the random variable $B_t -
+        B_s$ is independent of
+        the variables $(B_r)_{0 \leqslant r \leqslant s}$;
+
+      \item for all $0 \leqslant s < t$ we have $B_t - B_s \sim
+        \mathcal{N} (0, t - s)$.
+    \end{enumerate}
+  \end{lemma}
+
+  \begin{definition}[Naïve White Noise]
+    Let $(\xi_t)_{t \in \R_+}$ be an i.i.d family of standard normal
+    variables. i.e. $\xi$
+    is a centered Gaussian process with covariance $\Gamma(s, t) = \1_{s=t}$.
+  \end{definition}
+
+  \begin{lemma}
+    Let $(\xi_t)_{t \geqslant 0}$ be a naïve white noise and let $t >
+    0$. Then the map
+    \[
+      \Omega \times [0, t] \ni (\omega, s) \mapsto \xi_s (\omega) \in \mathbb{R}
+    \]
+    is {\underline{not}} measurable with respect to the product $\sigma$-algebra
+    $\mathcal{F} \otimes \mathcal{B} ([0, t])$, and in particular
+    $\omega \mapsto \int_0^t
+    \xi_s (\omega) \mathrm{d}s$ might not be defined or even if it is
+    defined it might not
+    be a random variable.
+  \end{lemma}
+
+  \begin{definition}[White noise]
+    Let $\mathbb{T}= L^2 (\mathbb{R}_+)$ and
+    \[
+      \Gamma (f, g) = \int_0^{\infty} f (t) g (t) \mathrm{d} t = \langle f, g
+      \rangle_{L^2 (\mathbb{R}_+)}.
+    \]
+    Then $\Gamma$ is symmetric and positive semi-definite, and the centered
+    Gaussian process $(\xi (f))_{f \in L^2 (\mathbb{R}_+)}$ with covariance
+    $\Gamma$ is called {\emph{white noise}}.
+  \end{definition}
+\end{roundbox}
+
+\begin{unlabeledbox}
+  \begin{lemma}
+    If $(\xi (f))_{f \in L^2 (\mathbb{R}_+)}$ is a white noise, then
+    \[ L^2 (\mathbb{R}_+)
+    \ni f \mapsto \xi (f) \in L^2 (\Omega) \] is a linear isometry.
+  \end{lemma}
+
+  \begin{lemma}[Wiener integral]
+    \label{lem:wiener-int}Let $(B_t)_{t \geqslant 0}$ be a
+    pre-Brownian motion and let
+    \begin{align*}
+      \mathcal{E} = \Bigl\{ f \in L^2 (\mathbb{R}_+) &: f (t) =
+        \sum_{k = 0}^{n - 1} x_k
+        \1_{(t_k, t_{k + 1}]} (t), n \in \mathbb{N}, \\
+        & x_0, \ldots, x_{n - 1} \in \mathbb{R}, \\
+      & 0 \leqslant t_0 < t_1 < \cdots < t_n \Bigr\}.
+    \end{align*}
+    For such $f$ we define
+    \[
+      \xi (f) \coloneq \int_0^{\infty} f (s) \mathrm{d} B_s \coloneq
+      \sum_{k = 0}^{n - 1} x_k
+      (B_{t_{k + 1}} - B_{t_k}).
+    \]
+    This definition does not depend on the specific representation of
+    $f$, and we have
+    \[
+      \| \xi (f) \|_{L^2 (\Omega)}^2 =\mathbb{E} [\xi (f)^2] = \| f \|_{L^2
+      (\mathbb{R}_+)}^2.
+    \]
+    Therefore, $\xi$ has a unique continuous extension to $L^2
+    (\mathbb{R}_+)$, also denoted
+    by $\xi$, and we also write
+    \[
+      \int_0^{\infty} f (s) \mathrm{d} B_s \coloneq \xi (f).
+    \]
+    The process $(\xi (f))_{f \in L^2 (\mathbb{R}_+)}$ is a white noise.
+  \end{lemma}
+  The integral $\int_0^{\infty} f (s) \mathrm{d} B_s$ is called
+  {\emph{Wiener integral}} and
+  it is a precursor of the {\emph{It{\^o} integral}}
+\end{unlabeledbox}
+
+\begin{roundbox}{Brownian Motion \& Poisson Process}
+  \begin{definition}[Continuous stochastic process, (fractional)
+    Brownian motion]
+    We define the following:
+    \begin{enumerate}
+      \item We say that a stochastic process $X = (X_t)_{t \geqslant
+        0}$ with values in
+        $\mathbb{R}^d$ is {\emph{continuous}} if all of its
+        trajectories are continuous, i.e.
+        $t \mapsto X_t (\omega)$ is continuous for all $\omega \in \Omega$.
+
+        % \item A continuous pre-Brownian motion such that $B_0
+        % (\omega) = 0$ for all $\omega
+        % \in \Omega$ (rather than $B_0 = 0$ a.s.) is called a
+        % {\emph{Brownian motion}} or
+        % {\emph{Wiener process}}.
+
+        % \item A continuous fractional pre-Brownian motion such that
+        % $B_0 (\omega) = 0$ for all
+        % $\omega \in \Omega$ (rather than $B_0 = 0$ a.s.) is called
+        % a {\emph{fractional
+        % Brownian motion}}.
+    \end{enumerate}
+  \end{definition}
+\end{roundbox}
+
+\begin{unlabeledbox}
+  \begin{enumerate}[start = 2, parsep=0.1pt]
+    \item A continuous pre-Brownian motion such that $B_0 (\omega) =
+      0$ for all $\omega
+      \in \Omega$ (rather than $B_0 = 0$ a.s.) is called a
+      {\emph{Brownian motion}} or
+      {\emph{Wiener process}}.
+
+    \item A continuous fractional pre-Brownian motion such that $B_0
+      (\omega) = 0$ for all
+      $\omega \in \Omega$ (rather than $B_0 = 0$ a.s.) is called a
+      {\emph{fractional
+      Brownian motion}}.
+  \end{enumerate}
+
+  \begin{definition}[Modification, indistinguishable]
+    Let $X = (X_t)_{t \in \mathbb{T}}$ and $\tilde{X} =
+    (\tilde{X}_t)_{t \in \mathbb{T}}$ be
+    two stochastic processes with values in a measurable state space
+    $S$. We say that
+    \begin{enumerate}[parsep=0.1pt]
+      \item $\tilde{X}$ is a {\emph{modification}} of $X$ if
+        $\mathbb{P} (X_t = \tilde{X}_t)
+        = 1$ for all $t \in \mathbb{T}$;
+
+      \item $X$ and $\tilde{X}$ are {\emph{indistinguishable}} if
+        there exists a measurable
+        set $A \in \mathcal{F}$ with $\mathbb{P} (A) = 1$ and such
+        that $X_t (\omega) =
+        \tilde{X}_t (\omega)$ for all $\omega \in A$ and all $t \in
+        \mathbb{T}$. Formally, we
+        also write $\mathbb{P} (X_t = \tilde{X}_t \text{ for all } t
+        \in \mathbb{T}) = 1$.
+    \end{enumerate}
+  \end{definition}
+
+  \begin{definition}[Hölder continuity]
+    For $\alpha \in (0, 1]$ and $T \in (0, + \infty)$, the space of
+    $\alpha$-{\emph{H{\"o}lder continuous}} functions on $[0, T]$ is defined as
+    \begin{align*}
+      C^{\alpha} ([0, T], \mathbb{R}) &= \{f : [0, T] \rightarrow \mathbb{R},
+      \|f\|_{\alpha} < \infty\}, \\
+      \text{where } \|f\|_{\alpha} &\coloneq \sup_{0 \le s < t \le T}
+      \frac{|f (t) - f
+      (s) |}{|t - s|^{\alpha}}.
+    \end{align*}
+    In case of ambiguity of the time interval, we also write more explicitly
+    \vspace{-1em}
+    \[
+      \|f\|_{C^{\alpha} ([0, T])} \coloneq \sup_{0 \le s < t \le T}
+      \frac{|f (t) - f
+      (s) |}{|t - s|^{\alpha}}.
+    \]
+  \end{definition}
+
+  \begin{theorem}[Kolmogorov's continuity criterion]
+    \label{thm:kolmogorov-continuity}
+    Let $T \in (0, + \infty)$ and let $(X_t)_{t \in [0, T]}$ be a
+    real-valued stochastic
+    process such that there exist $p \in [1, \infty)$, $\alpha >
+    \frac{1}{p}$ and $K
+    \geqslant 0$ with
+    \begin{equation}\label{eq:kolmogorov continuity assumption}
+      \mathbb{E} [|X_t - X_s |^p]^{1 / p} \leqslant K |t - s|^{\alpha} .
+    \end{equation}
+    Then there exists a continuous modification $\tilde{X}$ of $X$.
+    Moreover, for all $\beta
+    \in (0, \alpha - \frac{1}{p})$ there exists a constant $C = C
+    (\alpha, \beta, p, T) > 0$
+    such that
+    \begin{equation} \label{eq:kolmogorov-continuity-conclusion}
+      \mathbb{E} [\| \tilde{X} \|_{\beta}^p]^{1 / p} \leqslant C K.
+    \end{equation}
+    In particular, $\tilde{X}$ is a.s. $\beta$-H{\"o}lder continuous.
+  \end{theorem}
+\end{unlabeledbox}
+
+\begin{roundbox}{Brownian Motion \& Poisson Process}
+
+  \begin{corollary}
+    \label{cor:Bm exists}The Brownian motion $B = (B_t)_{t \ge 0}$ exists and
+    $(B_t)_{t \in [0, T]}$ is almost surely in $C^{\alpha} ([0, T], \mathbb{R})$
+    whenever $T \in (0, \infty)$ and $\alpha < 1 / 2$. We have
+    \vspace{-0.5em}
+    \[
+      \mathbb{E} [\|B\|_{C^{\alpha} ([0, T])}^p] < \infty \qquad \forall \, p
+      \in [1, \infty) . \label{eq:holder.continuity.Bm}
+    \]
+  \end{corollary}
+
+  \begin{corollary}
+    \label{cor:kolmogorov.infinite.time}Let $(X_t)_{t \geqslant 0}$ be a
+    real-valued stochastic process; suppose that there exist $p \in [1,
+    \infty)$, $\alpha > \frac{1}{p}$ and $K \geqslant 0$ such that
+    \[ \mathbb{E} [|X_t - X_s |^p]^{1 / p} \leqslant K |t - s|^{\alpha}  \quad
+    \forall \, s \leqslant t. \]
+    Then there exists a continuous modification $\tilde{X}$ of $X$.
+  \end{corollary}
+\end{roundbox}
+
+\begin{roundbox}{Path properties of Brownian Motion}
+  \begin{remark} \label{rmk:Bm not globally hoelder}
+    The Brownian motion is only H{\"o}lder-continuous on compact
+    intervals, but not on
+    $\mathbb{R}_+$, i.e.  we a.s.  have
+    \vspace{-0.25em}
+    \[
+      \sup_{0 \leqslant s < t < \infty} \frac{| B_t - B_s |}{| t - s
+      |^{\alpha}} = \infty
+    \]
+    for all $\alpha \in \mathbb{R}$.
+  \end{remark}
+
+  \begin{lemma}
+    Let $X$ be a continuous real valued stochastic process,
+    $\mathbb{P}_X$ be its law. On
+    the probability space $(C (\mathbb{R}_+), \mathcal{B} (C (\mathbb{R}_+)),
+    \mathbb{P}_X)$, consider the collection $(e_t)_{t \geqslant 0}$.
+    Then $(e_t)_{t
+    \geqslant 0}$ is a continuous stochastic process, with law $\mathbb{P}_X$.
+  \end{lemma}
+
+  \begin{lemma}
+    \label{prop:brownian path transformation}
+    The following transformations of Brownian Motion satisfy
+
+    \begin{enumerate}
+      \item ($- B_t)_{t \geqslant 0}$ is a Brownian motion;
+
+      \item more generally, for any $\lambda \in \mathbb{R} \setminus \{0\}$,
+        $(\lambda^{- 1} B_{\lambda^2 t})_{t \geqslant 0}$ is a Brownian motion;
+
+      \item $(B_{t + s} - B_s)_{t \geqslant 0}$ for $s \geqslant 0$ is a
+        Brownian motion, and is independent of $(B_r)_{r \in [0, s]}$
+        ({\emph{``Markov property''}});
+
+      \item $(t \cdot B_{1 / t})_{t \geqslant 0}$, where we set $0 \cdot B_{1 /
+        0} \coloneq 0$, is indistinguishable from a Brownian motion.
+    \end{enumerate}
+  \end{lemma}
+
+  \begin{lemma}
+    Let $\alpha > \frac{1}{2}$. With probability $1$ there exists no $t \in [0,
+    + \infty)$ at which $B$ is $\alpha$-H{\"o}lder continuous (i.e. such that $|
+    B_s - B_t | \leqslant C | t - s |^{\alpha}$ for all $s \geqslant 0$).
+  \end{lemma}
+
+  \begin{corollary}
+    \label{cor:bm-growth}For any $\alpha > 1 / 2$, with probability $1$ we have
+    \vspace{-0.25em}
+    \[ 0 = \lim_{t \rightarrow \infty}  \frac{|B_t |}{t^{\alpha}} < \limsup_{t
+    \rightarrow \infty}  \frac{|B_t |}{t^{1 / 2}} = \infty . \]
+  \end{corollary}
+\end{roundbox}
+
+\begin{unlabeledbox}
+  \begin{theorem}[L{\'e}vy's modulus of continuity] \label{thm:law.iterated.log}
+    Almost surely, for any $T \in (0, + \infty)$:
+    \vspace{-1em}
+    \[
+      \lim_{r \rightarrow 0} \sup_{\substack{
+          s, t \in [0, T] :\\
+          | t - s | \leqslant r
+      }}
+      \frac{| B_t - B_s |}{\sqrt{2 r \log (1 / r)}} = 1.
+    \]
+  \end{theorem}
+
+  \begin{theorem}[Law of the iterated logarithm]
+    For any $t > 0$ we have almost surely
+    \[
+      \limsup_{r \rightarrow 0} \frac{B_{t + r} - B_t}{\sqrt{2 r \log
+      \log (\frac{1}{r})}} = 1, \;
+      \liminf_{r \rightarrow 0} \frac{B_{t + r} - B_t}{\sqrt{2 r \log
+      \log (\frac{1}{r})}} = - 1.
+    \]
+  \end{theorem}
+\end{unlabeledbox}
+
+\begin{roundbox}{The Poisson process}
+  \begin{definition}[L{\'e}vy process]
+    A real-valued stochastic process $(X_t)_{t \geqslant 0}$ is called a
+    {\emph{L{\'e}vy process}} if
+    \begin{enumerate}
+      \item $X_0 = 0$;
+
+      \item for all $0 \leqslant t_0 < t_1 < \cdots < t_n$ the random variables
+        $(X_{t_1} - X_{t_0}, \ldots, X_{t_n} - X_{t_{n - 1}})$ are independent
+        ({\emph{independent increments}});
+
+      \item for all $0 \leqslant s < t$ the random variable $X_t - X_s$ has the
+        same distribution as $X_{t - s}$ ({\emph{stationary increments}});
+
+      \item for all $\varepsilon > 0$ and $t \geqslant 0$ we have $\lim_{h
+        \rightarrow 0} \mathbb{P} (| X_{t + h} - X_t | > \varepsilon) = 0$
+        ({\emph{continuity in probability}}).
+    \end{enumerate}
+  \end{definition}
+
+  \begin{theorem}[L{\'e}vy-Khintchine representation]
+    If $X$ is a L{\'e}vy process, then the characteristic function of $X$
+    satisfies
+    \[ \mathbb{E} [e^{i u X_t}] = e^{t \psi (u)}, \qquad t \geqslant 0, u \in
+    \mathbb{R}, \]
+    where $\psi$ is of the form
+    \[ \psi (u) = i a u - \frac{1}{2} \sigma^2 u^2 + \int_{\mathbb{R} \setminus
+      \{ 0 \}} \left( e^{i u x} - 1 - i u x \1_{\{ | x | < 1 \}} \right) \nu
+    (\mathrm{d} x), \]
+    for $a \in \mathbb{R}$, $\sigma^2 \geqslant 0$, and for a measure $\nu$ on
+    $\mathbb{R} \setminus \{ 0 \}$ such that $\int_{\mathbb{R} \setminus \{ 0
+    \}} (1 \wedge | x |^2) \nu (\mathrm{d} x) < \infty$ (a so called
+      {\emph{L{\'e}vy
+    measure}}). We call $(a, \sigma^2, \nu)$ the {\emph{L{\'e}vy triple}} of
+    $X$.
+  \end{theorem}
+
+  \begin{remark}
+    This result contextualizes L{\'e}vy-Khintchine for probability:
+    Let $X$ be a L{\'e}vy
+    process with characteristic function $\mathbb{E} [e^{i u X_t}] =
+    e^{t \psi (u)}$ for
+    \[
+      \psi (u) = i a u - \frac{1}{2} \sigma^2 u^2 + \int_{\mathbb{R} \setminus
+      \{ 0 \}} \left( e^{i u x} - 1 - i u x \1_{\{ | x | < 1 \}} \right) \nu
+      (\mathrm{d} x) .
+    \]
+  \end{remark}
+\end{roundbox}
+
+\begin{unlabeledbox}
+  Then we can decompose $X$ into a sum of three independent processes, $X =
+  X^{(1)} + X^{(2)} + X^{(3)}$, where
+  \begin{itemize}
+    \item $X^{(1)}_t = a t$;
+
+    \item $X^{(2)}_t = \sigma B_t$, for a Brownian motion $B$;
+
+    \item $X^{(3)}_t$ is a ``jump process'', with jumps determined by the
+      L{\'e}vy measure $\nu$.
+  \end{itemize}
+
+  \begin{remark}
+    \label{rmk:poisson-alternative}Alternatively, we can describe the
+    pre-Poisson process as follows: A stochastic process $(N_t)_{t \geqslant 0}$
+    is a pre-Poisson process with intensity $\lambda > 0$ if and only if the
+    following conditions are satisfied:
+    \begin{enumerate}
+      \item $N_0 = 0$ almost surely;
+
+      \item for all $0 \leqslant s < t$ the random variable $N_t - N_s$ is independent of
+        $(N_r)_{0 \leqslant r \leqslant s}$;
+
+      \item for all $0 \leqslant s < t$ we have $N_t - N_s \sim \Po (\lambda (t - s))$.
+    \end{enumerate}
+  \end{remark}
+
+  \begin{definition}[C{\`a}dl{\`a}g]
+    A function $f : \mathbb{R}_+ \rightarrow \mathbb{R}$ is called {\emph{c{\`a}dl{\`a}g}}
+    if it is right-continuous and at every $t > 0$ the limit $f (t -)$ exists (but might
+    not be equal to $f (t)$). A c{\`a}dl{\`a}g function $t \mapsto f (t)$ has a
+    {\emph{jump}} at $t$ if \[ \Delta f (t) \coloneq f (t) - f (t -) \neq 0. \]
+  \end{definition}
+
+  \begin{lemma}
+    Let $f : \mathbb{R}_+ \rightarrow \mathbb{R}$ be c{\`a}dl{\`a}g; then $f$ has at most
+    countably many jumps, i.e. there exist at most countably many $\{ t_n \}_{n \in
+    \mathbb{N}}$ such that $\Delta f (t_n) > 0$.
+  \end{lemma}
+
+  \begin{definition}[C{\`a}dl{\`a}g process, Poisson process]
+    \begin{enumerate}
+      \item We say that a stochastic process $X = (X_t)_{t \geqslant 0}$ with values in
+      $\mathbb{R}^d$ is {\emph{c{\`a}dl{\`a}g}} if all of its trajectories are
+      {\emph{c{\`a}dl{\`a}g}}, i.e. $t \mapsto X_t (\omega)$ is {\emph{c{\`a}dl{\`a}g}}
+      for all $\omega \in \Omega$.
+
+      \item A c{\`a}dl{\`a}g pre-Poisson process is called a {\emph{Poisson
+        process}}.
+    \end{enumerate}
+  \end{definition}
+
+  \begin{theorem}
+    \label{thm:construction.poisson}Let $(T_n)_{n \in \mathbb{N}}$ be an i.i.d.  sequence
+    of exponentially distributed random variables with parameter $\lambda > 0$. We define
+    $S_n \coloneq T_1 + \cdots + T_n$ and \[ N_t \coloneq \max \{ n : S_n \leqslant t \},
+    \qquad t \geqslant 0. \] Then $(N_t)_{t \geqslant 0}$ is (indistinguishable from) a
+    Poisson process with intensity $\lambda$.
+  \end{theorem}
+\end{unlabeledbox}
+
+\begin{roundbox}{Filtrations \& stopping times}
+\begin{definition}[Filtration, right-continuous]
+  \begin{enumerate}
+    \item
+      A {\emph{filtration}} is an increasing family $\mathbb{F}=
+      (\mathcal{F}_t)_{t \geqslant 0}$ of sub sigma-algebras of $\mathcal{F}$,
+      i.e. such that $\mathcal{F}_s \subset \mathcal{F}_t \subset \mathcal{F}$
+      for all $0 \leqslant s \leqslant t$. We write
+      \vspace{-1em}
+      \[
+        \mathcal{F}_{\infty} \coloneq \bigvee_{t \geqslant 0}
+        \mathcal{F}_t = \sigma \left( \bigcup_{t \geqslant 0} \mathcal{F}_t \right),
+        \qquad \mathcal{F}_{t +} \coloneq \bigcap_{s > t} \mathcal{F}_s,
+      \]
+      for any $t \geqslant 0$. We call $(\Omega, \mathcal{F}, \mathbb{F},
+      \mathbb{P})$ a {\emph{filtered probability space}}.
+    
+    \item 
+      A filtration $\mathbb{F}$ is called {\emph{right-continuous}} if
+      $\mathcal{F}_{t +} =\mathcal{F}_t$ for all $t \geqslant 0$. We write
+      $\mathbb{F}^+ = (\mathcal{F}^+_t)_{t \geqslant 0}$ for the smallest
+      right-continuous filtration containing $\mathbb{F}$, given by
+      \vspace{-0.25em}
+      \[
+        \mathcal{F}^+_t \coloneq \bigcap_{s > t} \mathcal{F}_s =\mathcal{F}_{t
+       +}, \qquad t \geqslant 0.
+      \]
+      \vspace{-0.25em}
+    Note that $(\mathbb{F}^+)^+ =\mathbb{F}^+$ for every filtration.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Canonical/natural filtration]
+  Let $(X_t)_{t \geqslant 0}$ be a stochastic process and set $\mathcal{F}_t
+  \coloneq \sigma (X_s : s \leqslant t)$. In this case we write $\mathbb{F}^X
+  \coloneq (\mathcal{F}_t^X)_{t \geqslant 0} \coloneq (\mathcal{F}_t)_{t
+  \geqslant 0}$ and we call $\mathbb{F}^X$ the {\emph{canonical filtration}}
+  (or \emph{natural filtration}) of $X$. We also write $\mathbb{F}^{X +}
+  \coloneq (\mathbb{F}^X)^+$.
+\end{definition}
+
+\begin{definition}[Adapted process]
+  A stochastic process $(X_t)_{t \geqslant 0}$ is called {\emph{adapted}} to a
+  given filtration $\mathbb{F}$ if $X_t$ is $\mathcal{F}_t$--measurable for
+  all $t \geqslant 0$.
+\end{definition}
+
+\begin{definition}[Negligible sets, complete $\sigma$-algebra, completion]
+  Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space and let
+  $\mathcal{G} \subset \mathcal{F}$ be a $\sigma$-algebra.
+  \begin{enumerate}[parsep=0.2pt]
+    \item A set $B \subset \Omega$ is called {\emph{$\mathbb{P}$-negligible}}
+    (with respect to $\mathcal{F}$), or simply {\emph{negligible}},
+    if there exists $N \in \mathcal{F}$ with $\mathbb{P} (N) = 0$ such that $B
+    \subset N$. We write $\mathcal{N}^{\mathbb{P}}$ for the
+    $\mathbb{P}$-negligible sets.
+    
+    \item $\mathcal{G}$ is called {\emph{complete}} (with respect to
+    $\mathcal{F}$) if $\mathcal{N}^{\mathbb{P}} \subset \mathcal{G}$.
+    
+    \item The {\emph{completion of $\mathcal{G}$}} (with respect to
+    $\mathcal{F}$) is $\mathcal{G}^{\mathbb{P}} \coloneq \sigma (\mathcal{G}
+    \cup \mathcal{N}^{\mathbb{P}}) .$
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Complete filtration, usual conditions]
+  Let $\mathbb{F}$ be a filtration.
+  \begin{enumerate}[parsep=0.2pt]
+    \item $\mathbb{F}$ is called {\emph{complete}} if $\mathcal{F}_t$ is
+    complete for all $t \geqslant 0$; equivalently, if $\mathcal{F}_0$ is
+    complete.
+    
+    \item $\mathbb{F}$ satisfies the {\emph{usual conditions}} if it is
+    right-continuous and complete.
+  \end{enumerate}
+\end{definition}
+\end{roundbox}
+
+\begin{roundbox}{Stopping times}
+\begin{definition}[Stopping time, events determined until $\tau$]
+  Let $\mathbb{F}$ be a filtration. An {\emph{$\mathbb{F}$-stopping time}} (or
+  simply {\emph{stopping time}}, if there is no ambiguity about the
+  filtration) is a map $\tau : \Omega \rightarrow [0, \infty]$ such that
+  $\{\tau \leqslant t\} \in \mathcal{F}_t$ for all $t \geqslant 0$. If $\tau$
+  is a $\mathbb{F}$-stopping time, then we write
+  \begin{equation}
+    \label{eq:FT definition} \mathcal{F}_{\tau} \coloneq \left\{ A \in
+    \mathcal{F}: A \cap \{\tau \leqslant t\} \in \mathcal{F}_t \text{ for all
+    } t \geqslant 0 \right\}
+  \end{equation}
+  for the $\sigma$-algebra of {\emph{events determined until $\tau$}}.
+\end{definition}
+
+\begin{lemma}
+  Let $\mathbb{F}$ be a filtration and let $\tau : \Omega \rightarrow [0, \infty]$.
+  \begin{enumerate}[parsep=0.2pt]
+    \item If $\tau$ is a stopping time, then $\mathcal{F}_{\tau}$ is indeed a
+    $\sigma$-algebra.
+    
+    \item If $\tau (\omega) = t$ for all $\omega$, where $t \in [0, \infty]$
+    is fixed, then $\tau$ is a stopping time and $\mathcal{F}_t
+    =\mathcal{F}_{\tau}$ where $\mathcal{F}_{\tau}$ is defined
+    in~(\ref{eq:FT definition}). So our definitions are consistent.
+    
+    \item If $\tau$ is a stopping time, then so is $\tau + t$ for any $t \in
+    [0, \infty]$; the same is not necessarily true for $\tau - t$. In
+    particular, $\mathcal{F}_{\tau + t}$ is a $\sigma$-algebra for any $t
+    \geqslant 0$ and we can define $\mathcal{F}_{\tau +} \coloneq \bigcap_{t >
+    0} \mathcal{F}_{\tau + t}$.
+    
+    \item $\tau$ is an $\mathbb{F}^+$-stopping time if and only if $\{\tau <
+    t\} \in \mathcal{F}_t$ for all $t > 0$.
+    
+    \item If $\tau$ is a stopping time, then $\tau$ is
+    $\mathcal{F}_{\tau}$--measurable.
+    
+    \item If $\tau_1$, $\tau_2$ are stopping times with $\tau_1 (\omega)
+    \leqslant \tau_2 (\omega)$ for all $\omega \in \Omega$, then
+    $\mathcal{F}_{\tau_1} \subset \mathcal{F}_{\tau_2}$.
+    
+    \item If $\tau_1$, $\tau_2$ are stopping times, then $\tau_1 \vee \tau_2$
+    and $\tau_1 \wedge \tau_2$ are stopping times and
+    \[ \mathcal{F}_{\tau_1 \wedge \tau_2} =\mathcal{F}_{\tau_1} \cap
+       \mathcal{F}_{\tau_2} . \]
+  \end{enumerate}
+\end{lemma}
+
+\begin{definition}[Entry/hitting time]
+  Let $X = (X_t)_{t \geqslant 0}$ be a stochastic process taking values in a
+  measurable space $(S, \mathcal{S})$. For $A \in \mathcal{S}$, we define the
+  {\emph{entry time}}, or {\emph{hitting time}} of $X$ into $A$, as
+  \[ \tau_A (\omega) \coloneq \inf \{t \geqslant 0 : X_t (\omega) \in A\}, \]
+  where we adopt the standard convetion $\inf \varnothing = \infty$.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:simple stopping times}Let $(S, d)$ be a metric space and let $X$
+  be a stochastic process with values in $S$ which is adapted to the
+  filtration $\mathbb{F}$.
+  \begin{enumerate}
+    \item If $A \subset S$ is open and $X$ is right-continuous or
+    left-continuous, then $\tau_A$ is an $\mathbb{F}^+$\mbox{-}stopping time.
+    
+    \item If $A \subset S$ is closed and $X$ is continuous, then $\tau_A$ is
+    an $\mathbb{F}$-stopping time.
+  \end{enumerate}
+\end{proposition}
+\end{roundbox}
+
+\begin{roundbox}{Progressive processes}
+\begin{definition}[(Progressively) measurable processes]
+  \label{defn:progressively.measurable}A stochastic process $X = (X_t)_{t
+  \geqslant 0}$ taking values in $(S, \mathcal{S})$ is called
+  \begin{enumerate}[parsep=0.2pt]
+    \item {\emph{measurable}} if the map
+    \[ \Omega \times \mathbb{R}_+ \ni (\omega, t) \mapsto X_t (\omega) \in S
+    \]
+    is $(\mathcal{F} \otimes \mathcal{B}(\mathbb{R}_+),
+    \mathcal{S})$--measurable;
+    
+    \item {\emph{progressive}} (or {\emph{progressively measurable}}) if for
+    any $t \geqslant 0$, the map
+    \[ \Omega \times [0, t] \ni (\omega, s) \mapsto X_s (\omega) \in S \]
+    is $(\mathcal{F}_t \otimes \mathcal{B}([0, t]), \mathcal{S})$--measurable.
+  \end{enumerate}
+\end{definition}
+
+\begin{remark}
+  \label{rem:progressive.sets}We can define the $\sigma$-algebra of
+  {\emph{progressive sets}} by
+  \[
+    \operatorname{Prog} = \left\{ A \in \mathcal{F} \otimes \mathcal{B}
+     (\mathbb{R}_+) \, : \, A \cap (\Omega \times [0, t]) \in \mathcal{F}_t
+     \otimes \mathcal{B} ([0, t]) \right\} ;
+   \]
+  notice that $A \in \operatorname{Prog}$ if and only if $\1_A$ is
+  progressive. It can be shown that $X : \Omega \times \mathbb{R}_+
+  \rightarrow S$ is progressively measurable if and only if it is
+  $(\mathrm{Prog}, \mathcal{S})$-measurable; in other words, progressive
+  measurability amounts to measurability w.r.t. the $\sigma$-algebra of
+  progressive sets.
+  
+  In the case when $(S, \mathcal{S}) = (\mathbb{R}, \mathcal{B}
+  (\mathbb{R}))$, this fact has many useful consequences:
+  \begin{itemize}
+    \item If $X$ and $Y$ are progressive, so are $X + Y$ and $X \cdot Y$;
+    
+    \item If $(X^n)_n$ is a sequence of progressive processes, then $\limsup_n
+    X^n$ and $\liminf_n X^n$ are still progressive; in particular, whenever it
+    exists, $X_t (\omega) \coloneq \lim_{n \rightarrow \infty} X^n (t, \omega)$
+    is progressive.
+  \end{itemize}
+\end{remark}
+
+\begin{lemma}
+  \label{lem:progr mb trajectories}Let $(X_t)_{t \geqslant 0}$ be a stochastic
+  process taking values in $(S, \mathcal{S})$.
+  \begin{enumerate}
+    \item If $X$ is measurable, then the map $t \mapsto X_t (\omega)$ is
+    $(\mathcal{B}(\mathbb{R}_+), \mathcal{S})$--measurable for all $\omega \in
+    \Omega$.
+    
+    \item If $X$ is progressive, then it is measurable and
+    $\mathbb{F}$-adapted.
+    
+    \item If $S$ is a metric space, $\mathcal{S}=\mathcal{B} (S)$ and $X$ is
+    right-continuous (or left-continuous) and adapted, then $X$ is
+    progressive.
+  \end{enumerate}
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Progressive measurability}
+\begin{remark}
+  Due to continuity of its trajectories, it follows from
+  Lemma~\ref{lem:progr mb trajectories} that Brownian motion $(B_t)_{t
+  \geqslant 0}$ is progressive (w.r.t. its natural filtration), and so in
+  particular it is $(\mathcal{F} \otimes \mathcal{B}(\mathbb{R}_+),
+  \mathbb{R})$--measurable. A similar argument applies to the Poisson process
+  $(N_t)_{t \geqslant 0}$.
+\end{remark}
+
+\begin{lemma}
+  \label{lem:progressively measurable in stopping time}Let $X$ be progressive
+  and let $\tau$ be a stopping time. Then $X_{\tau}$ is
+  $\mathcal{F}_{\tau}$--measurable.
+\end{lemma}
+
+\begin{lemma}
+  Let $X$ be progressive and $\tau$ be a stopping time. Then the
+  {\emph{stopped process}}
+  \[ X^{\tau}_t (\omega) \coloneq X_{t \wedge \tau (\omega)} (\omega), \]
+  usually abbreviated as $X^{\tau}_t = X_{t \wedge \tau}$, is also a
+  progressive process.
+\end{lemma}
+
+\begin{theorem}[Debut theorem]
+  \label{thm:Debut theorem}Let $\mathbb{F}$ be a filtration satisfying the
+  usual conditions, let $X$ be $\mathbb{F}$-progressive with values in $(S,
+  \mathcal{S})$, and let $A \in \mathcal{S}$. Then the entry time $\tau_A$ is
+  a stopping time.
+\end{theorem}
+\end{roundbox}
+
+
+\begin{roundbox}{Applications to Brownian Motion}
+\begin{definition}[$d$-dimensional Brownian motion]
+  Let $B = (B^1, \ldots, B^d)$ be a stochastic process. $B$ is called a
+  {\emph{$d$-dimensional Brownian motion}} if the $B^j$, $j = 1, \ldots, d$,
+  are independent (1-dimensional) Brownian motions.
+\end{definition}
+
+\begin{definition}[$\mathbb{F}$-Brownian motion]
+  Let $B$ be a $d$-dimensional Brownian motion and let $\mathbb{F}$ be a
+  filtration. $B$ is called a ($d$-dimensional) $\mathbb{F}$-Brownian motion if
+  it is adapted to $\mathbb{F}$ and if for all $t \geqslant 0$ the process
+  $(B_{t + s} - B_t)_{s \geqslant 0}$ is independent of $\mathcal{F}_t$.
+\end{definition}
+
+\begin{theorem}[Strong Markov property of Brownian motion]
+  \label{thm:strong Markov}Let $\mathbb{F}$ be a filtration and let $B$ be a
+  $d$-dimensional $\mathbb{F}$-Brownian motion. Then for any finite stopping
+  time $\tau$ the process $B^{(\tau)} = (B_{\tau + t} - B_{\tau})_{t \geqslant
+  0}$ is a $d$-dimensional Brownian motion and independent of
+  $\mathcal{F}_{\tau +}$.
+\end{theorem}
+
+\begin{remark}
+  Let $\tau$ be a not necessarily finite stopping time with $\mathbb{P} (\tau
+  < \infty) > 0$. Then the proof of Theorem~\ref{thm:strong Markov} still
+  shows that
+  \vspace{-0.5em}
+  \[
+    \mathbb{P} (A \cap \{\tau < \infty\} \cap \{ B^{(\tau)} \in C \})
+     =\mathbb{P} (A \cap \{\tau < \infty\}) \mathbb{P} (B \in C)
+  \vspace{-0.5em}
+   \]
+  for all $A \in \mathcal{F}_{\tau +}$ and all $C \in \mathcal{B}
+  (\mathbb{R}^d)^{\otimes \mathbb{R}_+}$. In particular, the
+  statement of Theorem~\ref{thm:strong Markov} still holds for stopping times
+  that are almost surely finite.
+\end{remark}
+\end{roundbox}
+
+\begin{unlabeledbox}
+\begin{corollary}[Blumenthal's 0-1 law]
+  \label{cor:blumenthal}Let $B$ be a ($d$-dimensional) Brownian motion and let
+  $A \in \mathcal{F}_{0 +}^B$. Then $\mathbb{P} (A) \in \{ 0, 1 \}$.
+
+  Intuitively, Blumenthal's 0-1 law says that we cannot learn anything new by
+  peaking a little bit into the future of the Brownian motion.
+\end{corollary}
+
+\begin{corollary}
+  \label{cor:Bm up and down}Let $B$ be a Brownian motion. Then with
+  probability $1$ we have for all $\varepsilon > 0$
+  \vspace{-0.5em}
+  \[
+    \sup_{s \in [0, \varepsilon]} B_s > 0, \qquad \inf_{s \in [0,
+     \varepsilon]} B_s < 0. \]
+  Moreover, if for $a \in \mathbb{R}$ we set $\tau_a = \inf \{t \geqslant 0 :
+  B_t = a\}$, then $\tau_a < \infty$ for all $a \in \mathbb{R}$ with
+  probability $1$, so that in particular
+  \vspace{-1em}
+  \begin{equation}
+    - \infty = \liminf_{t \rightarrow \infty} B_t < \limsup_{t \rightarrow
+    \infty} B_t = \infty . \label{eq:Bm.up.and.down}
+  \end{equation}
+\end{corollary}
+
+\begin{proposition}[Reflection principle]
+  Let $B$ be a one-dimensional Brownian motion and let $\tau$ be a finite
+  stopping time. Then the process
+  \vspace{-0.5em}
+  \[ B^{*}_t \coloneq B_t \1_{\{ t \leqslant \tau \}} + (2 B_{\tau}
+     - B_t) \1_{\{ t > \tau \}} \]
+  \vspace{-0.5em}
+  is also a Brownian motion.
+\end{proposition}
+
+\begin{corollary}
+  Let $B$ be a Brownian motion and let $S_t = \max_{s \in [0, t]} B_s$. Then
+  \vspace{-0.5em}
+  \[ \mathbb{P} (S_t \geqslant a) = 2\mathbb{P} (B_t \geqslant a) =\mathbb{P}
+     (| B_t | \geqslant a) \]
+  \vspace{-0.5em}
+  for all $a \geqslant 0$.
+\end{corollary}
+\end{unlabeledbox}
+
+\begin{roundbox}{Path regularity}
+\begin{definition}[Integrable]
+  A stochastic process $X$ is called {\emph{integrable}} if $\mathbb{E} [|X_t
+  |] < \infty$ for all $t \geqslant 0$. For $p > 0$ we call $X$
+  {\emph{$p$-integrable}} if $\mathbb{E} [|X_t |^p] < \infty$ for all $t
+  \geqslant 0$. For $p = 2$ we also say {\emph{square-integrable}}.
+\end{definition}
+
+\begin{definition}[Martingale]
+  An adapted, real-valued and integrable process $X = (X_t)_{t \geqslant 0}$
+  is called a
+  \begin{enumerate}[parsep=0.2em]
+    \item {\emph{martingale}} if $\mathbb{E} [X_t |\mathcal{F}_s] = X_s$ for
+    all $0 \leqslant s \leqslant t$;
+    
+    \item {\emph{supermartingale}} if $\mathbb{E} [X_t |\mathcal{F}_s]
+    \leqslant X_s$ for all $0 \leqslant s \leqslant t$;
+    
+    \item {\emph{submartingale}} if $\mathbb{E} [X_t |\mathcal{F}_s] \geqslant
+    X_s$ for all $0 \leqslant s \leqslant t$.
+  \end{enumerate}
+\end{definition}
+
+\begin{remark}
+  \label{rem:martingale_monotone_mean}If $(X_t)_{t \geqslant 0}$ is a
+  martingale, then by the tower property of conditional expectiation we
+  immediately have $\mathbb{E} [X_t] =\mathbb{E} [X_0]$ for all $t \geqslant
+  0$. Similarly, if $X$ is a supermartingale (respectively submartingale) then
+  $t \mapsto \mathbb{E} [X_t]$ is decreasing (resp. increasing).
+\end{remark}
+\end{roundbox}
+
+\begin{unlabeledbox}
+\begin{remark}
+  \label{rem:martingale.jensen}It follows from conditional Jensen's inequality
+  that:
+  \begin{enumerate}[parsep=0.2em]
+    \item If $X$ is a martingale, $\varphi : \mathbb{R} \rightarrow
+    \mathbb{R}$ is convex and $(\varphi (X_t))_{t \geqslant 0}$ is integrable,
+    then $\varphi (X)$ is a submartingale.
+    
+    \item If $X$ is a submartingale, $\varphi$ is convex and increasing, and
+    $\varphi (X)$ is integrable, then $\varphi (X)$ is a submartingale.
+    
+    \item In particular, $|X|^p$ is a submartingale if $X$ is a $p$-integrable
+    martingale and $p \geqslant 1$, and $X^+ = X \vee 0$ is a submartingale if
+    $X$ is a submartingale.
+  \end{enumerate}
+\end{remark}
+
+\begin{definition}[Upcrossings]
+  \label{def:upcrossings}Let $I \subset \mathbb{R}_+$ and $f : I \rightarrow
+  \mathbb{R}$. For $a < b$, the number of upcrossings of $f$ across the
+  interval $[a, b]$ in $I$ is the supremum over all $n$ for which there exist
+  times $s_k, t_k \in I$, $k = 1, \ldots, n$, such that $s_1 < t_1 < s_2 < t_2
+  < \ldots < s_n < t_n$ with $f (s_k) \leqslant a$ and $f (t_k) \geqslant b$
+  for all $k = 1, \ldots, n$. We denote it with
+  \[ U ([a, b] ; I ; f) . \]
+\end{definition}
+
+\begin{lemma}[Doob's upcrossing inequality]
+  \label{lem:upcrossing}Let $(X_n)_{n \in \mathbb{N}_0}$ be a discrete time
+  supermartingale. Then we have for all $a < b \in \mathbb{R}$
+  \begin{align*}
+    \mathbb{E} [U ([a, b] ; \{ 0, \ldots, n \} ; X)]
+      & \leqslant \frac{\mathbb{E} [(X_n - a)^-]}{b - a}, \\
+    \mathbb{E} [U ([a, b] ; \mathbb{N}_0 ; X)]
+      & \leqslant \sup_{n \in \mathbb{N}} \frac{\mathbb{E} [(X_n - a)^-]}{b - a} .
+  \end{align*}
+\end{lemma}
+
+\begin{remark}
+  \label{rem:uniform.integrability}Recall the following facts about uniform
+  integrability:
+  \begin{enumerate}
+    \item If $(Y_j)_{j \in J}$ is uniformly integrable, then it is bounded in
+    $L^1$: $\sup_{j \in J} \mathbb{E} [| Y_j |] < \infty$; the converse is not
+    true.
+    
+    \item If $(Y_j)_{j \in J}$ is bounded in $L^p$ for some $p > 1$, i.e.
+    $\sup_{j \in J} \mathbb{E} [| Y_j |^p] < \infty$, then it is uniformly
+    integrable.
+    
+    \item Given a sequence $(Y_n)_{n \in \mathbb{N}}$, $Y_n \rightarrow Y$ in
+    $L^1$ if and only if $Y_n \rightarrow Y$ in probability and $(Y_n)_{n \in
+    \mathbb{N}}$ is uniformly integrable.
+    
+    \item If $Y \in L^1$ and $(\mathcal{G}_j)_{j \in J}$ is a family of
+    $\sigma$-algebras, then $(\mathbb{E} [Y| \mathcal{G}_j])_{j \in J}$ is
+    uniformly integrable.
+  \end{enumerate}
+\end{remark}
+\end{unlabeledbox}
+
+\begin{roundbox}{Path regularity}
+\begin{theorem}
+  \label{thm:submartingale cadlag}Let $X$ be a martingale and assume that
+  $\mathbb{F}$ satisfies the usual conditions. Then $X$ has an adapted
+  c{\`a}dl{\`a}g modification which still is a martingale.
+\end{theorem}
+
+\begin{remark}
+  In general one can show that any supermartingale $X$ in a filtration
+  satisfying the usual conditions and for which $t \mapsto \mathbb{E} [X_t]$
+  is right-continuous has a c{\`a}dl{\`a}g adapted modification.
+\end{remark}
+
+\begin{theorem}[Martingale convergence theorem]
+  \label{prop:supermartingale convergence}Let $X$ be a c{\`a}dl{\`a}g
+  supermartingale with $\sup_{t \geqslant 0} \mathbb{E} [X_t^-] < \infty$.
+  
+  Then there exists a random variable $X_{\infty} \in L^1$ with $\lim_{t
+  \rightarrow \infty} X_t = X_{\infty}$ almost surely.
+  
+  If $(| X_t |^p)_{t \geqslant 0}$ is uniformly integrable, for $p \geqslant
+  1$, then $X_t$ also converges in $L^p$ to $X_{\infty}$.
+\end{theorem}
+
+\begin{remark}
+  Notice that since $X$ is a supermartingale,
+  \[
+    \sup_{t \geqslant 0} \mathbb{E} [X_t^-] < \infty \quad \Leftrightarrow
+     \quad \sup_{t \geqslant 0} \mathbb{E} [| X_t |] < \infty .
+   \]
+  One implication is obvious; for the other, we have $\mathbb{E} [X^+_t]
+  -\mathbb{E} [X^-_t] =\mathbb{E} [X_t] \leqslant \mathbb{E} [X_0]$, so that
+  \begin{align*}
+      & \sup_{t \geqslant 0} \mathbb{E} [X^+_t] \leqslant \sup_{t \geqslant 0}
+     \mathbb{E} [X_t^-] +\mathbb{E} [X_0] \\
+     & \Rightarrow \quad \sup_{t
+     \geqslant 0} \mathbb{E} [| X_t |] \leqslant \sup_{t \geqslant 0}
+     \mathbb{E} [X^+_t] + \sup_{t \geqslant 0} \mathbb{E} [X_t^-] < \infty .
+ \end{align*}
+\end{remark}
+
+\begin{theorem}
+  For a c{\`a}dl{\`a}g martingale $X$ the following conditions are equivalent:
+  \begin{enumerate}
+    \item $X$ is uniformly integrable (we say $X$ is a {\emph{uniformly
+    integrable martingale}});
+    
+    \item $X_t$ converges almost surely and in $L^1$ to a limit $X_{\infty}$
+    as $t \rightarrow \infty$;
+    
+    \item there exists $Y \in L^1$ with $X_t =\mathbb{E} [Y|\mathcal{F}_t]$
+    for all $t \geqslant 0$ (we say that $X$ is a {\emph{closed martingale}}).
+  \end{enumerate}
+  In that case we can take $Y = X_{\infty}$, and for general $Y$ we always
+  have $X_{\infty} =\mathbb{E} [Y|\mathcal{F}_{\infty}]$.
+\end{theorem}
+
+\begin{remark}
+  \label{rem:basic.martingale}Given an integrable r.v. $Y$ and a filtration
+  $\mathbb{F}$, $X_t =\mathbb{E} [Y| \mathcal{F}_t]$ always defines a
+  martingale, by the tower property of conditional expectation; moreover $X$
+  is uniformly integrable, by Remark~\ref{rem:uniform.integrability}-iv. If
+  additionally $\mathbb{F}$ satisfies the usual assumptions, then we can
+  invoke Theorem~\ref{thm:submartingale cadlag} to deduce that, up to a
+  modification, $X$ has c{\`a}dl{\`a}g paths.
+\end{remark}
+\end{roundbox}
+
+\begin{roundbox}{Martinale Inequalities}
+\begin{theorem}[Doob's martingale inequalities]
+  \label{thm:doob}Let $T \in [0, + \infty)$ and $\lambda > 0$.
+  \begin{enumerate}
+    \item If $X$ is a c{\`a}dl{\`a}g submartingale, then
+    \begin{align*}
+      \mathbb{P} \left( \sup_{t \in [0, T]} X_t \geqslant \lambda \right)
+      &\leqslant \frac{1}{\lambda} \mathbb{E} [X_T^+], \\
+      \mathbb{P} \left( \sup_{t \geqslant 0} X_t \geqslant \lambda \right)
+      & \leqslant \frac{1}{\lambda} \sup_{t \geqslant 0} \mathbb{E} [X_t^+] .
+     \end{align*}
+    \item If $X$ is a c{\`a}dl{\`a}g martingale, then
+    \begin{align*}
+      \mathbb{P} \left( \sup_{t \in [0, T]} |X_t | \geqslant \lambda \right)
+      & \leqslant \frac{1}{\lambda} \mathbb{E} [|X_T |], \\
+      \mathbb{P} \left( \sup_{t \geqslant 0} |X_t | \geqslant \lambda \right)
+      & \leqslant \frac{1}{\lambda} \sup_{t \geqslant 0} \mathbb{E} [|X_t |], 
+     \end{align*}
+    \item If $X$ is a c{\`a}dl{\`a}g martingale, then for all $p \in (1, \infty)$
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{t \in [0, T]} |X_t |^p \right] 
+      &\leqslant \left( \frac{p}{1-p} \right)^p \mathbb{E} [|X_T |^p], \\
+      \mathbb{E} \left[ \sup_{t \geqslant 0} |X_t |^p \right] 
+      &\leqslant \left( \frac{p}{1-p} \right)^p \sup_{t \geqslant 0} \mathbb{E} [|X_t |^p] .
+   \end{align*}
+  \end{enumerate}
+\end{theorem}
+
+\begin{remark}
+  The constant $\left( \frac{p}{p - 1} \right)^p$ in Doob's maximal
+  $L^p$-inequality  is optimal.   
+
+  To control the supremum, one needs $X_T$ to belong to $L \log L$: if $X$ is
+  a c{\`a}dl{\`a}g martingale, then it holds
+  \[
+    \mathbb{E} \left[\sup_{t \in [0, T]} | X_t | \right] \leqslant \frac{e}{e - 1} (1
+     +\mathbb{E} [| X_T | \log | X_T |]).
+  \]
+\end{remark}
+
+\begin{theorem}[Optional Sampling Theorem]
+  \label{thm:optional-sampling}Let $X$ be a c{\`a}dl{\`a}g martingale and let
+  $\sigma \leqslant \tau$ be stopping times. Assume that either
+  \begin{enumerate}
+    \item $\tau \leqslant C < \infty$ almost surely, where $C > 0$ is a
+    deterministic constant;
+    
+    \item or $X$ is uniformly integrable.
+  \end{enumerate}
+  Then $X_{\sigma}$ and $X_{\tau}$ are in $L^1$ and
+  \[
+    \mathbb{E} \left[X_{\tau} |\mathcal{F}_{\sigma} \right] = X_{\sigma} .
+  \]
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Stopping theorems}
+\begin{theorem}
+  \label{thm:optional.supermartingale}Let $X$ be a positive c{\`a}dl{\`a}g
+  supermartingale (which almost surely converges to some $X_{\infty}$ by
+  Proposition~\ref{prop:supermartingale convergence}) and let $\sigma
+  \leqslant \tau$ be stopping times. Then $X_{\sigma}$ and $X_{\tau}$ are in
+  $L^1$ and
+  \[ \mathbb{E} [X_{\tau} |\mathcal{F}_{\sigma}] \leqslant X_{\sigma} . \]
+\end{theorem}
+
+\begin{corollary}[Stopping theorem]
+  \label{cor:stopping.theorem}Let $X$ be a c{\`a}dl{\`a}g martingale and let
+  $\tau$ be a stopping time. Then the stopped process $X^{\tau}_t = X_{t
+  \wedge \tau}$, $t \geqslant 0$, is a c{\`a}dl{\`a}g martingale. If $X$ is
+  uniformly integrable, then $X^{\tau}$ is as well and we have
+  \begin{equation}
+    X^{\tau}_t =\mathbb{E} [X_{\tau} |\mathcal{F}_t] \quad \forall \, t
+    \geqslant 0. \label{eq:stopping.theorem}
+  \end{equation}
+\end{corollary}
+
+\begin{corollary}
+  \label{cor:brownian.thresholds}Let $B$ be a Brownian motion and write
+  $\tau_x = \inf \{t \geqslant 0 : B_t = x\}$ for $x \in \mathbb{R}$. Let $a,
+  b > 0$. Then
+  \[ \mathbb{P} (\tau_{- a} < \tau_b) = \frac{b}{a + b}, \qquad \mathbb{P}
+     (\tau_{- a} > \tau_b) = \frac{a}{a + b} . \]
+\end{corollary}
+\end{roundbox}
+
+\begin{roundbox}{Finite Variation processes}
+\begin{definition}[Finite variation, total variation]
+  Let $T \in (0, + \infty)$. We say that a continuous function $a : [0, T]
+  \rightarrow \mathbb{R}$ is of {\emph{finite variation}} on $[0, T]$, i.e. $a
+  \in \operatorname{TV} ([0, T])$, if $a (0) = 0$ and its {\emph{total variation}} on
+  $[0, T]$ is finite:
+  \begin{align*}
+    \| a \|_{\operatorname{TV} ([0, T])} \coloneq \sup \Bigl\{ \sum_{k = 0}^{n - 1}
+      |a (t_{k + 1}) - a (t_k) | &:\\
+      n \in \mathbb{N}, 0 = t_0 < \ldots < t_n = T \Bigl\} < \infty .
+   \end{align*}
+  We say that a continuous function $a : \mathbb{R}_+ \rightarrow \mathbb{R}$
+  is of {\emph{finite variation}}, notation $a \in \operatorname{TV} (\mathbb{R}_+)$,
+  if $a|_{[0, T]}$ is of finite variation for all $T \in (0, \infty)$. In that
+  case we write
+  \[ V (a) (t) \coloneq \| a \|_{\operatorname{TV} ([0, t])}, \quad \forall \, t
+     \geqslant 0. \]
+\end{definition}
+
+\begin{proposition}
+  Let $a \in C (\mathbb{R}_+)$ be such that $a (0) = 0$. The following
+  conditions are equivalent:
+  \begin{enumerate}
+    \item $a \in \operatorname{TV} (\mathbb{R}_+)$.
+    
+    \item There exist two measures $\mu_+$ and $\mu_-$ on $\mathcal{B}
+    (\mathbb{R}_+)$ such that $\mu_{\pm} ([0, T]) < \infty$ for all $T > 0$,
+    such that $\mu_+$ and $\mu_-$ are mutually singular, and such that
+    $ a (t) = \mu ([0, t]) \coloneq \mu_+ ([0, t]) - \mu_- ([0, t]) .$
+    \item $a$ can be written as the difference of two increasing functions
+    $a_+$ and $a_-$, $a (t) = a_+ (t) - a_- (t)$.
+  \end{enumerate}
+  % In this case $\mu_+$ and $\mu_-$ are unique, we write $| \mu | = \mu_+ +
+  % \mu_-$, and we have
+  % \[ | \mu | ([0, t]) = V (a) (t) . \]
+  % We call $\mu$ the (signed) {\emph{measure associated with}} $a$.
+\end{proposition}
+\end{roundbox}
+
+
+\begin{roundbox}{Finite Variation processes}
+\begin{remark}
+  Note that, since $a$ is continuous, and $\mu_+$ and $\mu_-$ are mutually
+  singular, they must be non-atomic: $\mu_{\pm} (\{ t \}) = 0$ for all $t
+  \geqslant 0$.
+\end{remark}
+
+\begin{definition}[Lebesgue-Stieltjes integration]
+  Let $a \in C (\mathbb{R}_+) \cap \operatorname{TV} (\mathbb{R}_+)$ and let $h
+  : \mathbb{R}_+ \rightarrow \mathbb{R}$ be measurable with $\int_0^T | h (t) |
+  | \mu | (\mathrm{d} t) < \infty$ for all $T \geqslant 0$. Then for $t
+  \geqslant 0$ we define
+  \begin{align*}
+    & \int_0^t h (s) \mathrm{d} a (s) \\
+    &\coloneq \int_{[0, t]} h (s) \mu (\mathrm{d} s) \\
+    &= \int_{[0, t]} h (s) \mu_+ (\mathrm{d} s) - \int_{[0, t]} h (s) \mu_- (\mathrm{d} s),
+  \end{align*}
+  and, for $t \geqslant 0$,
+  \[
+    \int_0^t h (s) \mathrm{d} V (a) (s) \coloneq \int_{[0, t]} h (s) | \mu |
+     (\mathrm{d} s).
+  \]
+  Both $\int_0^{\cdot} h (s) \mathrm{d} a (s)$ and $\int_0^{\cdot} h (s)
+  \mathrm{d} V (a) (s)$ are continuous functions (by dominated convergence and the
+  atomless property of $| \mu |$), have finite variation and the associated
+  measures are $h \mu$ and $h | \mu |$.
+\end{definition}
+
+\begin{definition}[Process of finite variation]
+  A stochastic process $A = (A_t)_{t \geqslant 0}$ is a {\emph{process of
+  finite variation}} if it is adapted, continuous, and $A (\omega) \in
+  \operatorname{TV} (\mathbb{R}_+)$ for all $\omega \in \Omega$. In that case we write
+  $A \in \mathcal{A}$. If furthermore $A (\omega)$ is increasing for all
+  $\omega \in \Omega$, we write $A \in \mathcal{A}^+$.
+\end{definition}
+
+\begin{proposition}
+  Let $A \in \mathcal{A}$ and let $H$ be a progressively measurable process
+  such that almost surely
+  \[
+    \int_0^T |H_s | \mathrm{d} V (A)_s < \infty \quad \forall \, T \geqslant 0.
+  \]
+  Then
+  \[
+    \left( \int_0^t H_s \mathrm{d} A_s \right) (\omega) \coloneq
+       \int_0^t H_s (\omega) \mathrm{d} A_s (\omega),
+  \]
+   if $\int_0^T |H_s | (\omega) \mathrm{d} V (A)_s (\omega) < \infty$ or all $T
+  \geqslant 0$ and 0 otherwise; defines ($\omega$-wise) a (progressively
+  measureable) process of finite variation.
+\end{proposition}
+\end{roundbox}
+
+\begin{roundbox}{Prelude to stochastic integration}
+\begin{remark}[Associativity of the Lebesgue-Stieltjes integral]
+  \label{rem:associativity.lebesgue-stieltjes}If, for progressive $H, G$,
+  almost surely $\int_0^t |H_s | \mathrm{d} V (A)_s < \infty$ and $\int_0^t |G_s
+  H_s | \mathrm{d} V (A)_s < \infty$ for all $t \geqslant 0$, then we have
+  \[ \int_0^{\cdot} G_s \mathrm{d} \left( \int_0^s H_r \mathrm{d} A_r \right) =
+     \int_0^{\cdot} G_s H_s \mathrm{d} A_s, \]
+  because $\int_0^{\cdot} H_s \mathrm{d} A_s$ is a finite variation process
+  associated to the measure $H \mathrm{d} \mu$, where $\mu$ is the measure
+  associated to $A$.
+\end{remark}
+
+\begin{lemma}[Continuous finite variation martingales are constant]
+  \label{lem:mart not fv}Let $M \in \mathcal{A}$ be a continuous martingale of
+  finite variation. Then almost surely $M_t = 0$ for all $t \geqslant 0$.
+\end{lemma}
+
+\begin{remark}
+  \label{rem:mart.orthogonal.increments}Let $M$ be a square integrable
+  martingale, then it enjoys the property of \textit{orthogonality of
+  increments}: for any $t_1 < t_2 < t_3 < t_4$, it holds
+  {
+  \small
+  \begin{align*}
+    \mathbb{E} [(M_{t_4} - M_{t_3}) (M_{t_2} - M_{t_1})] & =\mathbb{E}
+    [\mathbb{E} [(M_{t_4} - M_{t_3}) (M_{t_2} - M_{t_1}) |
+    \mathcal{F}_{t_2}]]\\
+    & =\mathbb{E} [(M_{t_2} - M_{t_1}) \mathbb{E} [(M_{t_4} - M_{t_3}) |
+    \mathcal{F}_{t_2}]]\\
+    & = 0.
+  \end{align*}
+  }
+\end{remark}
+
+\begin{remark}
+  Lemma~\ref{lem:mart not fv} shows that any nontrivial
+  {\underline{continuous}} martingale is almost surely of infinite variation.
+  For discontinuous martingales this is not true: recall for instance the
+  compensated Poisson process.
+\end{remark}
+
+\begin{lemma}[Quadratic variation of Brownian motion]
+  \label{lem:Brownian-qv}Let $t > 0$ and let $0 = t^n_0 < t^n_1 < \ldots <
+  t^n_{k_n} = t$ be a sequence of deterministic partitions of $[0, t]$ with
+  $\max_{0 \leqslant i < k_n} |t^n_{i + 1} - t^n_i |$ converging to zero as $n
+  \rightarrow \infty$. Then
+  \[ \lim_{n \rightarrow \infty}  \sum_{i = 0}^{k_n - 1} (B_{t^n_{i + 1}} -
+     B_{t^n_i})^2 = t \]
+  where the convergence takes place in $L^2 (\Omega, \mathbb{P})$.
+  
+  We call $\langle B \rangle_t \coloneq t$, $t \geqslant 0$, the
+  {\emph{quadratic variation}} of $B$. It is the unique (up to
+  indistinguishability) process in $\mathcal{A}^+$ such that $B^2_t - \langle
+  B \rangle_t$, $t \geqslant 0$, is a martingale.
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Continuous Martingales \& Quadratic Variation}
+\begin{proposition}
+  \label{prop:martingale.space.Hpc}For any $p \in (1, \infty)$,
+  $(\mathcal{H}^{p, c}, \| \cdot \|_{\mathcal{H}^{p, c}})$ is a Banach space;
+  moreover it is isometric to a closed linear subspace of $L^p (\Omega)$, with
+  linear isometry $J$ given by $J M \coloneq M_{\infty}$:
+  \[ \| M \|_{\mathcal{H}^{p, c}}^p \coloneq \sup_{t \geqslant 0} \mathbb{E} [|
+     M_t |^p] =\mathbb{E} [| M_{\infty} |^p] = \| M_{\infty} \|_{L^p} . \]
+  Moreover, $M_t \rightarrow M_{\infty}$ in $L^p$ as $t \rightarrow \infty$.
+  An equivalent norm $\| \, \cdot \, \tilde{\|}_{\mathcal{H}^{p, c}}$ for
+  $\mathcal{H}^{p, c}$ is given by
+  \[
+    \|M \tilde{\|}_{\mathcal{H}^{p, c}}^p \, \coloneq \mathbb{E} \left[\| M \|_{C_b
+     (\mathbb{R}_+)}^p \right] \coloneq \mathbb{E} \left[\sup_{t \geqslant 0} | M_t |^p \right] .
+  \]
+  For $p = 2$, $\mathcal{H}^{2, c}$ has a Hilbert space structure, with inner
+  product given by
+  \begin{equation}
+    (M, N)_{\mathcal{H}^{2, c}} \coloneq \mathbb{E} [M_{\infty} N_{\infty}] .
+    \label{eq:inner.product.H2c}
+  \end{equation}
+\end{proposition}
+
+\begin{definition}[UCP convergence]
+  \label{defn:ucp}Let $\{ f^n \}_n$, $f$ be deterministic functions from
+  $\mathbb{R}_+$ to $\mathbb{R}$; we say that $f^n$ converge to $f$
+  {\emph{uniformly on compact sets}} if
+  \[ \lim_{n \rightarrow \infty} \, \sup_{t \in [0, T]} | f^n_t - f_t | = 0
+     \quad \forall \, T \in (0, + \infty) . \]
+  Let $\{ X^n \}_n$, $X$ be jointly measurable real-valued stochastic
+  processes; we say that $X^n$ convergence to $X$ {\emph{uniformly on compacts
+  in probability}} if
+  \[
+    \lim_{n \rightarrow \infty} \mathbb{P} \left(\sup_{t \in [0, T]} | X^n_t - X_t
+     | > \varepsilon \right) = 0
+  \]
+  for all $\varepsilon > 0$ and $T \in (0, + \infty)$. In this case, we write
+  $X^n \rightarrow X$ in {\emph{ucp}}, and we refere to above as {\emph{ucp
+  convergence}}.
+\end{definition}
+
+\begin{lemma}
+  \label{lem:ucp.metric}The space of continuous stochastic processes (possibly
+  adapted to a reference filtration $\mathbb{F}$) is a complete metric space
+  when endowed with the distance
+  \[ D^{\operatorname{ucp}} (X, Y) \coloneq \mathbb{E} [D (X, Y)] \coloneq \sum_{k =
+     1}^{\infty} \mathbb{E} \left[2^{- k} \wedge \sup_{t \in [0, k]} | X_t - Y_t | \right]
+  \]
+  which induces the ucp convergence.
+  
+  Moreover if $X^n \rightarrow X$ in ucp, then there exists a subsequence $\{
+  X^{n_j} \}_j$ such that, for $\mathbb{P}$-a.e. $\omega$, $X^{n_j} (\omega)
+  \rightarrow X (\omega)$ uniformly on compact sets.
+\end{lemma}
+\end{roundbox}
+
+
+\begin{roundbox}{Continuous Martingales}
+\begin{definition}[$\mathcal{M}^{2, c}$, quadratic variation]
+  \label{defn:quadratic.variation}We denote by $\mathcal{M}^{2, c}$ the space
+  of continuous, square integrable martingales $(M_t)_{t \geqslant 0}$. Given
+  $M \in \mathcal{M}^{2, c}$, {\underline{IF}} there exists a process $A \in
+  \mathcal{A}_+$ such that
+  \vspace{-0.5em}
+  \[
+    M^2_t - M^2_0 - A_t
+  \vspace{-0.5em}
+  \]
+  is a martingale, then we refer to $A$ as the {\emph{quadratic variation}} of
+  $M$, and denote it by $\langle M \rangle$.
+\end{definition}
+
+\begin{remark}
+  \label{rem:qv.first.properties}If $M \in \mathcal{M}^{2, c}$ and $\langle M
+  \rangle$ exists, then it is an integrable process: setting $N_t = M^2_t -
+  M^2_0 - \langle M \rangle_t$, it holds $\langle M \rangle_t \leqslant M_t^2
+  + M_0^2 + | N_t |$, where $M^2$ is integrable since $M \in \mathcal{M}^{2,
+  c}$ and $N$ is integrable by definition of being a martingale. Moreover if
+  $M_0 = 0$, then
+  \vspace{-0.5em}
+  \[
+    \mathbb{E} [N_t] =\mathbb{E} [N_0] = 0 \quad \Rightarrow \quad \mathbb{E}
+     [M_t^2] =\mathbb{E} [\langle M \rangle_t] \quad \forall \, t \geqslant 0.
+  \]
+\end{remark}
+
+\begin{lemma}
+  \label{lem:qv.basic}Let $M \in \mathcal{M}^{2, c}$. If $\langle M \rangle$
+  exists, then it is unique (up to indistinguishability). Moreover, for any
+  stopping time $\tau$ it holds that
+  \vspace{-0.5em}
+  \[
+    \langle M \rangle^{\tau} = \langle M^{\tau} \rangle .
+  \]
+\end{lemma}
+
+\begin{theorem}
+  \label{thm:quadratic.variation.existence}Let $M \in \mathcal{M}^{2, c}$,
+  then its quadratic variation $\langle M \rangle$ exists. Moreover, for any
+  deterministic sequence of locally finite partitions $\{ \pi_n \}_n$ of
+  $\mathbb{R}_+$ with infinitesimal mesh, upon defining (for $\pi_n = \{ t^n_k
+  \}_{k \geqslant 0}$)
+  \vspace{-0.5em}
+  \[
+    A^n_t \coloneq \sum_{k \geqslant 0} (M_{t \wedge t^n_k, t \wedge t^n_{k +
+     1}})^2
+  \vspace{-1em}
+  \]
+  it holds that
+  \vspace{-0.5em}
+  \begin{equation}
+    A^n \rightarrow \langle M \rangle \quad \text{in upc as } n \rightarrow
+    \infty. \label{eq:existence.qv.upc}
+  \vspace{-0.5em}
+  \end{equation}
+  For any locally finite partition $\pi = \{ t_k \}_{k \geqslant 0}$ with $|
+  \pi | < \infty$, setting $A^{\pi} \coloneq \sum_{k \geqslant 0} (M_{t \wedge
+  t_k, t \wedge t_{k + 1}})^2$, it holds
+  {
+  \small
+  \begin{equation*}
+    \mathbb{E} \left[\sup_{t \in [0, T]} | A^{\pi}_t - \langle M \rangle_t |^2 \right]
+    \lesssim \mathbb{E} \left[ \left(\sup_{s, t \in [0, T] : | t - s | \leqslant | \pi |}
+    | M_{s, t} |^2 \right) \langle M \rangle_T \right] \label{eq:existence.qv.main.estim}
+  \end{equation*}
+  }
+  for any $T \in (0, + \infty)$ (allowing both sides to equal $+ \infty$).
+\end{theorem}
+
+\begin{lemma}
+  \label{lem:quadratic.existence.lemma1}Let $M \in \mathcal{M}^{2, c}$, $\pi =
+  \{ t_k \}_{k \in \mathbb{N}}$ deterministic and locally finite. Then
+  \vspace{-1em}
+  \begin{equation}
+    M^2_t - M^2_0 - A^{\pi}_t = 2 \sum_{k = 0}^{\infty} M_{t \wedge t_k} \,
+    (M_{t \wedge t_k, t \wedge t_{k + 1}}) \eqqcolon 2 J^{\pi}_t
+    \label{eq:quadratic.existence.lemma1}
+  \vspace{-0.5em}
+  \end{equation}
+  for all $t \geqslant 0$, where the process $J^{\pi}$ is a continuous
+  martingale.
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Cuadratic Variations}
+\begin{lemma}
+  \label{lem:quadratic.existence.lemma2}Let $M \in \mathcal{H}^{4, c}$, $0 =
+  t_0 < t_1 < \ldots < t_n = t$. Then
+  {
+    \footnotesize
+  \[
+    \left\| M_0 M_{0, t} - \sum_{i = 0}^{n - 1} M_{t_i} (M_{t_i, t_{i + 1}})
+     \right\|_{L^2}^2 \lesssim \mathbb{E} \left[ \sup_{s \in [0, t]} | M_{0,
+     s} |^2 \, \sum_{i = 0}^{n - 1} (M_{t_i, t_{i + 1}})^2 \right] .
+   \]
+ }
+\end{lemma}
+
+\begin{definition}[Quadratic covariation]
+  \label{defn:quadratic.covariation}Let $M, N \in \mathcal{M}^{2, c}$. We
+  define the {\emph{quadratic covariation}} of $M$ and $N$ as the
+  process
+  \[ \langle M, N \rangle \coloneq \frac{1}{4} \langle M + N \rangle -
+     \frac{1}{4} \langle M - N \rangle . \label{eq:quadratic.covariation} \]
+\end{definition}
+
+\begin{proposition}
+  \label{prop:properties.quadratic.covariation}Let $M$, $N \in \mathcal{M}^{2,
+  c}$. Then:
+  \begin{enumerate}
+    \item $\langle M, N \rangle$ is the unique (up to indistinguishability)
+    process in $\mathcal{A}$ such that
+    \[ M N - M_0 N_0 - \langle M, N \rangle \]
+    is a martingale.
+    
+    \item For any sequence of deterministic locally finite partitions $\pi^n =
+    \{ t^n_k \}_{k \in \mathbb{N}}$ of $\mathbb{R}_+$ with finitesimal mesh
+    $\lim_{n \rightarrow \infty} | \pi^n | = 0$, it holds that
+    \[ \sum_{k = 0}^{\infty} M_{t^n_k \wedge t, t^n_{k + 1} \wedge t} N_{t^n_k
+       \wedge t, t^n_{k + 1} \wedge t} \rightarrow \langle M, N \rangle_t
+       \qquad \text{in ucp} . \]
+    \item The map $(M, N) \mapsto \langle M, N \rangle$ is bilinear and
+    symmetric, and for any bounded stopping time $\tau$ it holds that
+    \[ \langle M, N \rangle^{\tau} = \langle M^{\tau}, N^{\tau} \rangle =
+       \langle M^{\tau}, N \rangle . \]
+  \end{enumerate}
+\end{proposition}
+
+\begin{corollary}
+  \label{cor:link.quadratic.product}If $M, N \in \mathcal{M}^{2, c}$ and
+  either $M_0 = 0$ or $N_0 = 0$, then for any $t \in [0, \infty)$ it holds
+  $\mathbb{E} [\langle M, N \rangle_t] =\mathbb{E} [M_t N_t]$. If additionally
+  $M, N \in \mathcal{H}^{2, c}$, then
+  \[ \mathbb{E} [\langle M, N \rangle_{\infty}] =\mathbb{E} [M_{\infty}
+     N_{\infty}] = (M, N)_{\mathcal{H}^{2, c}} . \]
+\end{corollary}
+
+\begin{remark}
+  \label{rem:qcv.independent-bm}If $B^1$ and $B^2$ are independent Brownian
+  motions, we have seen in Example~\ref{ex:martingales} that $B^1 B^2$ is a
+  martingale, so that
+  \[ \langle B^1, B^2 \rangle \equiv 0. \]
+  In fact more generally, if $M, N \in \mathcal{M}^{2, c}$ are independent,
+  then necessarily $\langle M, N \rangle \equiv 0$.
+\end{remark}
+\end{roundbox}
+
+\begin{roundbox}{Continuous local Martingales}
+\begin{definition}[$\mathcal{M}^c$, localizing sequence, local martingale]
+  \begin{enumerate}[parsep=0.1em]
+    \item We write $\mathcal{M}^c$ for the set of all continuous martingales.
+    
+    \item A {\emph{localizing sequence}} is an increasing sequence of stopping
+    times $(\tau_n)_n$ with $\lim_{n \rightarrow \infty} \tau_n = \infty$
+    almost surely.
+    
+    \item An adapted process $M$ is called a {\emph{local martingale}} if
+    there exists a localizing sequence $(\tau_n)_n$ such that, for each $n \in
+    \mathbb{N}$, the stopped process
+    \[ (M - M_0)^{\tau_n} = M^{\tau_n} - M_0 = (M^{\tau_n} - M_0)
+       \1_{\tau_n > 0} \]
+    is a martingale. If in addition $M$ is continuous, we say that $M$ is a
+    {\emph{continuous local martingale}}, we write $M \in
+    \mathcal{M}^c_{\operatorname{loc}}$ and we call $(\tau_n)_n$ a {\emph{localizing
+    sequence for }}$M$.
+  \end{enumerate}
+\end{definition}
+
+\begin{remark}
+  \label{rem:first.properties.local.mart}
+  \begin{enumerate}[parsep=0.25em]
+    \item We do not require local martingales to be integrable. Indeed, not
+    even $M_0$ needs to be integrable, and even in the case $M_0 = 0$, it
+    might happen that $M_t$ is not integrable.
+    
+    \item Every martingale is a local martingale.
+
+    \item {\emph{Stability under stopping}}: if $M \in
+    \mathcal{M}^c_{\operatorname{loc}}$ (respectively $M \in \mathcal{M}^c$) and
+    $\tau$ is a stopping time, then $M^{\tau} \in \mathcal{M}^c_{\operatorname{loc}}$
+    (respectively $M^{\tau} \in \mathcal{M}^c$). Indeed note that
+    $(M^{\tau})^{\tau_n} = (M^{\tau_n})^{\tau} = M^{\tau_n \wedge \tau}$ and
+    then apply the stopping theorem.
+
+    \item Linear combinations of local martingales are martingales: if $M, N
+    \in \mathcal{M}^c_{\operatorname{loc}}$, then $\lambda M + N \in
+    \mathcal{M}^c_{\operatorname{loc}}$ for all $\lambda \in \mathbb{R}$.
+
+    \item For every $M \in \mathcal{M}^c_{\operatorname{loc}}$ there exists a
+    localizing sequence of stopping times $(\tau_n)_n$ such that $(M -
+    M_0)^{\tau_n}$ is a uniformly integrable martingale for all $n \in
+    \mathbb{N}$: just replace $\tau_n$ by $\tau_n \wedge n$. The same argument
+    shows that we can assume $\tau_n$ to be a bounded stopping time for each
+    fixed $n$.
+  \end{enumerate}
+\end{remark}
+
+
+\begin{remark}
+  \label{rem:locmart.vs.mart}Given point~ii. of
+  Lemma~\ref{lem:locmart-properties}, we might guess that every uniformly
+  integrable local martingale is a martingale, but this is not true. One can
+  even construct example of $M \in \mathcal{M}^c_{\operatorname{loc}}$ such
+  that $\sup_{t \geqslant 0} \mathbb{E} [| M_t |^2] < \infty$ but $M \notin
+  \mathcal{M}^c$.
+\end{remark}
+\end{roundbox}
+
+\begin{roundbox}{Continuous local Martingales}
+\begin{lemma}
+  \label{lem:locmart-properties}Let $M \in \mathcal{M}^c_{\operatorname{loc}}$.
+  \begin{enumerate}
+    \item If $M$ is non-negative (i.e. $\mathbb{P}$-a.s. $M_t \geqslant 0$ for
+    every $t \geqslant 0$) and $M_0 \in L^1$, then $M$ is a supermartingale.
+    
+    \item If $\sup_{t \geqslant 0} |M_t | \in L^1$, then $M$ is a uniformly
+    integrable martingale.
+    
+    \item If $M \in \mathcal{M}^c_{\operatorname{loc}}$, then $\tilde{\tau}_n \coloneq
+    \tau_n \wedge n$, where $\tau_n \coloneq \inf \{t \geqslant 0 : |M_t - M_0
+    | \geqslant n\}$, is a localizing sequence for $M$.
+    
+    \item If $X_0$ is $\mathcal{F}_0$-measurable, then $\tilde{M}_t = M_t X_0$
+    satisfies $\tilde{M} \in \mathcal{M}^c_{\operatorname{loc}}$.
+    
+    \item If $M \in \mathcal{M}^c_{\operatorname{loc}}$ and $X_0$ is
+    $\mathcal{F}_0$-measurable, then $M - X_0 \in \mathcal{M}^c_{\operatorname{loc}}$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+  \label{lem:locmart not fv}Let $M \in \mathcal{A} \cap
+  \mathcal{M}^c_{\operatorname{loc}}$, then $\mathbb{P}$-almost surely $M_t = 0$ for
+  all $t \geqslant 0$ (which we write compactly as $\mathbb{P}$-a.s. $M \equiv 0$).
+\end{lemma}
+
+\begin{proposition}
+  \label{prop:qvlocMG}Let $M \in \mathcal{M}^c_{\mathrm{loc}}$. Then there
+  exists an increasing process $\langle M \rangle \in \mathcal{A}^+$ with
+  $\langle M \rangle_0 = 0$, unique up to indistinguishability, such that
+  \begin{equation}
+    M^2 - M^2_0 - \langle M \rangle \in \mathcal{M}^c_{\mathrm{loc}}
+    \label{eq:qvlocMG}
+  \end{equation}
+  which we call the {\emph{quadratic variation}} of $M$. Moreover for any
+  sequence of deterministic locally finite partitions $\pi^m = \{ t^m_k \}_{k
+  \in \mathbb{N}}$ of $\mathbb{R}_+$ with infinitesimal mesh, it holds that
+  \begin{equation}
+    \sum_{k = 0}^{\infty} \left(M_{t^m_k \wedge t, t^m_{k + 1} \wedge t} \right)^2
+    \rightarrow \langle M \rangle_t \qquad \text{in ucp} . \label{eq:qvlocMG2}
+  \end{equation}
+\end{proposition}
+
+\begin{proposition}
+  \label{prop:qcv.local.mart}Let $M, N \in \mathcal{M}_{\operatorname{loc}}^c$.
+  \begin{enumerate}
+    \item $\langle M, N \rangle$ is the unique (up to indistinguishability)
+    process in $\mathcal{A}$ such that $MN - M_0 N_0 - \langle M, N \rangle$
+    is a local martingale.
+    
+    \item The map $(M, N) \mapsto \langle M, N \rangle$ is bilinear and
+    symmetric.
+    
+    \item For any sequence of deterministic locally finite partitions $\pi^m =
+    \{ t^m_k \}_{k \in \mathbb{N}}$ of $\mathbb{R}_+$ with infinitesimal mesh,
+    $\sum_{k = 0}^{\infty} (M_{t^m_k \wedge t, t^m_{k + 1} \wedge t})
+    (N_{t^m_k \wedge t, t^m_{k + 1} \wedge t}) \rightarrow \langle M, N
+    \rangle_t$ in ucp.
+    
+    \item If $\tau$ is a stopping time, we have $\langle M, N \rangle^{\tau} =
+    \langle M^{\tau}, N^{\tau} \rangle = \langle M^{\tau}, N \rangle$.
+    
+    \item $\langle M, N \rangle = \langle M - M_0, N - N_0 \rangle$.
+  \end{enumerate}
+\end{proposition}
+\end{roundbox}
+
+\begin{unlabeledbox}
+\begin{lemma}[Kunita-Watanabe inequality, first version]
+  \label{lem:kunita-wanatabe.v1}Let $M, N \in \mathcal{M}_{\operatorname{loc}}^c$.
+  Then $\mathbb{P}$-almost surely
+  \[ | \langle M, N \rangle_{s, t} | \leqslant V (\langle M, N \rangle)_{s, t}
+     \leqslant \langle M \rangle_{s, t}^{1 / 2} \langle N \rangle_{s, t}^{1 /
+     2}  \quad \forall \, s \leqslant t < \infty . \]
+  Similarly, $\mathbb{P}$-a.s.
+  \[ \limsup_{t \rightarrow \infty} | \langle M, N \rangle_t | \leqslant V
+     (\langle M, N \rangle)_{\infty} \leqslant \langle M \rangle_{\infty}^{1 /
+     2} \langle N \rangle_{\infty}^{1 / 2} \]
+  where the second and third terms are always defined by monotonicity
+  (possibly as $+ \infty$). 
+\end{lemma}
+
+\begin{definition}[Lenglart's domination relation]
+  \label{defn:lenglart.domination}Let $(X_t)_{t \geqslant 0}$, $(G_t)_{t
+  \geqslant 0}$ be progressive, non-negative processes. We say that $X$ is
+  {\emph{dominated}} by $G$ if
+  \begin{equation}
+    \vspace{-0.5em}
+    \mathbb{E} [X_{\tau}] \leqslant \mathbb{E} [G_{\tau}] \quad \text{ for all
+    bounded stopping times } \tau \label{eq:lenglart.domination}
+    \vspace{-0.5em}
+  \end{equation}
+  with the convention that $+ \infty \leqslant + \infty$.
+\end{definition}
+
+\begin{lemma}[Lenglart's inequalities]
+  \label{lem:lenglart.ineq}Let $X$ be a non-negative, continuous adapted
+  process, and let $G$ be a non-negative, increasing, continuous adapted
+  process; assume that $X$ is dominated by $G$, in the sense of
+  Definition~\ref{defn:lenglart.domination}. Then:
+  \begin{enumerate}
+    \item For any $a, b > 0$, it holds
+    \begin{equation}
+      \mathbb{P} \left(\sup_{t \geqslant 0} X_t \geqslant a \right) \leqslant \frac{1}{a}
+      \mathbb{E} \left[\sup_{t \geqslant 0} G_t \wedge b \right] +
+      \mathbb{P} \left(\sup_{t \geqslant 0} G_t > b \right) . \label{eq:lenglart.ineq1}
+    \end{equation}
+    \item For any $\theta \in (0, 1)$, it holds
+    \vspace{-0.5em}
+    \begin{equation}
+      \mathbb{E} \left[(X^{*}_{\infty})^{\theta} \right] \leqslant \frac{\theta^{-
+      \theta}}{1 - \theta} \mathbb{E} \left[G_{\infty}^{\theta} \right] .
+      \label{eq:lenglart.ineq2}
+    \vspace{-0.5em}
+    \end{equation}
+  \end{enumerate}
+\end{lemma}
+
+\begin{remark}
+  Often inequality~\eqref{eq:lenglart.ineq1} is stated in its weaker but more
+  practical version
+    \vspace{-0.5em}
+  \begin{equation}
+    \mathbb{P} \left(\sup_{t \geqslant 0} X_t \geqslant a \right) \leqslant
+    \frac{b}{a} +\mathbb{P} \left(\sup_{t \geqslant 0} G_t > b \right) . \label{eq:lenglart.ineq1bis}
+    \vspace{-0.5em}
+  \end{equation}
+\end{remark}
+
+\begin{theorem}[Burkholder--Davis--Gundy inequality (BDG)]
+  \label{thm:BDG}
+  
+  For any $p \in (0, \infty)$, there exist universal constants $c_p, C_p > 0$
+  such that for any $M \in \mathcal{M}^c_{\operatorname{loc}}$ with $M_0 = 0$, setting
+  $M^{*}_t = \sup_{s \leqslant t}  | M_s |$, it holds
+  \begin{equation}
+    c_p \mathbb{E} \left[\langle M \rangle_{\infty}^{p / 2} \right] \leqslant
+    \mathbb{E} \left[(M^{*}_{\infty})^p \right] \leqslant
+    C_p \mathbb{E} \left[ \langle M \rangle_{\infty}^{p / 2} \right] \label{eq:BDG}
+  \end{equation}
+  with the convention that $+ \infty \leqslant + \infty$.
+\end{theorem}
+\end{unlabeledbox}
+
+\begin{unlabeledbox}
+\begin{corollary}[Local BDG inequality]
+  \label{cor:localBDG}For any $p \in (0, \infty)$ there exist universal
+  constants $c_p, C_p > 0$ such that for any $M \in
+  \mathcal{M}^c_{\operatorname{loc}}$ with $M_0 = 0$ and any stopping time $\tau$,
+  setting $M^{*}_t = \sup_{s \leqslant t}  | M_s |$, it holds
+  \vspace{-0.5em}
+  \[
+    c_p \mathbb{E} \left[\langle M \rangle_{\tau}^{p / 2} \right] \leqslant
+    \mathbb{E} \left[ (M^{*}_{\tau})^p \right] \leqslant
+    C_p \mathbb{E} \left[ \langle M \rangle_{\tau}^{p / 2} \right]
+  \vspace{-0.5em}
+  \]
+  with the convention that $+ \infty \leqslant + \infty$.
+\end{corollary}
+
+\begin{corollary}
+  \label{cor:lp-martingale}Let $M \in \mathcal{M}_{\operatorname{loc}}^c$ with $M_0 =
+  0$ and let $p \in (1, \infty)$.
+  \begin{enumerate}[parsep=0.25em]
+    \item The following are equivalent:
+    \begin{enumerate}
+      \item $M \in \mathcal{H}^{p, c}$;
+      
+      \item $\mathbb{E} \left[ \langle M \rangle_{\infty}^{p / 2} \right] < \infty$;
+      
+      \item $\mathbb{E} \left[ \sup_{t \geqslant 0}  | M_t |^p \right] < \infty$.
+    \end{enumerate}
+    If additionally $p \geqslant 2$, then under either of the above
+    conditions, $M^2 - \langle M \rangle$ is a uniformly integrable martingale
+    and in particular $\mathbb{E} [M_{\infty}^2] =\mathbb{E} [\langle M
+    \rangle_{\infty}]$.
+    
+    \item The following are equivalent:
+    \begin{enumerate}[parsep=0.25em]
+      \item $M$ is a $p$-integrable martingale;
+      
+      \item $\mathbb{E} \left[ \langle M \rangle_t^{p / 2} \right] < \infty$ for all $t
+      \geqslant 0$;
+      
+      \item $\mathbb{E} \left[ \sup_{s \in [0, t]}  | M_s |^p \right] < \infty$ for all $t
+      \geqslant 0$.
+    \end{enumerate}
+    If additionally $p \geqslant 2$, then under either of the above
+    conditions, $M^2 - \langle M \rangle$ is a martingale and in particular
+    $\mathbb{E} [M_t^2] =\mathbb{E} [\langle M \rangle_t]$ for all $t
+    \geqslant 0$.
+  \end{enumerate}
+\end{corollary}
+
+\begin{corollary}
+  \label{cor:ucp.criterion.locmart}Let $\{ M^n \}_n$, $M \in
+  \mathcal{M}^c_{\operatorname{loc}}$ with $M^n_0 = M_0$ for all $n$. Then $\langle
+  M^n - M \rangle \rightarrow 0$ in ucp if and only if $M^n \rightarrow M$ in
+  ucp.
+\end{corollary}
+\end{unlabeledbox}
+
+\begin{roundbox}{Continuous Semimartingales}
+\begin{definition}
+  An adapted process $X = (X_t)_{t \ge 0}$ is a {\emph{continuous
+  semimartingale}} if it has a decomposition
+  \vspace{-0.5em}
+  \begin{equation}
+    \label{eq:semimgdec} X = X_0 + M + A
+  \vspace{-0.5em}
+  \end{equation}
+  into a continuous local martingale $M \in \mathcal{M}_{\operatorname{loc}}^c$ and a
+  continuous process $A \in \mathcal{A}$ of finite variation, both with $M_0 =
+  A_0 = 0$.
+\end{definition}
+
+\begin{lemma}
+  \label{lem:decomposition.semimartingale}The decomposition
+  (\ref{eq:semimgdec}) of a continuous semimartingale $X$ into $M$ and $A$ is
+  unique (up to indistinguishability).
+\end{lemma}
+\end{roundbox}
+
+
+\begin{roundbox}{Continuous Semimartingales}
+\begin{definition}
+  If $X = X_0 + M + A$ and $Y = Y_0 + N + B$ are continuous semimartingales,
+  we define the quadratic covariation of $X$ and $Y$ as $\langle X, Y \rangle
+  \coloneq \langle M, N \rangle$. In particular, the quadratic variation of $X$
+  is $\langle X \rangle \coloneq \langle M \rangle$.
+\end{definition}
+
+\begin{lemma}
+  \label{lem:qvlocSMG}For any continuous semimartingales $X$, $Y$ and any
+  sequence of deterministic locally finite partitions $\pi^m = \{ t^m_k \}_{k
+  \in \mathbb{N}}$ of $\mathbb{R}_+$ with infinitesimal mesh, it holds that
+  \begin{equation}
+    \sum_{k = 0}^{\infty} X_{t^m_k \wedge t, t^m_{k + 1} \wedge t} Y_{t^m_k
+    \wedge t, t^m_{k + 1} \wedge t} \rightarrow \langle X, Y \rangle_t \qquad
+    \text{in ucp} . \label{eq:qvlocSMG}
+  \end{equation}
+\end{lemma}
+\end{roundbox}
+
+
+\begin{roundbox}{Stochastic Integration - Simple Processes}
+\begin{definition}[Bounded elementary processes]
+  We denote by $b\mathcal{E}$ the set of {\emph{bounded elementary
+  processes}}, namely processes $H$ of the form
+  \begin{equation}
+    H_t (\omega) = \sum_{k = 0}^{n - 1} h_k (\omega) \1_{(t_k, t_{k +
+    1}]} (t) \label{eq:defn.elementary.process}
+  \end{equation}
+  for some given $n \in \mathbb{N}$, $0 \leqslant t_0 < t_1 < \ldots < t_n$,
+  and random variables $\{ h_k \}_{k = 0}^{n - 1}$ such that $h_k \in
+  L^{\infty} (\mathcal{F}_{t_k})$ for all $k \le n$.
+\end{definition}
+
+\begin{remark}
+  Note that $H$ is left-continuous and adapted, and therefore progressively
+  measurable. Moreover, it is easy to check that $b\mathcal{E}$ is a linear
+  vector space.
+\end{remark}
+
+\begin{proposition}[It{\^o} isometry for bounded elementary processes]
+  \label{prop:ito.isometry.elementary}Let $M \in \mathcal{M}^{2, c}$ and $H
+  \in b\mathcal{E}$; we define the {\emph{stochastic integral}} of $H$ with
+  respect to $M$ as the process
+  \[ \int_0^t H_s \mathrm{d} M_s \coloneq \sum_{k = 0}^{n - 1} h_k M_{t_k \wedge t,
+     t_{k + 1} \wedge t} \qquad \forall \, t \geqslant 0.
+     \label{eq:defn.stoch.integral.elementary} \]
+  The process $\int_0^{\cdot} H_s \mathrm{d} M_s \in \mathcal{H}^{2, c}$ and has
+  quadratic variation given by
+  \begin{equation}
+    \left\langle \int_0^{\cdot} H_s \mathrm{d} M_s \right\rangle_t = \sum_{k =
+    0}^{n - 1} h_k^2 \, \langle M \rangle_{t_k \wedge t, t_{k + 1} \wedge t} =
+    \int_0^t H_s^2 \mathrm{d} \langle M \rangle_s .
+    \label{eq:ito.isometry.quadratic.elementary}
+  \end{equation}
+  In particular, we have the {\emph{It\^{o} isometry}}
+  \begin{equation}
+    \left\| \int_0^{\cdot} H_s \mathrm{d} M_s \right\|_{\mathcal{H}^{2, c}}^2
+    =\mathbb{E} \left[ \int_0^{\infty} H_s^2 \mathrm{d} \langle M \rangle_s
+    \right] =\mathbb{E} \left[ \sum_{k = 0}^{n - 1} h_k^2 \, \langle M
+    \rangle_{t_k, t_{k + 1}} \right] . \label{eq:ito.isometry.elementary}
+  \end{equation}
+\end{proposition}
+\end{roundbox}
+
+\begin{unlabeledbox}
+\begin{remark}
+  \label{rem:stoch.int.elementary.basic}Note that the definition of
+  $\int_0^{\cdot} H_s \mathrm{d} M_s$
+  in~\eqref{eq:defn.stoch.integral.elementary} does not depend on the specific
+  choice of the representation~\eqref{eq:defn.elementary.process} (namely if
+  we change the choice of $\{ t_k \}_{k = 0}^n$ by further refining the
+  partition, we get the same
+  process~\eqref{eq:defn.stoch.integral.elementary}). Moreover, it is easy to
+  check that the stochastic integral is {\emph{linear in $H$}}, in the sense
+  that (as stochastic processes)
+  \[ \int_0^{\cdot} (\lambda H_s + K_s) \mathrm{d} M_s = \lambda \int_0^{\cdot}
+     H_s \mathrm{d} M_s + \int_0^{\cdot} K_s \mathrm{d} M_s \]
+  for all $\lambda \in \mathbb{R}$ and $H$, $K \in b \mathcal{E}$.
+\end{remark}
+\end{unlabeledbox}
+
+\begin{roundbox}{Stochastic Integration - Brownian Motion}
+\begin{definition}
+  Let $\overline{\Omega} \coloneq \Omega \times \mathbb{R}_+$ and set
+  \[ \mathbb{P}_B (\mathrm{d} \omega, \mathrm{d} t) \coloneq \mathrm{d} t \otimes
+     \mathbb{P} (\mathrm{d} \omega), \qquad L^2 (B) \coloneq L^2
+     (\overline{\Omega}, \operatorname{Prog}, \mathbb{P}_B) ; \]
+  namely, defining $\|H\|_{L^2 (B)}^2 \coloneq \mathbb{E} \left[
+  \int_0^{\infty} H^2_t \mathrm{d} t \right] $,
+  {
+  \small
+  \[
+     L^2 (B) = \left\{ H : \Omega \times \mathbb{R}_+ \rightarrow \mathbb{R}
+     \left| H \text{ is progressive, } \|H\|_{L^2 (B)}^2 < \infty \right. \right\} .
+  \]
+  }
+\end{definition}
+
+\begin{lemma}
+  \label{lem:bE-dense}The space $b\mathcal{E}$ is dense in $L^2 (B)$.
+\end{lemma}
+
+\begin{theorem}[It{\^o} integral and It\^{o} isometry w.r.t. Brownian motion]
+  \label{thm:ito-Bm}Let $H \in L^2 (B)$. Then there exists a unique (up to
+  indistinguishability) element of $\mathcal{H}^{2, c}$, which we denote by
+  $\left( \int_0^t H_s \mathrm{d} B_s \right)_{t \geqslant 0}$, such that for any
+  sequence $(H^{(n)})_n \subset b\mathcal{E}$ with $H^{(n)} \rightarrow H$ in
+  $L^2 (B)$ we have
+  \[ \lim_{n \rightarrow \infty} \mathbb{E} \left[ \sup_{t \geqslant 0} \left|
+     \int_0^t H_s \mathrm{d} B_s - \int_0^t H_s^{(n)} \mathrm{d} B_s \right|^2 \right]
+     = 0. \]
+  We call $\int_0^{\cdot} H_s \mathrm{d} B_s$ the {\emph{It{\^o} integral}}, or
+  the {\emph{stochastic integral}}, of $H$ w.r.t. $B$. Moreover, the map $L^2
+  (B) \ni H \mapsto \int_0^{\cdot} H_s \mathrm{d} B_s \in \mathcal{H}^{2, c}$ is
+  a linear isometry, namely {\emph{It{\^o}'s isometry}} holds:
+  \begin{equation}
+    \mathbb{E} \left[ \left( \int_0^{\infty} H_s \, \mathrm{d} B_s \right)^2
+    \right] =\mathbb{E} \left[ \int_0^{\infty} H_s^2 \, \mathrm{d} s \right] .
+    \label{eq:ito.isometry.Bm}
+  \end{equation}
+  Moreover the quadratic variation of $\int_0^{\cdot} H_s \mathrm{d} B_s$ is
+  given by
+  \begin{equation}
+    \left\langle \int_0^{\cdot} H_s \mathrm{d} B_s \right\rangle_t = \int_0^t
+    H_s^2 \mathrm{d} s \qquad \forall \, t \in [0, \infty] .
+    \label{eq:ito.isometry.quadratic.Bm}
+  \end{equation}
+\end{theorem}
+\end{roundbox}
+
+\begin{roundbox}{Stochastic Integration - $M \in \mathcal{H}^{2, c}$}
+\begin{remark}
+  As before, we identify processes $H, \tilde{H}$ as the same element in $L^2
+  (M)$ if $\| H - \tilde{H} \|_{L^2 (M)} = 0$. This condition is now slightly
+  more subtle than in the Brownian case: if ${u \mapsto \langle M \rangle_u} $
+  is constant on some interval $[s, t]$, then $H$ can take any value therein
+  and yet it will be identified with $0$ on $[s, t]$. In the extreme case
+  where $M$ is constant and $\langle M \rangle \equiv 0$, any process will be
+  identified with $0$. The point is exactly that we only care about the result
+  stochastic integral $\int_0^{\cdot} H_s \mathrm{d} M_s$, and if $M$ is constant
+  then formally ``$\mathrm{d} M \equiv 0$''. 
+\end{remark}
+
+\begin{theorem}[It{\^o} integral for $M \in \mathcal{H}^{2, c}$]
+  \label{thm:ito-H2}For $M \in \mathcal{H}^{2, c}$, there is a unique linear
+  isometry
+  \[ L^2 (M) \ni H \mapsto \int_0^{\cdot} H_s \mathrm{d} M_s \in \mathcal{H}^{2,
+     c} \]
+  which is an extension of $I_M$. We call $\int_0^{\cdot} H_s \mathrm{d} M_s$
+  the {\emph{stochastic integral}} or {\emph{It{\^o} integral}} of $H$ with
+  respect to $M$.
+  
+  In other words, for any $H \in L^2 (M)$, there exists a sequence $(H^n)
+  \subset b\mathcal{E}$ such that $H^n \to H$ in $L^2 (M)$, and for any
+  approximating sequence $H^n \to H$ in $L^2 (M)$, we have $\int_0^{\cdot}
+  H^n_s \mathrm{d} M_s \to \int_0^{\cdot} H_s \mathrm{d} M_s$ in $\mathcal{H}^{2,
+  c}$.
+  
+  The quadratic variation of $\int_0^{\cdot} H_s \mathrm{d} M_s$ is given by
+  \begin{equation}
+    \left\langle \int_0^{\cdot} H_s \mathrm{d} M_s \right\rangle_t = \int_0^t
+    H_s^2 \mathrm{d} \langle M \rangle_s \quad \forall \, t \in [0, + \infty]
+    \label{eq:ito.isometry.quadratic.H2}
+  \end{equation}
+  and we have the {\emph{It\^{o} isometry}}
+  \begin{equation}
+    \mathbb{E} \left[ \left( \int_0^{\tau} H_s \mathrm{d} M_s \right)^2 \right]
+    =\mathbb{E} \left[ \int_0^{\tau} H_s^2 \mathrm{d} \langle M \rangle_s \right] 
+    \label{eq:ito.isometry.H2}
+  \end{equation}
+  for all stopping times $\tau$ (including e.g. $\tau \equiv + \infty$).
+\end{theorem}
+
+\begin{lemma}[Kunita--Watanabe inequality, v2]
+  Let $M, N \in \mathcal{M}_{\operatorname{loc}}^c$ and let $H, K$ be measurable
+  processes such that almost surely $\int_0^{\infty} |H_t K_t | \mathrm{d} V
+  (\langle M, N \rangle)_t < \infty$. Then almost surely
+  
+  {
+    \footnotesize
+  \begin{align*}
+    \left| \int_0^{\infty} H_t K_t \mathrm{d} \langle M, N \rangle_t \right| &
+    \leqslant \int_0^{\infty} |H_t K_t | \mathrm{d} V (\langle M, N \rangle)_t\\
+    & \leqslant \left( \int_0^{\infty} |H_t |^2 \mathrm{d} \langle M \rangle_t
+    \right)^{1 / 2} \left( \int_0^{\infty} |K_t |^2 \mathrm{d} \langle N \rangle_t
+    \right)^{1 / 2} .
+  \end{align*}
+  }
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Stochastic Integration - $M \in \mathcal{H}^{2, c}$}
+\begin{theorem}[Characterization of the stochastic integral]
+  \label{thm:ito-H2-char}Let $M \in \mathcal{H}^{2, c}$ and $H \in L^2 (M)$.
+  The stochastic integral $\int_0^{\cdot} H_s \mathrm{d} M_s$ is the unique
+  element in $\mathcal{H}^{2, c}$ starting at~0 such that
+  {
+  \small
+  \begin{equation}
+    \left\langle \int_0^{\cdot} H_s \mathrm{d} M_s, N \right\rangle =
+    \int_0^{\cdot} H_s \mathrm{d} \langle M, N \rangle_s \quad \forall N
+    \in \mathcal{H}^{2, c} . \label{eq:SIchar}
+  \end{equation}
+  }
+\end{theorem}
+
+\begin{corollary}
+  \label{cor:ito-properties-H2}Let $M \in \mathcal{H}^{2, c}$ and $H \in L^2
+  (M)$.
+  \begin{enumerate}
+    \item For any stopping time $\tau$, it holds that
+    \vspace{-0.5em}
+    \[ 
+      \left( \int_0^{\cdot} H_s \mathrm{d} M_s \right)^{\tau} =
+       \int_0^{\cdot} \1_{[0, \tau]} (s) H_s \mathrm{d} M_s =
+       \int_0^{\cdot} H_s \mathrm{d} M_s^{\tau} .
+    \vspace{-0.5em}
+    \]
+    \item For any other $N \in \mathcal{H}^{2, c}$ and $K \in L^2 (N)$, we
+    have
+    {
+      \small
+    \begin{equation}
+      \left\langle \int_0^{\cdot} H_s \mathrm{d} M_s, \int_0^{\cdot} K_s
+      \mathrm{d} N_s \right\rangle = \int_0^{\cdot} H_s K_s \mathrm{d} \langle M, N
+      \rangle_s . \label{eq:cor.ito.properties.ii}
+    \end{equation}
+    }
+    Notice that, for $M = N$, $H = K$ we recover
+    formula~\eqref{eq:ito.isometry.quadratic.H2}.
+    
+    \item {\emph{Associativity of the stochastic integral}}: Let $K$ be
+    progressively measurable. Then $K H \in L^2 (M)$ if and only if $K \in L^2
+    \left( \int_0^{\cdot} H_s \mathrm{d} M_s \right)$; in that case, we have
+    \vspace{-0.5em}
+    \[
+      \int_0^{\cdot} K_s H_s \mathrm{d} M_s = \int_0^{\cdot} K_s \mathrm{d}
+       \left( \int_0^{\cdot} H_r \mathrm{d} M_r \right)_s .
+    \]
+  \end{enumerate}
+\end{corollary}
+\end{roundbox}
+
+\begin{roundbox}{Stochastic Integration - $M \in \mathcal{M}^c_{\operatorname{loc}}$}
+\begin{definition}[$L^2_{\operatorname{loc}} (M)$]
+  For $M \in \mathcal{M}^c_{\operatorname{loc}}$, we denote by $L^2_{\operatorname{loc}} (M)$
+  the space of progressively measurable processes $H$ which satisfy
+  \[ \mathbb{P} \left( \int_0^T H_s^2 \mathrm{d} \langle M \rangle_s < \infty
+     \right) = 1, \qquad \text{for all } T \geqslant 0. \]
+\end{definition}
+
+\begin{theorem}[Localization of the stochastic integral]
+  \label{th:stochintMloc}Let $M \in \mathcal{M}^c_{\operatorname{loc}}$ and let $H \in
+  L^2_{\operatorname{loc}} (M)$. Then:
+  \begin{enumerate}
+    \item There exists a unique process $X \in \mathcal{M}^c_{\operatorname{loc}}$
+    such that $X_0 = 0$ and
+    \[ \langle X, N \rangle = \int_0^{\cdot} H_s \mathrm{d} \langle M, N
+       \rangle_s \quad \forall \, N \in \mathcal{M}^c_{\operatorname{loc}} . \]
+    We write $\int_0^{\cdot} H_s \mathrm{d} M_s \coloneq X$ and call this process
+    the {\emph{It{\^o} integral}} or {\emph{stochastic integral}} of $H$
+    against $M$.
+
+  \end{enumerate}
+\end{theorem}
+\end{roundbox}
+    
+\begin{unlabeledbox}
+\begin{enumerate}[start = 2]
+    \item For any stopping time $\tau$, we have
+    \[ \int_0^{\cdot} H_s \1_{[0, \tau]} (s) \mathrm{d} M_s = \left(
+       \int_0^{\cdot} H_s \mathrm{d} M_s \right)^{\tau} = \int_0^{\cdot} H_s
+       \mathrm{d} M_s^{\tau} . \]
+    \item For any other $N \in \mathcal{M}^c_{\operatorname{loc}}$ and $K \in
+    L^2_{\operatorname{loc}} (N)$, we have
+    {
+    \small
+    \begin{equation}
+      \left\langle \int_0^{\cdot} H_s \mathrm{d} M_s, \int_0^{\cdot} K_s
+      \mathrm{d} N_s \right\rangle = \int_0^{\cdot} H_s K_s \mathrm{d} \langle M, N
+      \rangle_s . \label{eq:qcv.stochint.Mloc}
+    \end{equation}
+    }
+    \item For progressive $K$, we have $K \in L^2_{\operatorname{loc}} 
+    (\int_0^{\cdot} H_s \mathrm{d} M_s)$ if and only $K H \in L^2_{\operatorname{loc}}
+    (M)$; in that case
+    \[ \int_0^{\cdot} K_s H_s \mathrm{d} M_s = \int_0^{\cdot} K_s \mathrm{d}
+       \left( \int_0^{\cdot} H_r \mathrm{d} M_r \right)_s . \]
+    \item If $M \in \mathcal{H}^{2, c}$ and $H \in L^2 (M)$, then
+    $\int_0^{\cdot} H_s \mathrm{d} M_s$ is the same process that we constructed
+    in Theorem~\ref{thm:ito-H2}; in other words, this notion of stochastic
+    integral is a consistent extension of the previous one.
+\end{enumerate}
+
+\begin{remark}
+  Let $M \in \mathcal{M}^c_{\operatorname{loc}}$ and $H \in L^2_{\operatorname{loc}} (M)$.
+  Then $\int_0^{\cdot} H_s \mathrm{d} M_s \in \mathcal{M}^c_{\operatorname{loc}}$ is a
+  continuous local martingale starting from $0$ and
+  by~\eqref{eq:qcv.stochint.Mloc} (with $M = N$, $H = K$), its quadratic
+  variation is given by
+  \begin{equation}
+    \left\langle \int_0^{\cdot} H_s \mathrm{d} M_s \right\rangle_t = \int_0^t
+    H_s^2 \mathrm{d} \langle M \rangle_s . \label{eq:qv.stochint.Mloc}
+  \end{equation}
+  By Corollary~\ref{cor:lp-martingale}, we deduce the following: if
+  \[ \mathbb{E} \left[ \int_0^t H_s^2 \mathrm{d} \langle M \rangle_s \right] <
+     \infty \quad \forall \, t \geqslant 0, \]
+  then $\int_0^{\cdot} H_s \mathrm{d} M_s \in \mathcal{M}^{2, c}$ (and not just
+  $\mathcal{M}^c_{\operatorname{loc}}$); being a genuine martingale, it satisfies
+  \begin{align*}
+    & \mathbb{E} \left[ \int_0^t H_s \mathrm{d} M_s \right] = 0, \\
+    & \mathbb{E} \left[ \left( \int_0^t H_s \mathrm{d} M_s \right)^2 \right] =\mathbb{E}
+     \left[ \int_0^t H_s^2 \mathrm{d} \langle M \rangle_s \right] \qquad \forall
+     \, t \geqslant 0.
+  \end{align*}
+  If additionally
+  $\mathbb{E} \left[ \int_0^{\infty} H_s^2 \mathrm{d} \langle M \rangle_s
+     \right] < \infty,$
+  then $\int_0^{\cdot} H_s \mathrm{d} M_s \in \mathcal{H}^{2, c}$. In that case,
+  we may write $H \in L^2 (M)$, even though $M \notin \mathcal{H}^{2, c}$.
+\end{remark}
+\end{unlabeledbox}
+
+\begin{roundbox}{Stochastic Integration - Cts. Semimartingales}
+\begin{definition}
+  Let $X = X_0 + M + A$ be a continuous semimartingale. We define
+  {
+  \small
+  \[ \mathbb{L} (X) \coloneq \left\{ H \in L^2_{\operatorname{loc}} (M) : \int_0^t |
+     H_s | \mathrm{d} V (A)_s < \infty \text{ a.s. } \forall t \geqslant
+     0 \right\}, \]
+   }
+  or equivalently
+  {
+  \footnotesize
+  \[ \mathbb{L} (X) \coloneq \left\{ H \operatorname{prog.} : \int_0^t | H_s |
+     \mathrm{d} V (A)_s + \int_0^t H_s^2 \mathrm{d} \langle M \rangle < \infty \text{
+     a.s. } \forall t \geqslant 0 \right\} . \]
+   }
+  For $H \in \mathbb{L} (X)$, we define
+  \[ \int_0^{\cdot} H_s \mathrm{d} X_s \coloneq \int_0^{\cdot} H_s \mathrm{d} M_s +
+     \int_0^{\cdot} H_s \mathrm{d} A_s \]
+  where the first term is interpreted as in the stochastic sense coming from
+  Theorem~\ref{th:stochintMloc}, while the second term is interpreted in the
+  Lebesgue-Stjeltes sense.
+\end{definition}
+
+\begin{remark}
+  Let $H$ be progressively measurable and {\emph{locally bounded}}, in the
+  sense that
+  \[ \sup_{t \in [0, T]} | H_t (\omega) | < + \infty \quad \forall \, T \in
+     (0, + \infty) \]
+  for $\mathbb{P}$-a.e. $\omega$. Then $H \in \mathbb{L} (X)$ for every
+  continuous semimartingale $X$.
+\end{remark}
+
+\begin{lemma}
+  The following hold:
+  \begin{enumerate}
+    \item Let $H_s (\omega) = \sum_{k = 0}^{n - 1} h_k (\omega)
+    \1_{(t_k, t_{k + 1}]} (s)$, for some real-valued
+    $\mathcal{F}_{t_k}$--measurable random variables $h_k$. Then $H \in
+    \mathbb{L} (X)$ for any continuous semimartingale $X$ and
+    \begin{equation}
+      \int_0^t H_s \mathrm{d} X_s = \sum_{k = 0}^{n - 1} h_k (X_{t_{k + 1} \wedge
+      t} - X_{t_k \wedge t}) . \label{eq:identity.stochint.elementary}
+    \end{equation}
+    \item Let $\tau$ be a stopping time and let $h$ a real-valued,
+    $\mathcal{F}_{\tau}$-measurable random variable; let $H \coloneq h
+    \1_{[\tau, \infty)}$ (with the convention that $\1_{[\tau, \infty)} \equiv
+    0$ when $\tau = + \infty$). Then $H \in \mathbb{L} (X)$ for any continuous
+    semimartingale $X$ and
+    \[ \int_0^t H_s \mathrm{d} X_s = h (X_t - X_{\tau \wedge t}) . \]
+  \end{enumerate}
+\end{lemma}
+\end{roundbox}
+
+\begin{roundbox}{Approximating Stochastic Integrals}
+\begin{proposition}[``Dominated convergence'' for stochastic integrals]
+  \label{prop:ito-domconv}Let $X$ be a continuous semimartingale; let $\{
+  H^{(n)} \}_n, H$ be progressively measurable and such that
+  $\mathbb{P}$\mbox{-}almost surely
+  \vspace{-0.5em}
+  \[
+    H_t^{(n)} \to H_t \qquad \forall \, t \geqslant 0.
+  \vspace{-0.5em}
+  \]
+  Further assume that there exists $K \in \mathbb{L} (X)$ with $K \geqslant
+  0$, such that $\mathbb{P}$-almost surely
+  \vspace{-0.5em}
+  \begin{equation}
+    | H^{(n)}_t | \leqslant K_t \qquad \forall \, t \geqslant 0.
+    \label{eq:ito.domconv.assumption}
+  \vspace{-0.5em}
+  \end{equation}
+  Then $(H^{(n)}), H \subset \mathbb{L} (X)$ and $\int_0^{\cdot} H^{(n)}_s
+  \mathrm{d} X_s \rightarrow \int_0^{\cdot} H_s \mathrm{d} X_s$ in ucp.
+\end{proposition}
+
+\begin{remark}
+  \label{rem:ito.comconv}Assumption~\eqref{eq:ito.domconv.assumption} holds in
+  particular if for almost all $\omega$ and all $T \geqslant 0$ there exists
+  $C_T (\omega)$ with $| K_t (\omega) | \leqslant C_T (\omega)$ for all $t \in
+  [0, T]$. Indeed in this case one may take
+  \vspace{-0.5em}
+  \[
+    K_t (\omega) \coloneq \sum_{n = 1}^{\infty} C_n (\omega)  \1_{[0, n]} (t) .
+  \vspace{-0.5em}
+  \]
+\end{remark}
+
+\begin{corollary}[``Stochastic integrals respect ucp convergence'']
+  \label{cor:stoch.integr.respects.ucp}Let $X$ be a continuous semimartingale;
+  let $\{ H^{(n)} \}_n, H$ be continuous, adapted processes such that
+  \vspace{-0.5em}
+  \[
+    H^{(n)} \to H \quad \operatorname{in} \operatorname{ucp} .
+  \vspace{-0.5em}
+  \]
+  Then $\int_0^{\cdot} H^{(n)}_s \mathrm{d} X_s \rightarrow \int_0^{\cdot} H_s
+  \mathrm{d} X_s$ in ucp.
+\end{corollary}
+
+\begin{corollary}
+  \label{cor:ito-domconv}Let $X$ be a continuous semimartingale and let $H$ be
+  a continuous, adapted process. Let $\pi^n = \{ t^n_k \}_{k \geqslant 0}$ be
+  a sequence of deterministic, locally finite partitions with infinitesimal
+  mesh. Then
+  \[
+    \left( \sum_{k = 0}^{\infty} H_{t_k^n} \left(X_{t^n_{k + 1} \wedge t} -
+     X_{t^n_k \wedge t} \right) \right)_{t \ge 0} \longrightarrow \int_0^{\cdot}
+     H_s \mathrm{d} X_s \quad \text{in ucp} .
+  \]
+\end{corollary}
+
+\begin{theorem}[Integration by parts formula for stochastic integrals]
+  \label{thm:IBP.stochint}Let $X, Y$ be continuous semimartingales. Then, up
+  to indistinguishability, the following {\emph{integration by parts}} formula
+  holds:
+  \begin{equation}
+    X_t Y_t = X_0 Y_0 + \int_0^t X_s \mathrm{d} Y_s + \int_0^t Y_s \mathrm{d} X_s +
+    \langle X, Y \rangle_t \quad \forall \, t \geqslant 0.
+    \label{eq:IBP.formula.stochint}
+  \end{equation}
+  In particular, for $X = Y$ we find
+  \begin{equation}
+    X^2_t = X_0^2 + 2 \int_0^t X_s \mathrm{d} X_s + \langle X \rangle_t \qquad
+    \forall \, t \geqslant 0. \label{eq:Ito.formula.square}
+  \end{equation}
+\end{theorem}
+\end{roundbox}
+
+\begin{unlabeledbox}
+\begin{corollary}
+  \label{cor:polynomial.ito.formula}Let $X$ be a continuous semimartingale.
+  Then for any $n \in \mathbb{N}$, up to indistinguishability, it holds that
+  {
+  \small
+  \[
+    X^n_t = X^n_0 + \int_0^t n X^{n - 1}_s \mathrm{d} X_s + \frac{1}{2} \int_0^t
+     n (n - 1) X^{n - 2}_s \mathrm{d} \langle X \rangle_s \quad \forall \, t
+     \geqslant 0.
+   \]
+   }
+  With $f (x) = x^n$, we can also write the above formula as
+  \[ f (X_t) = f (X_0) + \int_0^t f' (X_s) \mathrm{d} X_s + \frac{1}{2} \int_0^t
+     f'' (X_s) \mathrm{d} \langle X \rangle_s . \]
+\end{corollary}
+
+\begin{definition}
+  Let $M \in \mathcal{M}^c_{\operatorname{loc}}$ and let $H^{(n)}, H \in
+  L^2_{\operatorname{loc}} (M)$. We say that $H^{(n)} \rightarrow H$ in
+  $L^2_{\operatorname{loc}} (M)$ if
+  \[ \lim_{n \rightarrow \infty} \, \mathbb{P} \left( \int_0^T | H^{(n)}_s -
+     H_s |^2 \mathrm{d} \langle M \rangle_s > \varepsilon \right) = 0 \]
+  for all $\varepsilon > 0, \, T \in (0, + \infty)$.
+\end{definition}
+
+\begin{lemma}
+  Let $M \in \mathcal{M}^c_{\operatorname{loc}}$. Then the following are equivalent:
+  \begin{enumerate}
+    \item $H^{(n)} \rightarrow H$ in $L^2_{\operatorname{loc}} (M)$;
+    
+    \item $\int_0^{\cdot} H^{(n)}_s \mathrm{d} M_s \rightarrow \int_0^{\cdot} H_s
+    \mathrm{d} M_s$ in ucp.
+  \end{enumerate}
+\end{lemma}
+
+\begin{definition}[Stratonovich integral]
+  If $X, Y$ are continuous semimartingales, then we define the
+  {\emph{Stratonovich integral}} of $Y$ w.r.t. $X$ as
+  \[ \int_0^{\cdot} Y_s \circ \mathrm{d} X_s \coloneq \int_0^{\cdot} Y_s \mathrm{d} X_s
+     + \frac{1}{2} \langle X, Y \rangle . \]
+\end{definition}
+
+\begin{proposition}
+  \label{prop:strat.integr.properties}Let $X, Y$ be continuous
+  semimartingales. Let $\pi^n = \{ t^n_k \}_{k \geqslant 0}$ be a sequence of
+  deterministic, locally finite partitions with infinitesimal mesh. Then
+  \[
+    \left( \sum_{k = 0}^{\infty} \frac{1}{2} \left(Y_{t^n_{k + 1} \wedge t} +
+     Y_{t_k^n \wedge t} \right) \left(X_{t^n_{k + 1} \wedge t} - X_{t^n_k \wedge t}\right)
+     \right)_{t \ge 0} \to \int_0^{\cdot} Y_s \circ \mathrm{d} X_s
+   \]
+  In ucp.
+
+  Moreover the following {\emph{integration by parts}} formula for
+  Stratonovich integrals holds:
+  \begin{equation}
+    X_t Y_t = X_0 Y_0 + \int_0^t X_s \circ \mathrm{d} Y_s + \int_0^t Y_s \circ
+    \mathrm{d} X_s . \label{eq:IBP.Stratonovich}
+  \end{equation}
+\end{proposition}
+\end{unlabeledbox}
+
+\end{multicols*}
+\end{document}

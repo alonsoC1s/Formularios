@@ -8,7 +8,7 @@
 % \usepackage{quattrocento}
 \usepackage[shortlabels]{enumitem}
 \usepackage{extarrows}
-\usepackage{dsfont} % Indicator 
+\usepackage{dsfont} % Indicator
 \usepackage{listings}
 \usepackage{mdframed}
 
@@ -29,7 +29,7 @@
 \newtheorem{corollary}{Corolario}[theorem]
 \newtheorem*{obs}{Obs}
 
-% Probando 
+% Probando
 
 \definecolor{bcGray}{rgb}{0.95,0.95,0.92}
 \newcounter{nalg}[section]
@@ -48,7 +48,7 @@
     \end{mdframed}
     \refstepcounter{nalg}
 }
-    
+
 
 \advance\topmargin-.8in
 \advance\textheight3in
@@ -76,6 +76,7 @@
 \begin{multicols*}{3}
 
 \begin{roundbox}{Eigenvalores y Eigenvectores}
+	Hola.
     \begin{theorem}
         Si $A$ es una matriz triangular en bloques, entonces $\spec(A) = \bigcup_{i=1}^{m} \spec(A_{ii})$
         \[
@@ -83,11 +84,11 @@
               A_{11} & \dots & \dots & a_{1n} \\
               0 & A_{22} & \ddots & \vdots \\
               0 & 0 & \dots & A_{nn}
-          \end{bmatrix}  
+          \end{bmatrix}
         \]
     \end{theorem}
 
-    \begin{definition}[Eigenpar dominante] 
+    \begin{definition}[Eigenpar dominante]
         Sea $A \in \C^{n\times n}$ con eigenvalores $\lambda_1,\dots , \lambda_n$.
         El eigenvalor dominante es el valor $\lambda_i$ que satisface $\abs{\lambda_i} \geq \abs{\lambda_j}, \, \forall j \neq i$.
         El eigenvector asociado a $\lambda_i$ junto con el eigenvalor dominante forman el eigenpar dominante $(\lambda_i, v_i)$.
@@ -101,40 +102,40 @@
     \begin{code}{Power iteration}
         \label{alg:power-iter}
         {\footnotesize 1} \, $x^0 = \frac{q^0}{\norm{q^0}}$ \\
-        {\footnotesize 2} \, \textbf{for} k = 1:max \\ 
+        {\footnotesize 2} \, \textbf{for} k = 1:max \\
         {\footnotesize 3} \qquad $v^k = A x^{k-1}$ \\
         {\footnotesize 4} \qquad $x^k = \frac{v^k}{\norm{v^k}}$ \\
-        {\footnotesize 5} \, end 
+        {\footnotesize 5} \, end
     \end{code}
 
-    \begin{definition}[Método de potencia inversa] 
+    \begin{definition}[Método de potencia inversa]
         Es una variante del método de potencia, y aproxima el eigenpar más chico de $A$.
         Se aplica el algoritmo \ref{alg:power-iter} a la matriz $A^{-1}$.
     \end{definition}
 
-    \begin{definition}[Método de potencia inversa con shift] 
+    \begin{definition}[Método de potencia inversa con shift]
         El método de potencia inversa con shift introduce un shift $s$ para que el método aproxime el eigenvalor más cercano a $s$.
         Es el el método de potencia (Alg. \ref{alg:power-iter}) aplicado a la matrix $(A- sI)^{-1}$.
     \end{definition}
 
-    \begin{definition}[Orden de convergencia] 
+    \begin{definition}[Orden de convergencia]
         Se dice que un método numérico converge con potencia $\alpha$ si
         \[
-            \lim_{i\to\infty} \frac{\norm{\text{\emph{error}}(i+1)}}{\norm{\text{\emph{error}}(i)}^{\alpha}} = c  
-        \] 
+            \lim_{i\to\infty} \frac{\norm{\text{\emph{error}}(i+1)}}{\norm{\text{\emph{error}}(i)}^{\alpha}} = c
+        \]
     \end{definition}
 \end{roundbox}
 
 \begin{roundbox}{Eigenvalores y Eigenvectores}
     Los métodos de potencia inversa y sus variantes convergen todos linealmente con tasa $\frac{|\lambda_1|}{|\lambda_2|}$ donde $|\lambda_1| > |\lambda_2| > \dots$.
-    Es decir, $\lambda_1$ es el eigenvalor más grande y $\lambda_2$ el segundo más grande. 
-    
+    Es decir, $\lambda_1$ es el eigenvalor más grande y $\lambda_2$ el segundo más grande.
+
     El shift óptimo para el método de potencia inversa con shift se calcula con el \emph{shift de Rayleigh}
 
-    \begin{definition}[Cociente de Rayleigh] 
-        Definimos el cociente de Rayleigh para $q^0$ como 
+    \begin{definition}[Cociente de Rayleigh]
+        Definimos el cociente de Rayleigh para $q^0$ como
         \[
-            \rho = \frac{\dotp{q^0, Aq^0}}{\norm{q_o}_{2}^{2}}    
+            \rho = \frac{\dotp{q^0, Aq^0}}{\norm{q_o}_{2}^{2}}
         \]
     \end{definition}
 

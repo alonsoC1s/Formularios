@@ -1,0 +1,47 @@
+\ProvidesPackage{styles}[09/05/2020 Paquete de prueba para implementar burbujas de formularios]
+
+\RequirePackage{xcolor}
+\RequirePackage{multicol}
+\RequirePackage{tikz}
+\RequirePackage{environ}
+
+% Colores principales
+\definecolor{mainClr}{RGB}{0, 46, 127}
+\definecolor{mainDarkClr}{RGB}{0, 46, 127}
+\definecolor{mainLightClr}{RGB}{0, 92, 255}
+
+% Definiendo estilos para caja
+\tikzstyle{mybox} = [draw=mainClr, fill=white, very thick, rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=mainClr, text=white, font=\bfseries]
+
+% Caja formulario
+\NewEnviron{roundbox}[1]{%
+  \begin{tikzpicture}
+    \node [mybox] (box){
+    \begin{minipage}{0.3\textwidth}
+        \BODY
+    \end{minipage}
+    };
+    \node[fancytitle, right=10pt] at (box.north west) {#1};
+   \end{tikzpicture}
+}
+
+\NewEnviron{unlabeledbox}{
+    \begin{tikzpicture}
+    \node [mybox] (box){
+    \begin{minipage}{0.3\textwidth}
+        \BODY
+    \end{minipage}
+    };
+    \node[] at (box.north west) {};
+    \end{tikzpicture}
+}
+
+\newcommand{\formTitle}[1]{
+  \begin{center}
+    {
+      \color{mainClr}
+      \huge{\textbf{#1}}
+    }
+  \end{center}
+}

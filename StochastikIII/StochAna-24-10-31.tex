@@ -1,0 +1,3330 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,graphicx,enumerate,bbm,hyperref,xcolor,latexsym,theorem,tabularx}
+
+%%%%%%%%%% Start TeXmacs macros
+%\catcode`\<=\active \def<{
+%\fontencoding{T1}\selectfont\symbol{60}\fontencoding{\encodingdefault}}
+%\catcode`\>=\active \def>{
+%\fontencoding{T1}\selectfont\symbol{62}\fontencoding{\encodingdefault}}
+\newcommand{\TeXmacs}{T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\kern-.1em\lower.5ex\hbox{\textsc{m\kern-.05ema\kern-.125emc\kern-.05ems}}}
+\newcommand{\coloneq}{:=}
+\newcommand{\backassign}{=:}
+\newcommand{\cdummy}{\cdot}
+\newcommand{\citetexmacs}[1]{This document has been written using GNU {\TeXmacs} \cite{#1}.}
+\newcommand{\infixor}{\text{ or }}
+\newcommand{\mathrm{d}}{\mathrm{d}}
+\newcommand{\nin}{\not\in}
+\newcommand{\rightarrowlim}{\mathop{\rightarrow}\limits}
+\newcommand{\textdots}{...}
+\newcommand{\tmcolor}[2]{{\color{#1}{#2}}}
+\newcommand{\tmdummy}{$\mbox{}$}
+\newcommand{\emph}[1]{{\em #1\/}}
+\newcommand{\tmfolded}[2]{\trivlist{\item[$\bullet$]\mbox{}#1}}
+\newcommand{\tmfoldedplain}[2]{\trivlist{\item[]\mbox{}#1}}
+\newcommand{\tminput}[2]{\trivlist{\item[\color{rgb:black,10;red,9;green,4;yellow,2}{#1}]{\color{blue!50!black}\mbox{}#2}}}
+\newcommand{\tmnote}[1]{\thanks{\textit{Note:} #1}}
+\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+\newcommand{\tmoutput}[1]{#1}
+\newcommand{\tmscript}[1]{\text{\scriptsize{$#1$}}}
+\newcommand{\tmsession}[3]{{\tt#3}}
+\newcommand{\tmstrong}[1]{\textbf{#1}}
+\newcommand{\tmtextbf}[1]{\text{{\bfseries{#1}}}}
+\newcommand{\tmtextit}[1]{\text{{\itshape{#1}}}}
+\newcommand{\tmunfoldedio}[3]{\trivlist{\item[\color{rgb:black,10;red,9;green,4;yellow,2}{#1}]\mbox{}{\color{blue!50!black}#2}\item[]\mbox{}#3}}
+\newenvironment{enumeratealpha}{\begin{enumerate}[a{\textup{)}}] }{\end{enumerate}}
+\newenvironment{enumeratenumeric}{\begin{enumerate}[1.] }{\end{enumerate}}
+\newenvironment{enumerate}{\begin{enumerate}[i.] }{\end{enumerate}}
+\newenvironment{itemizedot}{\begin{itemize} \renewcommand{\labelitemi}{$\bullet$}\renewcommand{\labelitemii}{$\bullet$}\renewcommand{\labelitemiii}{$\bullet$}\renewcommand{\labelitemiv}{$\bullet$}}{\end{itemize}}
+\newenvironment{itemizeminus}{\begin{itemize} \renewcommand{\labelitemi}{$-$}\renewcommand{\labelitemii}{$-$}\renewcommand{\labelitemiii}{$-$}\renewcommand{\labelitemiv}{$-$}}{\end{itemize}}
+\newenvironment{proof}{\noindent\textbf{Proof\ }}{\hspace*{\fill}$\Box$\medskip}
+\newenvironment{proof*}[1]{\noindent\textbf{#1\ }}{\hspace*{\fill}$\Box$\medskip}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+{\theorembodyfont{\rmfamily}\newtheorem{example}{Example}}
+\newcounter{nnexample}
+\def\thennexample{\unskip}
+{\theorembodyfont{\rmfamily}\newtheorem{example*}[nnexample]{Example}}
+\newcounter{nnexercise}
+\def\thennexercise{\unskip}
+{\theorembodyfont{\rmfamily\small}\newtheorem{exercise*}[nnexercise]{Exercise}}
+\newtheorem{lemma}{Lemma}
+\newcounter{nnlemma}
+\def\thennlemma{\unskip}
+\newtheorem{lemma*}[nnlemma]{Lemma}
+\newtheorem{proposition}{Proposition}
+{\theorembodyfont{\rmfamily}\newtheorem{remark}{Remark}}
+\newcounter{nnremark}
+\def\thennremark{\unskip}
+{\theorembodyfont{\rmfamily}\newtheorem{remark*}[nnremark]{Remark}}
+\newtheorem{theorem}{Theorem}
+%%%%%%%%%% End TeXmacs macros
+
+\newcommand{\CI}{I}
+\newcommand{\CC}{C}
+\newcommand{\CD}{D}
+\newcommand{\CA}{A}
+\newcommand{\CB}{B}
+\newcommand{\CS}{S}
+\newcommand{\CF}{F}
+\newcommand{\DD}{D}
+\newcommand{\LL}{L}
+\newcommand{\CX}{X}
+\newcommand{\CM}{M}
+\newcommand{\CN}{N}
+\newcommand{\CP}{P}
+\newcommand{\CT}{T}
+\newcommand{\CQ}{Q}
+\newcommand{\CR}{R}
+\newcommand{\CK}{K}
+\newcommand{\fs}{s}
+\newcommand{\bone}{\ensuremath{\mathbbm{1}}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\indep}{\mathrel{}}
+\newcommand{\renderexercise}[2]{{\paddednormal{0.5fn}{0.5fn}{{\exercisename{#1{\exercisesep}}}#2}}}
+
+\begin{document}
+
+\
+
+\title{
+  Stochastics III: Stochastic Analysis
+  \tmnote{{\citetexmacs{TeXmacs:website}}}
+}
+
+\author{Lucio Galeati}
+
+\date{November 3, 2024}
+
+\maketitle
+
+\footnote{These lecture notes are based on the ones given by Prof. Nicolas
+Perkowski in the WS 2022-23 and I'm very thankful to him for sharing them with
+me. If you spot any typo, please email me; thanks to all who send comments.}
+
+{\tableofcontents}
+
+\section*{Introduction and motivation}
+
+Stochastic analysis is the analysis of continuous time stochastic processes.
+
+In Stochastics~II, you already encountered discrete time processes as models
+for random phenomena that evolve in discrete time steps. Such processes can be
+constructed mathematically (Kolmogorov's criterion) and you have likely
+already seen some of the most important classes of processes (martingales,
+Markov chains), as well as some of the most fundamental results on their
+behavior (martingale convergence, martingale inequalities, fundamental theorem
+of Markov chains, Donsker's invariance principle, etc.).
+
+But of course it is also be interesting to study continuous time phenomena,
+which do not evolve in clearly separated time steps. This is more complex: in
+discrete time, one time is following after the next one, and to describe
+stochastic processes we only have to understand how they transition from one
+step to the next. In continuous time there is no ``next step'', we can go from
+$t$ to $t + 1$, but also to $t + \frac{1}{2}$ or $t + \frac{\pi}{100}$.
+Therefore, we will need many new mathematical tools to describe and analyze
+continuous time stochastic processes.
+
+As a motivation, let us look at some examples where continuous time stochastic
+processes arise:
+
+\begin{example*}[Stock price]
+  The pictures of stock price trajectories typically look very irregular,
+  bouncing up and down constantly. As toy model for the evolution of a stock
+  price, we can consider a Brownian motion (which already appeared in
+  Stochastik~II). \tmtextit{Brownian motion} is a continuous time stochastic
+  process $(B_t)_{t \geqslant 0}$ with continuous trajectories, such that $B_t
+  \sim \mathcal{N} (0, t)$ for all $t \geqslant 0$, where $\mathcal{N} (0, t)$
+  denotes the normal distribution with mean $0$ and variance $t$, and such
+  that $B_{t + s} - B_t$ is independent of $(B_r)_{0 \leqslant r \leqslant
+  t}$.
+
+  The intuition behind this model is that there are many small traders, who
+  all independently of each other try to buy or sell the stock. Each time a
+  small trader buys, the stock price moves up a bit. Each time they sell, it
+  moves down a bit. The fact that the increments are normally distributed thus
+  follows from the central limit theorem. Moreover, if we assume that the
+  decisions of each trader is independent of all previous decisions by all the
+  other traders, then we get the independence of $B_{t + s} - B_t$ and
+  $(B_r)_{0 \leqslant r \leqslant t}$.
+
+  We will see later in the lecture how to construct the Brownian motion and
+  that the description above characterizes it uniquely. And we will study some
+  of its path properties to see that it indeed behaves quite wildly and it
+  resembles the familiar pictures of stock price trajectories.
+
+  \begin{figure}[h]
+    \resizebox{0.7\columnwidth}{!}{\includegraphics{StochAna-24-10-31-1.pdf}}
+    \caption{\label{fig:bm}A typical realization of a Brownian motion.}
+  \end{figure}
+
+  For example, the Brownian motion has no isolated zeros, meaning that if $B_t
+  = 0$ for some $t$, then in any small interval $[t - \varepsilon, t +
+  \varepsilon]$ there are infinitely many $s$ with $B_s = 0$. We will also see
+  that $B$ is nowhere differentiable and behaves roughly speaking like
+  \[ |B_{t + \mathrm{d} t} - B_t | \simeq \sqrt{\mathrm{d} t} . \]
+  Of course, this is not a mathematical statement and part of the work will be
+  to find a suitable mathematical statement that we can actually prove.
+\end{example*}
+
+\tmcolor{blue}{\begin{exercise*}
+  Throughout the text there will be small exercises like this one, marked in
+  blue. You should think about the exercises and try to solve them before the
+  next lecture. Some of them will be elementary and only require you to
+  revisit the definitions and make sure that you understood everything. Some
+  others might be a bit more involved and might need some inspiration. It is
+  no problem if you cannot solve an exercise, but you should always at least
+  try.
+
+  Look at the $y$-axis of Figure~\ref{fig:bm}. Do these numbers make you think
+  of a stock price? If not, can you think of a simple transformation that we
+  could do in order to obtain a more reasonable candidate for the price
+  process?
+\end{exercise*}}
+
+\begin{example*}[Stochastic differential equations from Donker's invariance
+principle]
+  The following difference equation is a prototypical example of a random
+  discrete time evolution:
+  \begin{equation}
+    \label{eq:difference-eq} X_{n + 1} = X_n + b (X_n) + \sigma (X_n) Y_n,
+  \end{equation}
+  where $Y_n$ is random influence, ``noise''. More concretely, one could
+  consider for example a (stochastic) Malthusian population growth model,
+  where $X_n$ is the size of a population and
+  \[ X_{n + 1} = X_n + b X_n + X_n Y_n, \]
+  where $b \in \mathbb{R}$ is the deterministic growth rate and $(Y_n)_{n \in
+  \mathbb{N}}$ is a centered family of independent and identically distributed
+  (i.i.d.) random variables that models randomly occurring deviations from the
+  deterministic growth rate.
+
+  If we assume that the $(Y_n)_{n \in \mathbb{N}}$ are a centered family of
+  i.i.d. random variables with finite variance, then Donsker's invariance
+  principle (which you might have seen in Stochastik~ II) asserts that $S_n =
+  \sum_{k = 1}^n Y_k$ can be rescaled so that it converges to a Brownian
+  motion. $S$ is evolving in discrete time steps, but under the rescaling for
+  Donsker's theorem the transition times between the steps become infinitely
+  small, and in the limit one finds a continuous time variable.
+
+  It then seems reasonable to expect (and under suitable assumptions it can be
+  proven) that $X$ can be rescaled in such a way that it converges to a
+  process $(Z_t)_{t \geqslant 0}$ satisfying for $t \geqslant 0$ and $h > 0$
+  \[ Z_{t + h} = Z_t + b (Z_t) h + \sigma (Z_t) (B_{t + h} - B_t), \]
+  where $B$ is a Brownian motion. Bringing $Z_t$ to the left hand side,
+  dividing by $h$ and letting $h \rightarrow 0$, we formally obtain
+  \[ \partial_t Z_t = b (Z_t) + \sigma (Z_t) \partial_t B_t . \]
+  But $B$ is not differentiable in time, so it is not clear how to interpret
+  this equation! To make sense of such ``stochastic differential equations'',
+  and to this end first of ``stochastic integrals'', will be one of the main
+  goals of the lecture.
+\end{example*}
+
+\begin{example*}[Noise to model unresolved influences]
+  Another situation where stochastic differential equations appear is the
+  following: applied scientists often model time-evolving systems by ordinary
+  differential equations (ODEs)
+  \[ \dot{X}_t = b (X_t) . \]
+  However, in reality the modelled system might not be isolated from its
+  environment. To model influences of the environment, we have two choices:
+  \begin{enumerate}
+    \item We increase the dimension of our system by attempting to also model
+    the environment; however this ultimately leads to an infinite-dimensional
+    system, and often is unfeasible because nature is just too complex.
+
+    \item We try to find a ``random'' model for the influence of the
+    environment. Under suitable assumptions we should be able to invoke the
+    central limit theorem, so that these random influences should be centered
+    Gaussians.
+  \end{enumerate}
+  In the second scenario, in many situations it is also reasonable to assume
+  that the random influences are stationary in time, and independent for
+  different times. So formally we end up with the equation
+  \[ \dot{X}_t = b (X_t) + \xi_t, \]
+  where $(\xi_t)_{t \geqslant 0}$ is an i.i.d. family of centered Gaussian
+  variables. It turns out that this equation does not make sense, because it
+  is not possible to construct ``a version'' of $\xi$ that has measurable
+  trajectories and thus it is not clear how to interpret the equation. The
+  solution to this problem is to formally assume that $\xi_t$ has infinite
+  variance for fixed times. We will see how to make this rigorous and how to
+  model an ODE forced by ``white noise'' (which turns out to be, intuitively,
+  the ``time derivative'' of Brownian motion).
+\end{example*}
+
+\begin{example*}[A toy model for Earth's climate]
+  A more concrete version of this example is a particle in a double well
+  potential: Consider $b (x) = - U' (x)$ for $U (x) = \frac{1}{4} x^4 -
+  \frac{1}{2} x^2$. One can easily verify that there are three fixed points
+  for the dynamics $\dot{X}_t = - U' (X_t)$ (imagine a ball rolling down the
+  potential $U$, except damping at the bottom): two stable fixed points $\{-
+  1, 1\}$ and one unstable fixed point $\{0\}$.
+
+  \begin{figure}[h]
+    \scalebox{0.3}{\includegraphics{StochAna-24-10-31-2.pdf}}
+    \caption{Double well potential $U$.}
+  \end{figure}
+
+  So if we start in $x < 0$ the solution will converge to $- 1$ for $t
+  \rightarrow \infty$, and if we start in $x > 0$ it will converge to $1$.
+
+  The ODE $\dot{X}_t = - U' (X_t)$ could serve as a qualitative toy model for
+  the earth's climate: Assume $- 1$ represents an ice age and $+ 1$ a warm
+  period. These two states are quite stable for the climate, after all we are
+  not constantly switching between ice ages and warm periods. But from time to
+  time there are transitions, and in the ODE model we never see them. But if
+  we add a very small random forcing of white noise type, as described above,
+  then the forcing can ``kick'' (rarely) the solution over the hill into the
+  domain of attraction of the other stable fixed point. It might then be
+  interesting to calculate how long this will typically take.
+\end{example*}
+
+\begin{example*}[Stochastic gradient descent, we didn't cover it in the
+lectures]
+  In many applied problems, e.g. statistical estimation or training of
+  artificial neural networks in machine learning, we are interested in finding
+  the minimum of a function of the form
+  \[ F (x) = \frac{1}{n} \sum_{i = 1}^n f_i (x), \]
+  where typically $n$ is very large. A \tmtextit{gradient descent} would solve
+  the ODE
+  \[ \dot{X}_t = - \nabla F (X_t) \]
+  and for $t \rightarrow \infty$ the solution would converge to a local
+  minimum of $F$ (note that $\partial_t F (X_t) = - | \nabla F (X_t) |^2 < 0$;
+  compare also with the double well example from above). We can implement a
+  gradient descent on the computer with a simple Euler scheme:
+  \[ X_{k + 1} = X_k - \eta \nabla F (X_k) = X_k - \eta \frac{1}{n} \sum_{i =
+     1}^n \nabla f_i (X_k), \]
+  where $\eta > 0$ is a small parameter, called the learning rate. However, in
+  practice one usually uses the following \tmtextit{stochastic gradient
+  descent} instead: At each step pick $i \in \{ 1, \ldots, n \}$ uniformly at
+  random and set
+  \[ X_{k + 1} = X_k - \eta \nabla f_i (X_k) . \]
+  This has two advantages: if $n$ is large, the stochastic gradient descent is
+  much cheaper to compute. And by introducing randomness into the algorithm it
+  is no longer a pure descent and transitions to $X_{k + 1}$ with $F (X_{k +
+  1}) > F (X_k)$ are possible. This means that we may exit the domain of
+  attraction of a local minimum, and by carefully tuning the algorithm we
+  might hope to converge to a global minimum. Sometimes it is argued that the
+  stochastic gradient descent is similar to
+  \[ X_{k + 1} = X_k - \eta \nabla F (X_k) + \text{``noise''}, \]
+  which by similar arguments as above is a discretization of the differential
+  equation
+  \[ \partial_t X_t = - \nabla F (X_t) + \partial_t B_t . \]
+  So if we understand the behavior of this SDE for $t \rightarrow \infty$,
+  then we may learn something about stochastic gradient descents.
+\end{example*}
+
+\begin{example*}[Brownian motion and PDEs]
+  If $B$ is a Brownian motion, then for $t > 0$ the random variable $B_t$ has
+  the density
+  \[ p (t, x) = \frac{1}{\sqrt{2 \pi t}} \exp \left( - \frac{x^2}{2 t} \right)
+     . \]
+  It is a simple exercise to verify that $p$ solves the \tmtextit{heat
+  equation}:
+  \[ \partial_t p (t, x) = \frac{1}{2} \partial^2_{xx} p (t, x) \]
+  for all $t > 0$ and $x \in \mathbb{R}$. As a consequence, we get for any
+  ``nice'' $\varphi$ (i.e. nice enough so that the following manipulations are
+  admissible) that the function
+  \[ u (t, x) \coloneq \mathbb{E} [\varphi (x + B_t)] \]
+  solves
+
+  \begin{align*}
+    \partial_t u (t, x) & = \partial_t \left( \int_{\mathbb{R}} \varphi (x +
+    y) p (t, y) d y \right) = \int_{\mathbb{R}} \varphi (x + y)  \frac{1}{2}
+    \partial^2_{yy} p (t, y) d y\\
+    & = \int_{\mathbb{R}} \frac{1}{2} \partial^2_{yy} \varphi (x + y) p (t,
+    y) d y = \int_{\mathbb{R}} \frac{1}{2} \partial^2_{xx} \varphi (x + y) p
+    (t, y) d y = \frac{1}{2} \partial^2_{xx} u (t, x),
+  \end{align*}
+
+  where we applied integration by parts to shift $\partial^2_{yy}$ from $p$ to
+  $\varphi$. Moreover, $u$ obviously has the initial condition $u (0, x) =
+  \varphi (x)$, so that we found a solution to the equation
+  \[ \partial_t u = \partial^2_{xx} u, \qquad u (0) = \varphi . \]
+  This suggests a link between stochastic processes and partial differential
+  equations (PDEs), and in fact this link is quite deep and powerful. For
+  example, if for $x \in \mathbb{R}$ the process $X^x$ solves the stochastic
+  differential equation
+  \[ \partial_t X^x_t = b (X^x_t) + \sigma (X^x_t) \partial_t B_t, \qquad X_0
+     = x, \]
+  then $u (t, x) =\mathbb{E} [\varphi (X^x_t)]$ solves the (one-dimensional)
+  PDE
+  \[ \partial_t u (t, x) = b (x) \partial_x u (t, x) + \frac{1}{2} \sigma^2
+     (x) \partial^2_{xx} u (t, x), \qquad u (0) = \varphi, \]
+  and conversely the PDE can be used to characterize the law of $X^x$.
+\end{example*}
+
+\begin{example*}[Diffusion Monte Carlo]
+  In many applications we have to sample from a measure
+  \[ \mu (\mathrm{d} x) = \frac{1}{Z} \exp (- V (x)) \mathrm{d} x \]
+  on $\mathbb{R}^d$, where $V : \mathbb{R}^d \rightarrow \mathbb{R}$ is a
+  differentiable function with $\int_{\mathbb{R}^d} \exp (- V (x)) \mathrm{d} x <
+  \infty$ and $Z = \int_{\mathbb{R}^d} \exp (- V (x)) \mathrm{d} x$ is chosen so
+  that $\mu$ is a probability measure. This is a very difficult problem,
+  especially if $d$ is large or $V$ is complicated. One way of obtaining
+  approximate samples from $\mu$ is to find a stochastic process with
+  invariant measure $\mu$. The most famous such process is the {\emph{Langevin
+  diffusion}}, which solves the stochastic differential equation
+  \[ \partial_t X_t = - \nabla V (X_t) + \sqrt{2} \partial_t B_t . \]
+\end{example*}
+
+Hopefully these examples show that there are many interesting questions to be
+asked and problems to be studied. We will now start to develop the basic tools
+and methods of stochastic analysis.
+
+\subsection*{Literature}
+
+Large parts of the lecture are inspired by or directly taken from Le Gall's
+beautiful notes {\cite{LeGall2016}}. There is much more material in Le Gall's
+notes than we can cover in the lecture and they are a useful resource for
+further details. Further good references are the lecture notes by Jacod
+{\cite{Jacod2008}}, the classic monographs
+{\cite{Karatzas1988,Revuz1999,Oksendal2003,Jacod2003,Ethier1986}}, or the
+great ``almost sure'' blog
+\href{https://almostsure.wordpress.com/}{https://almostsure.wordpress.com/}.
+The monograph {\cite{Morters2010}} is nearly entirely devoted to the Brownian
+motion, and it provides a much more detailed picture of its fascinating path
+properties than we can obtain in the lecture. In the beginning of the notes we
+repeat some material from Stochastics I \& II, and good additional references
+are {\cite{Klenke2008,Durrett2010,Stroock2011}} and some chapters of
+{\cite{Ethier1986}}.
+
+\subsection*{Notation and conventions}
+
+\begin{itemizedot}
+  \item Unless explicitly mentioned otherwise, we always assume that $(\Omega,
+  \mathcal{F}, \mathbb{P})$ is a given probability space.
+
+  \item $\mathbb{N}= \{1, 2, \ldots\}$, $\mathbb{N}_0 =\mathbb{N} \cup \{0\}$,
+  $\mathbb{R}_+ = [0, \infty)$, $\mathbb{Q}_+ =\mathbb{R}_+ \cap \mathbb{Q}$.
+
+  \item $x \cdummy y = \sum_{j = 1}^d x_j y_j$, $A^T$ is the transpose of the
+  matrix $A$.
+
+  \item $x^+ = \max \{ x, 0 \}$ and $x^- = \max \{ - x, 0 \}$.
+
+  \item $\lim_{s \downarrow t} f (s) = \lim_{\tmscript{\begin{array}{c}
+    \varepsilon \rightarrow 0^+
+  \end{array}}} f (t + \varepsilon)$ and $\lim_{s \uparrow t} f (s) =
+  \lim_{\tmscript{\begin{array}{c}
+    \varepsilon \rightarrow 0^+
+  \end{array}}} f (t - \varepsilon)$.
+
+  \item $X_{s, t} \coloneq X_t - X_s$.
+
+  \item The indicator function of a set $A$ is denoted by $\mathbbm{1}_A$.
+
+  \item $\mathcal{B} (S)$ is the Borel $\sigma$-algebra of the topological
+  space $S$. $2^{\Omega}$ are the subsets of $\Omega$.
+
+  \item If we do not specify it, we always assume an underlying probability
+  space $(\Omega, \mathcal{F}, \mathbb{P})$ as given.
+
+  \item $a \lesssim b$ means there exists some $C > 0$, independent of the
+  relevant variables under consideration, such that $a \leqslant Cb$. For
+  example, $(x + y)^2 \leqslant 2 (y^2 + y^2)$, so we would write $(x + y)^2
+  \lesssim x^2 + y^2$.
+\end{itemizedot}
+
+\section{Gaussian processes, pre-Brownian motion and white noise}
+
+Some background with probability theory from a measure theoretic perspective
+will be assumed throughout the course; ideally all you need are things learned
+from Stochastik~I and~II. For convenience, some material is recalled in
+Appendices~\ref{app:gaussian} and~\ref{app:dynkin}; this material will not be
+examinable, but it will be at the basis of many of the results we will
+develop, so please have a proper look at it to understand if you are already
+familiar enough with it.
+
+\subsection{Gaussian processes}
+
+The star of this lecture is the Brownian motion, which is a particular
+{\emph{Gaussian process}}. Recall that for $d \in \mathbb{N}$ a random
+variable $X$ with values in $\mathbb{R}^d$ is called {\emph{(centered)
+Gaussian}} or {\emph{(centered) normal}} if for any $u \in \mathbb{R}^d$ the
+linear combination
+\[ u \cdot X = \sum_{j = 1}^d u_j X_j \]
+of the entries of $X$ has a one-dimensional (centered) Gaussian distribution.
+We also call $(X_1, \ldots, X_d)$ {\emph{jointly Gaussian}}.
+
+Equivalently, there exist $m \in \mathbb{R}^d$ and a symmetric positive
+semi-definite matrix $C \in \mathbb{R}^{d \times d}$ such that $X$ has the
+characteristic function
+\[ \mathbb{E} [e^{iu \cdummy X}] = e^{iu \cdot m - (u^T Cu) / 2}, \qquad u \in
+   \mathbb{R}^d . \]
+Moreover,
+\[ \mathbb{E} [u \cdummy X] = u \cdummy m, \qquad \tmop{var} (u \cdummy X) =
+   u^T Cu. \]
+We write $X \sim \mathcal{N} (m, C)$.
+
+\begin{definition}
+  Let $\mathbb{T} \neq \emptyset$ be an index set. A real-valued stochastic
+  process $X = (X_t)_{t \in \mathbb{T}}$ is called a {\emph{(centered)
+  Gaussian process}} if for every finite subset $I \subset \mathbb{T}$ and for
+  all $(\alpha_t)_{t \in I} \in \mathbb{R}^I$ the random variable $\sum_{t \in
+  I} \alpha_t X_t$ is a real-valued (centered) Gaussian random variable.
+\end{definition}
+
+\tmcolor{blue}{\begin{exercise*}
+  Show that $X = (X_1, \ldots, X_d)$ is a $d$-dimensional Gaussian random
+  variable if and only if $(X_t)_{t \in \mathbb{T}}$ with $\mathbb{T}= \{ 1,
+  \ldots, d \}$ is a $d$-dimensional Gaussian process indexed by $\mathbb{T}$.
+\end{exercise*}}
+
+Equivalently, $X$ is (centered) Gaussian if for any finite $I \subset
+\mathbb{T}$ the vector $(X_t)_{t \in I}$ is an $|I|$-dimensional Gaussian
+random variable. There exist two functions $m : \mathbb{T} \rightarrow
+\mathbb{R}$ and $\Gamma : \mathbb{T} \times \mathbb{T} \rightarrow \mathbb{R}$
+such that $\mathbb{E} [X_t] = m (t)$ for all $t \in \mathbb{T}$ and
+$\tmop{cov} (X_s, X_t) = \Gamma (s, t)$ for all $s, t \in \mathbb{T}$.
+Moreover, the finite-dimensional distributions (and thus the law) of $X$ are
+uniquely determined by $m$ and $\Gamma$, and $\Gamma$ is \tmtextit{symmetric}
+(i.e. $\Gamma (s, t) = \Gamma (t, s)$ for all $s, t \in \mathbb{T}$) and
+\tmtextit{positive semi-definite}, i.e. for any finite $I \subset \mathbb{T}$
+and any $ (\alpha_t)_{t \in I} \in \mathbb{R}^I$ we have
+\[ \sum_{(s, t) \in I \times I} \alpha_s \alpha_t \Gamma (s, t) = \tmop{var}
+   \left( \sum_{t \in I} \alpha_t X_t \right) \geqslant 0. \]
+We say that $X$ has \textit{mean $m$} and \textit{covariance $\Gamma$}.
+
+We can construct Gaussian random variables on $\mathbb{R}^d$ with a given mean
+$m$ and covariance $C$ by transforming a ``standard'' $d$-dimensional random
+variable $Y \sim \mathcal{N} (0, \mathbb{I})$ via $X = m + \sqrt{C} Y$. It is
+not clear how to adapt this construction to infinite $\mathbb{T}$, so given
+$m$ and $\Gamma$ we need more sophisticated tools to construct a Gaussian
+process with mean $m$ and covariance $\Gamma$. We achieve this with
+Kolmogorov's extension theorem:
+
+\begin{proposition}
+  Let $\mathbb{T} \neq \emptyset$ be an index set, let $m : \mathbb{T}
+  \rightarrow \mathbb{R}$, and let $\Gamma : \mathbb{T} \times \mathbb{T} \to
+  \mathbb{R}$ be a symmetric and positive semi-definite function. Then there
+  exists a Gaussian process $X$ with mean $m$ and covariance $\Gamma$, and the
+  law of $X$ is uniquely determined by $m$ and $\Gamma$.
+\end{proposition}
+
+\begin{proof}[Skipped in class, because of possible overlap with
+Stochastics~II]
+  This follows from Kolmogorov's extension theorem. For any finite subset $I
+  \subset \mathbb{T}$ let $\mathbb{P}_I$ be the law of a $\mathcal{N} ((m
+  (t))_{t \in I}, (\Gamma (s, t))_{s, t \in I})$ random variable. For $J
+  \supset I$ let $\pi_{J I} : \mathbb{R}^J \rightarrow \mathbb{R}^I$ be the
+  projection $\pi_{J I} ((x_t)_{t \in J}) = (x_t)_{t \in I}$. The existence of
+  $X$ follows from Kolmogorov's extension criterion once we show the
+  consistency condition $\mathbb{P}_J \circ \pi_{J I}^{- 1} =\mathbb{P}_I$.
+  For $u \in \mathbb{R}^I$ we have
+
+  \begin{align*}
+    \int_{\mathbb{R}^I} e^{i u \cdummy x} \mathbb{P}_J \circ \pi_{J I}^{- 1}
+    (\mathrm{d} x) & = \int_{\mathbb{R}^J} e^{i \sum_{t \in I} u (t) x (t)}
+    \mathbb{P}_J (\mathrm{d} x) = e^{i \sum_{t \in I} u (t) m (t) - \frac{1}{2}
+    \sum_{s, t \in I} u (s) \Gamma (s, t) u (t)}\\
+    & = \int_{\mathbb{R}^I} e^{i \sum_{t \in I} u (t) x (t)} \mathbb{P}_I
+    (\mathrm{d} x) .
+  \end{align*}
+
+  So $\mathbb{P}_J \circ \pi_{J I}^{- 1}$ and $\mathbb{P}_I$ have the same
+  characteristic function, and thus the two measures agree and the proof is
+  complete.
+\end{proof}
+
+\
+
+\begin{center}
+  \hrulefill\hrulefill\tmtextbf{ End of the lecture on October 16}
+  \hrulefill\hrulefill
+\end{center}
+
+\
+
+\begin{example}[Pre-Brownian motion]
+  Let $\mathbb{T}=\mathbb{R}_+ = [0, \infty)$, $m (t) = 0$ and $\Gamma (s, t)
+  = s \wedge t \coloneq \min \{ s, t \}$. Then $\Gamma$ is obviously symmetric.
+  It is also positive semi-definite: For $n \in \mathbb{N}$ and $t_1, \ldots,
+  t_n \geqslant 0$ and $\alpha_1, \ldots, \alpha_n \in \mathbb{R}$ we have
+  \[ \sum_{i, j = 1}^n \alpha_i \alpha_j \Gamma (t_i, t_j) = \sum_{i, j = 1}^n
+     \alpha_i \alpha_j \int_0^{\infty} \mathbbm{1}_{[0, t_i]} (s)
+     \mathbbm{1}_{[0, t_j]} (s) \mathrm{d} s = \int_0^{\infty} \left( \sum_{i =
+     1}^n \alpha_i \mathbbm{1}_{[0, t_i]} (s) \right)^2 \mathrm{d} s \geqslant 0.
+  \]
+  The Gaussian process $B$ with mean $m$ and covariance $\Gamma$ is called a
+  \tmtextit{pre-Brownian motion}.
+\end{example}
+
+Later, we will \ define a Brownian motion as a pre-Brownian motion with
+continuous trajectories.
+
+\tmfoldedplain{\begin{lemma}[Alternative characterization of the pre-Brownian
+motion]
+  \label{lem:pre-Brownian}Let $(B_t)_{t \geqslant 0}$ be a real-valued
+  stochastic process. Then $B$ is a pre-Brownian motion if and only if the
+  following conditions are satisfied:
+  \begin{enumerate}
+    \item $B_0 = 0$ almost surely;
+
+    \item for all $0 \leqslant s < t$ the random variable $B_t - B_s$ is
+    independent of the variables $(B_r)_{0 \leqslant r \leqslant s}$;
+
+    \item for all $0 \leqslant s < t$ we have $B_t - B_s \sim \mathcal{N} (0,
+    t - s)$.
+  \end{enumerate}
+\end{lemma}}{\ }
+
+\tmcolor{blue}{\tmfoldedplain{\begin{exercise*}
+  Prove the above lemma.
+\end{exercise*}}{\begin{proof}
+  \begin{itemizedot}
+    \item Assume that $B$ is a pre-Brownian motion. Then $B_0 \sim \mathcal{N}
+    (0, 0)$, so i. holds. Point iii. follows from the fact that if $s
+    \leqslant t$, then $B_t - B_s$ is a centered Gaussian random variable
+    (because $B$ is a centered Gaussian process) with variance
+    \[ \mathbb{E} [(B_t - B_s)^2] =\mathbb{E} [B_t^2] - 2\mathbb{E} [B_s B_t]
+       +\mathbb{E} [B_s^2] = t - 2 s + s = t - s. \]
+    As for ii., let $0 \leqslant r_1 < \ldots < r_n \leqslant s < t$ be given.
+    Then the vector $(B_{r_1}, \ldots, B_{r_n}, B_t - B_s)$ is centered
+    Gaussian and satisfies
+    \[ \mathbb{E} [B_{r_j} (B_t - B_s)] = r_j \wedge t - r_j \wedge s = r_j -
+       r_j = 0 \]
+    for all $j = 1, \ldots, n$. So by Gaussianity, $B_t - B_s$ is independent
+    of $(B_{r_1}, \ldots, B_{r_n})$. But
+    \[ \mathcal{A}= \bigcup_{n \in \mathbb{N}} \bigcup_{r_1, \ldots, r_n \in
+       [0, s]} \sigma (B_{r_1}, \ldots, B_{r_n}) \]
+    is closed under finite intersections, and thus $B_t - B_s$ is independent
+    of $\sigma (\mathcal{A}) = \sigma (B_r : r \leqslant s)$.
+
+    \item If conversely $B$ satisfies i.-iii., then $\mathbb{E} [B_t]
+    =\mathbb{E} [B_t - B_0] +\mathbb{E} [B_0] = 0$ for all $t \geqslant 0$,
+    and for $0 \leqslant s < t$ we have
+    \[ \tmop{cov} (B_s, B_t) =\mathbb{E} [B_s B_t] =\mathbb{E} [B_s (B_t -
+       B_s)] +\mathbb{E} [B_s^2] = 0 + s = s \wedge t. \]
+    It remains to show that $B$ is a Gaussian process. But given $0 \leqslant
+    r_1 < \ldots < r_n$, any linear combination of $(B_{r_1}, \ldots,
+    B_{r_n})$ can be written as a linear combination of $(B_{r_1}, B_{r_2} -
+    B_{r_1}, \ldots, B_{r_n} - B_{r_{n - 1}})$. Since the increments of $B$
+    are independent, this linear combination is Gaussian itself (see
+    Remark~\ref{rmk:univariate gaussian}), and therefore $B$ is a pre-Brownian
+    motion.
+  \end{itemizedot}
+\end{proof}}}
+
+\begin{example}[pre-Fractional Brownian motion, or pre-fBm for short]
+  Let $H \in (0, 1)$, let $\mathbb{T}=\mathbb{R}_+$ and $m (t) = 0$ and
+  \[ \Gamma^H (s, t) = \frac{1}{2} (t^{2 H} + s^{2 H} - | t - s |^{2 H}) . \]
+  $\Gamma$ is obviously symmetric, but it is not so easy to see that it is
+  positive semi-definite. One way of showing it is similar to our argument for
+  pre-Brownian motion: one can show that
+  \[ \Gamma^H (s, t) = \int_{\mathbb{R}} \Phi (s, r) \Phi (t, r) \mathrm{d} r \]
+  for
+  \[ \Phi (s, r) \coloneq \frac{1}{\gamma (H + 1 / 2)} ((s - r)_+^{H - 1 / 2} -
+     (- r)_+^{H - 1 / 2}), \]
+  where $\gamma$ is the Gamma function and (just for this time) we set $x_+
+  \coloneq x^+ = \max \{ x, 0 \}$. Therefore
+  \[ \sum_{i, j = 1}^n \alpha_i \alpha_j \Gamma^H (t_i, t_j) = \sum_{i, j =
+     1}^n \alpha_i \alpha_j \int_{\mathbb{R}} \Phi (t_i, r) \Phi (t_j, r)
+     \mathrm{d} r = \int_{\mathbb{R}} \left( \sum_{i = 1}^n \alpha_i \Phi (t_i, r)
+     \right)^2 \mathrm{d} r \geqslant 0. \]
+  The Gaussian process $B^H$ with mean $m \equiv 0$ and covariance $\Gamma^H$
+  is called the \tmtextit{fractional pre-Brownian motion} with \tmtextit{Hurst
+  index} $H$. In other words, pre-fBm of parameter $H \in (0, 1)$ is
+  characterized by being a Gaussian process $(B^H_t)_{t \geqslant 0}$ with
+  \[ \mathbb{E} [B^H_t] = 0, \qquad \mathbb{E} [B^H_t B^H_s] = \frac{1}{2}
+     (t^{2 H} + s^{2 H} - | t - s |^{2 H}) . \]
+\end{example}
+
+\tmcolor{blue}{\begin{exercise*}
+  Show that for $H = 1 / 2$ the process $B^H$ is a pre-Brownian motion.
+\end{exercise*}}
+
+One can show that $B^H$ becomes more and more irregular if we decrease $H$.
+
+\begin{figure}[h]
+  \resizebox{0.5\columnwidth}{!}{\includegraphics{StochAna-24-10-31-3.pdf}}\resizebox{.5\columnwidth}{!}{\includegraphics{StochAna-24-10-31-4.pdf}}
+  \caption{Fractional Brownian motion with Hurst index $H = 0.2$ and $H =
+  0.8$, respectively.}
+\end{figure}
+
+\begin{example}[pre-Brownian bridge]
+  Let $\mathbb{T}= [0, 1]$ and $m (t) = 0$ and $\Gamma (s, t) = s \wedge t - s
+  t$. This $\Gamma$ is symmetric and in the exercise below you show that it is
+  positive semi-definite. The centered Gaussian process with covariance
+  function $\Gamma$ is called the (pre-){\emph{Brownian bridge}}, and it looks
+  like a Brownian motion on $[0, 1]$, except that at time $1$ it ends up in
+  $0$ instead of being ``free'' like the end-point of the Brownian motion on
+  $[0, 1]$. To understand this, we plot 20 samples of the Brownian motion and
+  20 samples of the Brownian bridge and compare the results.
+\end{example}
+
+\tmfoldedplain{\tmcolor{blue}{\tmcolor{blue}{\begin{exercise*}
+  Let $(B_t)_{t \geqslant 0}$ be a pre-Brownian motion and let $X_t = B_t - t
+  B_1$, $t \in [0, 1]$. Show that $X$ is a pre-Brownian bridge. In particular,
+  $\Gamma$ is positive semi-definite because it is the covariance function of
+  $X$.
+\end{exercise*}}}}{Clearly $X$ is Gaussian. We have $\mathbb{E} [X_t] = 0$ and
+for $s \leqslant t$
+\[ \mathbb{E} [X_s X_t] =\mathbb{E} [B_s B_t] - t\mathbb{E} [B_s B_1] -
+   s\mathbb{E} [B_1 B_t] + s t\mathbb{E} [B_1^2] = s - t s - s t + s t = s - s
+   t = s \wedge t - s t. \]}
+
+20 Samples of Brownian motion:
+
+\tmsession{python}{default}{
+  \tmoutput{Python 3.7.4 [/opt/anaconda3/bin/python3]
+
+  Python plugin for TeXmacs.
+
+  Please see the documentation in Help -> Plugins -> Python}
+  \tmunfoldedio{>>> }{import numpy as np
+
+  import matplotlib.pyplot as plt
+
+  \
+
+  T, h = 1, 1e-3
+
+  n = int(T/h)
+
+  k = 20
+
+  \
+
+  time = np.arange(0,T+h,h)
+
+  dB = np.sqrt(h)*(np.random.randn(k,n))
+
+  BM = np.zeros((k,n+1))
+
+  BM[:,1:] = np.cumsum(dB, axis=1)
+
+  \
+
+  plt.clf()
+
+  \ \ \
+
+  for i in range(k):
+
+  \ \ \ plt.plot(time,BM[i,:])
+
+  \
+
+  pdf\_out(plt.gcf())}{\raisebox{-6.08522644886627e-4\height}{\includegraphics[width=9.20064279155188cm,height=6.89838318247409cm]{StochAna-24-10-31-5.pdf}}}
+  Next, we plot 20 samples of the Brownian bridge:
+  \tmunfoldedio{>>> }{BB = np.zeros((k,n+1))
+
+  BB[:,1:] = np.cumsum(dB, axis=1) - np.outer(BM[:,n], time[1:])
+
+  \
+
+  plt.clf()
+
+  \ \ \
+
+  for i in range(k):
+
+  \ \ \ plt.plot(time,BB[i,:])
+
+  \
+
+  pdf\_out(plt.gcf())}{\raisebox{-6.08522644886627e-4\height}{\includegraphics[width=9.20064279155188cm,height=6.89838318247409cm]{StochAna-24-10-31-6.pdf}}}
+  \tminput{>>> }{\ }
+}
+
+\subsection{White noise and Brownian motion}
+
+\begin{example}[Naive white noise]
+  In the introduction we discussed examples where we want to add noise to
+  ordinary differential equations (ODEs). Intuitively, the most natural noise
+  seems to be an i.i.d. family of standard normal variables $(\xi_t)_{t \in
+  \mathbb{R}_+}$, i.e. $\xi$ is a centered Gaussian process with covariance
+  $\Gamma (s, t) =\mathbbm{1}_{s = t}$. This would mean that the noise is
+  stationary (it has the same distribution at each time) and what happens at
+  time $t$ is independent of what happens at any other time $s \neq t$. We
+  call this process a {\emph{naive white noise}}. To understand where the name
+  ``white noise'' comes from, note that if we plot i.i.d. random variables in
+  the plane rather than on $\mathbb{R}_+$, then the image resembles the static
+  ``white noise'' that you might remember from old analog televisions; see the
+  next figure.
+
+  \begin{figure}[h]
+    \scalebox{0.7}{\includegraphics{StochAna-24-10-31-7.pdf}}
+    \caption{2d naive white noise}
+  \end{figure}
+
+  Of course, then the question is why static noise should be called white
+  noise. We will discuss this on Sheet~1.
+\end{example}
+
+We introduced the naive white noise because we want to consider ODEs perturbed
+by noise, say
+\[ \dot{X}_t = b (X_t) + \xi_t, \qquad X_0 = x_0, \]
+which in integral form reads as
+\[ X_t = x_0 + \int_0^t b (X_s) \mathrm{d} s + \int_0^t \xi_s \mathrm{d} s. \]
+Unfortunately, if $\xi$ is a naive white noise, the map $(\omega, s) \mapsto
+\xi_s (\omega)$ cannot be jointly measurable and thus the formal expression
+$\int_0^t \xi_s \mathrm{d} s$ might be problematic:
+
+\begin{lemma}
+  Let $(\xi_t)_{t \geqslant 0}$ be a naive white noise and let $t > 0$. Then
+  the map
+  \[ \Omega \times [0, t] \ni (\omega, s) \mapsto \xi_s (\omega) \in
+     \mathbb{R} \]
+  is {\underline{not}} measurable with respect to the product $\sigma$-algebra
+  $\mathcal{F} \otimes \mathcal{B} ([0, t])$, and in particular $\omega
+  \mapsto \int_0^t \xi_s (\omega) \mathrm{d} s$ might not be defined or even if it
+  is defined it might not be a random variable.
+\end{lemma}
+
+\begin{proof}
+  Assume to the contrary that $\xi |_{\Omega \times [0, t]}$ is measurable
+  with respect to $\mathcal{F} \otimes \mathcal{B} ([0, t])$. Then also
+  \[ \Omega \times [0, t] \times [0, t] \ni (\omega, s_1, s_2) \mapsto
+     \xi_{s_1} (\omega) \xi_{s_2} (\omega) \in \mathbb{R} \]
+  is measurable with respect to $\mathcal{F} \otimes \mathcal{B} ([0, t])
+  \otimes \mathcal{B} ([0, t])$, and for each $r \in [0, t]$:
+  \[ \int_0^r \int_0^r \mathbb{E} [| \xi_{s_1} \xi_{s_2} |] \mathrm{d} s_1 \mathrm{d}
+     s_2 < \infty, \]
+  as $\mathbb{E} [| \xi_{s_1} \xi_{s_2} |] \leqslant 1$ by the Cauchy-Schwarz
+  inequality. Thus, the Fubini-Tonelli theorem shows that for all $r \in [0,
+  t]$
+
+  \begin{align*}
+    \mathbb{E} \left[ \left( \int_0^r \xi_s \mathrm{d} s \right)^2 \right] &
+    =\mathbb{E} \left[ \int_0^r \xi_{s_1} \mathrm{d} s_1 \int_0^r \xi_{s_2} \mathrm{d}
+    s_2 \right]\\
+    & =\mathbb{E} \left[ \int_0^r \int_0^r \xi_{s_1} \xi_{s_2} \mathrm{d} s_1
+    \mathrm{d} s_2 \right]\\
+    & = \int_0^r \int_0^r \mathbb{E} [\xi_{s_1} \xi_{s_2}] \mathrm{d} s_1 \mathrm{d}
+    s_2\\
+    & = \int_0^r \int_0^r \1_{s_1 = s_2} \mathrm{d} s_1 \mathrm{d} s_2 = 0.
+  \end{align*}
+
+  Therefore, $\int_0^r \xi_s \mathrm{d} s = 0$ almost surely, and since the
+  countable union of null sets is a null set we deduce that almost surely
+  $\int_0^r \xi_s \mathrm{d} s = 0$ for all $r \in [0, t] \cap \mathbb{Q}$.
+
+  On the other hand, again by Fubini-Tonelli
+
+  \begin{align*}
+    \mathbb{E} \left[ \int_0^t | \xi_s | \mathrm{d} s \right] & = \int_0^t
+    \mathbb{E} [| \xi_s |] \mathrm{d} s = \sqrt{\frac{2}{\pi}} t < \infty,
+  \end{align*}
+
+  where we used the fact that $\mathbb{E} [| \xi_s |] = \sqrt{2 / \pi}$ since
+  $\xi_s \sim \mathcal{N} (0, 1)$ (and we don't need to know this precise
+  formula but only that $\mathbb{E} [| X |] \in (0, \infty)$ for a standard
+  normal distribution $X$). Therefore a.s. $s \mapsto \xi_s (\omega)$ is
+  Lebesgue integrable on $[0, t]$ and by the dominated convergence theorem the
+  map $r \mapsto \int_0^r \xi_s (\omega) \mathrm{d} s$ is continuous on $[0, t]$.
+
+  Combined with the above, this implies that almost surely $\int_0^r \xi_s
+  \mathrm{d} s = 0$ for all $r \in [0, t]$. But then a.s. $\xi_s = 0$ for
+  Lebesgue-almost all $s \in [0, t]$, thus $\mathbb{E} \left[ \int_0^t | \xi_s
+  | \mathrm{d} s \right] = 0$; but this is absurd because we just saw that
+  $\mathbb{E} \left[ \int_0^t | \xi_s | \mathrm{d} s \right] = t \sqrt{2 / \pi}$.
+  Therefore, the assumption must have been incorrect.
+\end{proof}
+
+\tmcolor{blue}{\tmfoldedplain{\begin{exercise*}
+  Justify the last step of the proof: Show that if $f \in L^1 ([0, t])$ is
+  such that $\int_0^r f (s) \mathrm{d} s = 0$ for all $r \in [0, t]$, then $f (s)
+  = 0$ for Lebesgue-almost all $s \in [0, t]$.
+
+  \tmtextit{Hint: Recall Dynkin's $\pi - \lambda$ theorem, cf.
+  Theorem~\ref{thm:dynkin} in Appendix~\ref{app:dynkin}.}
+\end{exercise*}}{\begin{proof}
+  We want to show that $\int_0^t f (s) \1_A (s) \mathrm{d} s = 0$ for all
+  measurable sets $A \subset [0, t]$, because then we could take $A = \{ f > 0
+  \}$ and $A = \{ f < 0 \}$ to conclude. Let $\mathcal{D}$ be the family of
+  all sets $A \in \mathcal{B} ([0, t])$ for which the identity holds. Then
+  $\mathcal{D}$ is a Dynkin-$\lambda$-system: We have $[0, t] \in \mathcal{D}$
+  by assumption, if $A \in \mathcal{D}$, then also
+  \[ \int_0^t \1_{A^c} (s) f (s) \mathrm{d} s = \int_0^t f (s) \mathrm{d} s - \int_0^t
+     \1_A (s) f (s) \mathrm{d} s = 0, \]
+  and if $(A_n) \subset \mathcal{D}$ with $A_n \cap A_m = \emptyset$ for $m
+  \neq n$, then also
+  \[ \int_0^t \1_{\bigcup_n A_n} (s) f (s) \mathrm{d} s = \int_0^t \sum_{n =
+     1}^{\infty} \1_{A_n} (s) f (s) \mathrm{d} s = \sum_{n = 1}^{\infty} \int_0^t
+     \1_{A_n} (s) f (s) \mathrm{d} s = 0 \]
+  by the dominated convergence theorem (since $\left| \sum_{n = 1}^N \1_{A_n}
+  f \right| \leqslant | f | \in L^1$ for all $n$). Moreover, $\mathcal{D}$
+  contains all intervals $[0, r] \subset [0, t]$. These intervals are stable
+  by intersection (a $\pi$-system), and they generate $\mathcal{B} ([0, t])$.
+  So by the $\pi - \lambda$ theorem we have $\mathcal{B} ([0, t]) \subset
+  \mathcal{D}$.
+\end{proof}
+
+\begin{remark*}
+  As shown by Mateusz Majchrzak in 2020/21 (see the Whiteboard forum), there
+  does exist a probability space $(\Omega, \mathcal{F}, \mathbb{P})$ with a
+  naive white noise $\xi$ such that for all $\omega \in \Omega$ the map $t
+  \mapsto \xi_t (\omega)$ is $\mathcal{B} (\mathbb{R}_+) -\mathcal{B}
+  (\mathbb{R})$ measurable, and such that for all $t \geqslant 0$ the map
+  $\omega \mapsto \xi_t (\omega)$ is $\mathcal{F}-\mathcal{B} (\mathbb{R})$
+  measurable. But this is weaker than joint measurability in $(t, \omega)$.
+\end{remark*}}}
+
+The way out of this dilemma is to formally assume that $(\xi_t)_{t \geqslant
+0}$ is an i.i.d. family of $\mathcal{N} (0, \infty)$ variables rather than
+$\mathcal{N} (0, 1)$ variables, i.e. that $\mathbb{E} [\xi_t^2] = \infty$. Of
+course, this makes no sense. But let us abandon mathematical rigor for a
+moment and argue as physicists. Then we can consider the physicist's Dirac
+delta function $\delta : \mathbb{R} \rightarrow \{ 0, \infty \}$, which
+satisfies
+\[ \delta (x) = \left\{\begin{array}{ll}
+     \infty, & x = 0,\\
+     0, & x \neq 0,
+   \end{array}\right. \qquad \text{and} \qquad \int_{\mathbb{R}} f (x) \delta
+   (x) \mathrm{d} x = f (0), \]
+and we assume that $(\xi_t)_{t \geqslant 0}$ is a centered Gaussian process
+with covariance function
+\[ \mathbb{E} [\xi_s \xi_t] = \delta (t - s) . \]
+This still does not make any sense, but if we assume that we can integrate
+$\int_0^{\infty} \xi_t f (t) \mathrm{d} t$ for $f \in L^2 (\mathbb{R}_+)$, then we
+obtain formally
+
+\begin{align*}
+  \mathbb{E} \left[ \int_0^{\infty} \xi_t f (t) \mathrm{d} t \int_0^{\infty} \xi_s
+  g (s) \mathrm{d} s \right] & = \int_0^{\infty} \int_0^{\infty} \mathbb{E} [\xi_t
+  \xi_s] f (t) g (s) \mathrm{d} s \mathrm{d} t\\
+  & = \int_0^{\infty} \int_0^{\infty} \delta (t - s) f (t) g (s) \mathrm{d} s
+  \mathrm{d} t\\
+  & = \int_0^{\infty} \left( \int_{- \infty}^t \delta (s) f (t - s) \mathrm{d} s
+  \right) g (t) \mathrm{d} t\\
+  & = \int_0^{\infty} f (t) g (t) \mathrm{d} t.
+\end{align*}
+
+These were only formal manipulations. But now we can take this formal identity
+and take it as the definition of a (non-naive) white noise. We interpret
+\[ \xi (f) = \int_0^{\infty} \xi_t f (t) \mathrm{d} t, \]
+where the right hand side is formal notation assuming that $\xi$ has a
+density, and the left hand side is the ``action of $\xi$ on $f$''. This is
+conceptually similar to formally writing
+\[ \int_0^{\infty} f (t) \mu (t) \mathrm{d} t \coloneq \mu (f) \coloneq
+   \int_0^{\infty} f (t) \mu (\mathrm{d} t) \]
+for a measure $\mu$ on $\mathcal{B} (\mathbb{R}_+)$, even if $\mu$ does not
+have a density with respect to Lebesgue measure. Note however that the white
+noise is not a measure, so even this interpretation is dubious. Instead we
+abandon the connection with densities and measures, and we define the white
+noise rigorously as follows:
+
+\begin{definition}[White noise]
+  Let $\mathbb{T}= L^2 (\mathbb{R}_+)$ and
+  \[ \Gamma (f, g) = \int_0^{\infty} f (t) g (t) \mathrm{d} t = \langle f, g
+     \rangle_{L^2 (\mathbb{R}_+)} . \]
+  Then $\Gamma$ is symmetric and positive semi-definite, and the centered
+  Gaussian process $(\xi (f))_{f \in L^2 (\mathbb{R}_+)}$ with covariance
+  $\Gamma$ is called {\emph{white noise}}.
+\end{definition}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Show that $\Gamma$ is indeed positive semi-definite.
+\end{exercise*}}}{\[ \sum_{i, j = 1}^n \alpha_i \alpha_j \Gamma (f_i, f_j) =
+   \int_0^{\infty} \sum_{i, j = 1}^n \alpha_i \alpha_j f_i (t) f_j (t) \mathrm{d}
+   t = \int_0^{\infty} \left( \sum_{i, j = 1}^n \alpha_i f_i (t) \right)^2
+   \mathrm{d} t. \]}
+
+\begin{definition}
+  Let $(X, d_X)$ and $(Y, d_Y)$ be metric spaces. A map $T : X \rightarrow Y$
+  is called an {\emph{isometry}} if $d_Y (T (x), T (x')) = d_X (x, x')$ for
+  all $x, x' \in X$.
+\end{definition}
+
+\begin{lemma}
+  If $(\xi (f))_{f \in L^2 (\mathbb{R}_+)}$ is a white noise, then
+  \[ L^2 (\mathbb{R}_+) \ni f \mapsto \xi (f) \in L^2 (\Omega) \]
+  is a linear isometry.
+\end{lemma}
+
+\begin{proof}
+  Let us write $\langle \cdummy, \cdummy \rangle = \langle \cdummy, \cdummy
+  \rangle_{L^2 (\mathbb{R}_+)}$. We have for $f, g, h \in L^2 (\mathbb{R}_+)$
+  and $\alpha, \beta \in \mathbb{R}$
+  \[ \mathbb{E} [(\alpha \xi (f) + \beta \xi (g) - \xi (\alpha f + \beta g))
+     \xi (h)] = \alpha \langle f, h \rangle + \beta \langle g, h \rangle -
+     \langle \alpha f + \beta g, h \rangle = 0, \]
+  so in particular
+  \[ \mathbb{E} [(\alpha \xi (f) + \beta \xi (g) - \xi (\alpha f + \beta
+     g))^2] = 0, \]
+  i.e. $\alpha \xi (f) + \beta \xi (g) = \xi (\alpha f + \beta g)$ and $\xi$
+  is linear. Since $\| \xi (f) \|_{L^2 (\Omega)}^2 =\mathbb{E} [\xi (f)^2] =
+  \|f\|^2_{L^2 (\mathbb{R}_+)}$, $\xi$ is an isometry.
+\end{proof}
+
+To recap: Our motivation for introducing the naive white noise was that it
+seems to be natural noise to add to an ODE. But we saw that for a naive white
+noise $\xi$ we cannot make sense of the ODE
+\[ X_t = x_0 + \int_0^t b (X_s) \mathrm{d} s + \int_0^t \xi_s \mathrm{d} s, \]
+because the integral on the right hand side is not defined or not a random
+variable. But now we can take a white noise and use formal notation to write
+\[ \int_0^t \xi_s \mathrm{d} s = \int_0^{\infty} \1_{[0, t]} (s) \xi_s \mathrm{d} s =
+   \xi \left( \1_{[0, t]} \right), \]
+and since $\1_{[0, t]} \in L^2 (\mathbb{R}_+)$ the right hand side is
+perfectly well defined.
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Let $\xi$ be a white noise and define $B_t = \xi (\mathbbm{1}_{[0, t]})$,
+  for $t \geqslant 0$. Show that $B$ is a pre-Brownian motion.
+\end{exercise*}}}{For $t_1, \ldots, t_n \in \mathbb{R}_+$ and $\alpha_1,
+\ldots, \alpha_n \in \mathbb{R}$ we have
+\[ \alpha_1 B_{t_1} + \cdots + \alpha_n B_{t_n} = \alpha_1 \xi
+   (\mathbbm{1}_{[0, t_1]}) + \cdots + \alpha_n \xi (\mathbbm{1}_{[0, t_n]}) =
+   \xi \left( \alpha_1 \1_{[0, t_1]} + \cdots + \alpha_n \1_{[0, t_n]} \right)
+\]
+by linearity of $\xi$ and since $\alpha_1 \1_{[0, t_1]} + \cdots + \alpha_n
+\1_{[0, t_n]} \in L^2$. The right hand side is centered Gaussian, and
+therefore $B$ is a centered Gaussian process. Its covariance is
+\[ \mathbb{E} [B_s B_t] =\mathbb{E} \left[ \xi \left( \1_{[0, s]} \right) \xi
+   \left( \1_{[0, t]} \right) \right] = \left\langle \1_{[0, s]}, \1_{[0, t]}
+   \right\rangle_{L^2 (\mathbb{R}_+)} = \int_0^{\infty} \1_{[0, s]} (r)
+   \1_{[0, t]} (r) \mathrm{d} r = s \wedge t, \]
+and thus $B$ is a pre-Brownian motion.}
+
+\
+
+\begin{center}
+  \hrulefill\hrulefill\tmtextbf{ End of the lecture on October 17}
+  \hrulefill\hrulefill
+\end{center}
+
+\
+
+Above we performed the construction of white noise for $(\xi (f))_{f \in H}$
+where $H = L^2 (\mathbb{R}_+)$ us a Hilbert space. More generally, given
+\tmtextit{any} Hilbert space $H$, one can construct a centered Gaussian
+process $(X (h))_{h \in H}$ with $\mathbb{E} [X (f) X (g)] = \langle f, g
+\rangle_H$, and also in that case $h \mapsto X (h)$ is a linear isometry; see
+Exercise Sheet~1 for such a construction. In this case, $\xi$ is called a
+{\emph{white noise on $H$}}.
+
+\
+
+Recap: having now interpreted $\int_0^t \xi_s \mathrm{d} s$ as $\xi
+(\mathbb{1}_{[0, t]}) \backassign B_t$ and having established that the latter
+is a pre-Brownian motion, we finally end up with the stochastic differential
+equation (SDE)
+\[ X_t = x_0 + \int_0^t b (X_s) \mathrm{d} s + B_t . \]
+This is still problematic because of bad path properties of the pre-Brownian
+motion (the map $t \mapsto B_t (\omega)$ might not be measurable), but now we
+just have to turn the pre-Brownian motion into an actual Brownian motion with
+continuous trajectories and then we can solve the SDE. We will do this later
+in the course, for now we discuss the relation between white noise and
+Brownian motion further.
+
+The previous exercise shows that formally the (pre-)Brownian motion is the
+integral of the white noise. Conversely, we formally have $\xi_t = \partial_t
+B_t$, i.e. white noise is the derivative of the (pre-)Brownian motion:
+
+\begin{lemma}[Wiener integral]
+  \label{lem:wiener-int}Let $(B_t)_{t \geqslant 0}$ be a pre-Brownian motion
+  and let
+  \[ \mathcal{E}= \left\{ f \in L^2 (\mathbb{R}_+) : f (t) = \sum_{k = 0}^{n -
+     1} x_k \1_{(t_k, t_{k + 1}]} (t), n \in \mathbb{N}, x_0, \ldots, x_{n -
+     1} \in \mathbb{R}, 0 \leqslant t_0 < t_1 < \cdots < t_n \right\} . \]
+  For such $f$ we define
+  \[ \xi (f) \coloneq \int_0^{\infty} f (s) \mathrm{d} B_s \coloneq \sum_{k = 0}^{n
+     - 1} x_k (B_{t_{k + 1}} - B_{t_k}) . \]
+  This definition does not depend on the specific representation of $f$, and
+  we have
+  \[ \| \xi (f) \|_{L^2 (\Omega)}^2 =\mathbb{E} [\xi (f)^2] = \| f \|_{L^2
+     (\mathbb{R}_+)}^2 . \]
+  Therefore, $\xi$ has a unique continuous extension to $L^2 (\mathbb{R}_+)$,
+  also denoted by $\xi$, and we also write
+  \[ \int_0^{\infty} f (s) \mathrm{d} B_s \coloneq \xi (f) . \]
+  The process $(\xi (f))_{f \in L^2 (\mathbb{R}_+)}$ is a white noise.
+\end{lemma}
+
+The integral $\int_0^{\infty} f (s) \mathrm{d} B_s$ is called {\emph{Wiener
+integral}} and it is a precursor of the {\emph{It{\^o} integral}}, which we
+will construct later in the course and allows random integrands, not just
+deterministic $f$ like the Wiener integral.
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Why is $\int_0^{\infty} f (s) \mathrm{d} B_s \coloneq \sum_{k = 0}^{n - 1} x_k
+  (B_{t_{k + 1}} - B_{t_k})$ a sensible definition?
+\end{exercise*}}}{If we pretend that $B$ is differentiable, then we get
+\[ \int_0^{\infty} f (s) \partial_s B_s \mathrm{d} s = \sum_{k = 0}^{n - 1} x_k
+   \int_0^{\infty} \1_{(t_k, t_{k + 1}]} (s) \partial_s B_s \mathrm{d} s = \sum_{k
+   = 0}^{n - 1} x_k (B_{t_{k + 1}} - B_{t_k}) \]
+by the fundamental theorem of calculus.}
+
+\begin{proof}
+  We leave it as an exercise to check that the definition of $\xi (f)$ does
+  not depend on the representation of $f$, i.e. that if $\sum_{k = 0}^{n - 1}
+  x_k \1_{(t_k, t_{k + 1}]} = \sum_{\ell = 0}^{m - 1} y_{\ell} \1_{(s_k, s_{k
+  + 1}]}$, then
+  \[ \sum_{k = 0}^{n - 1} x_k (B_{t_{k + 1}} - B_{t_k}) = \sum_{\ell = 0}^{m -
+     1} y_{\ell} (B_{t_{\ell + 1}} - B_{t_{\ell}}) . \]
+  It is clear from the definition that the map $\mathcal{E} \ni f \mapsto \xi
+  (f)$ is linear; let us show the isometry property. We have
+  \begin{eqnarray*}
+    \| \xi (f) \|_{L^2 (\Omega)}^2 & = & \mathbb{E} \left[ \left( \sum_{k =
+    0}^{n - 1} x_k (B_{t_{k + 1}} - B_{t_k}) \right)^2 \right]\\
+    & = & \sum_{k, \ell = 0}^{n - 1} x_k x_{\ell} \mathbb{E} [(B_{t_{k + 1}}
+    - B_{t_k}) (B_{t_{\ell + 1}} - B_{t_{\ell}})] .
+  \end{eqnarray*}
+  If (say) $k < \ell$, then $B_{t_{\ell + 1}} - B_{t_{\ell}}$ is independent
+  of $B_{t_{k + 1}} - B_{t_k}$ and the expectation vanishes. Therefore, we
+  remain with the diagonal terms and obtain
+  \[ \| \xi (f) \|_{L^2 (\Omega)}^2 = \sum_{k = 0}^{n - 1} x_k^2 \mathbb{E}
+     [(B_{t_{k + 1}} - B_{t_k})^2] = \sum_{k = 0}^{n - 1} x_k^2 (t_{k + 1} -
+     t_k) = \int_0^{\infty} | f (t) |^2 \mathrm{d} t = \| f \|_{L^2
+     (\mathbb{R}_+)}^2 . \]
+  Therefore,
+  \[ \xi : (\mathcal{E}, \| \cdummy \|_{L^2 (\mathbb{R}_+)}) \rightarrow (L^2
+     (\Omega), \| \cdummy \|_{L^2 (\Omega)}) \]
+  is a linear isometry, and in particular it is uniformly continuous. As
+  $\mathcal{E}$ is dense in $L^2 (\mathbb{R}_+)$, the map $\xi$ has a unique
+  continuous extension to all of $L^2 (\mathbb{R}_+)$, which is still a linear
+  isometry and which we still denote by $\xi$. It remains to show that $\xi$
+  is a white noise.
+
+  By centered Gaussianity of $B$, the process $(\xi (f))_{f \in \mathcal{E}}$
+  is centered Gaussian, and by a limiting argument (cf.
+  Lemma~\ref{lem:limit.gaussians} in Appendix~\ref{app:gaussian}) also $(\xi
+  (f))_{f \in L^2 (\mathbb{R}_+)}$ is centered Gaussian. By polarization we
+  have
+  \[ \mathbb{E} [\xi (f) \xi (g)] = \langle f, g \rangle_{L^2 (\mathbb{R}_+)},
+     \qquad f, g \in L^2 (\mathbb{R}_+), \]
+  and thus $\xi$ is a white noise.
+
+  \
+
+  {\noindent}\begin{tabularx}{1.0\textwidth}{@{}X@{}}
+    \tmtextbf{Polarization:} Let $X$ be an $\mathbb{R}$-vector space and let
+    $[\cdummy, \cdummy]_1, [\cdummy, \cdummy]_2 : X \times X \rightarrow
+    \mathbb{R}$ be two symmetric bilinear forms such that $[x, x]_1 = [x,
+    x]_2$ for all $x \in X$. Then $[x, y]_1 = [x, y]_2$ for all $x, y \in X$:
+    \begin{eqnarray*}
+      {}[x, y]_1 & = & \frac{1}{4} ([x + y, x + y]_1 - [x - y, x - y]_1)\\
+      & = & \frac{1}{4} ([x + y, x + y]_2 - [x - y, x - y]_2)\\
+      & = & [x, y]_2 .
+    \end{eqnarray*}
+  \end{tabularx}
+\end{proof}
+
+With formal notation we have
+\[ \int_0^{\infty} f (s) \mathrm{d} B_s = \int_0^{\infty} f (s) \partial_s B_s
+   \mathrm{d} s, \qquad \xi (f) = \int_0^{\infty} f (s) \xi_s \mathrm{d} s, \]
+and since $\xi (f) = \int_0^{\infty} f (s) \mathrm{d} B_s$ for all $f \in L^2
+(\mathbb{R}_+)$ we formally get $\partial_t B = \xi$. One can make this link
+rigorous with the help of Schwartz's theory of generalized functions, see
+Exercise Sheet 2 for some details; but we will not need this in the main
+lectures.
+
+\section{Brownian motion and Poisson process}
+
+\subsection{Continuity of stochastic processes}
+
+The pre-Brownian motion is not very useful yet. To turn it into an interesting
+and useful process, we need to add one more property to its definition:
+
+\begin{definition}[Continuous stochastic process, (fractional) Brownian
+motion]
+  \begin{enumerate}
+    \item We say that a stochastic process $X = (X_t)_{t \geqslant 0}$ with
+    values in $\mathbb{R}^d$ is {\emph{continuous}} if all of its trajectories
+    are continuous, i.e. $t \mapsto X_t (\omega)$ is continuous for all
+    $\omega \in \Omega$.
+
+    \item A continuous pre-Brownian motion such that $B_0 (\omega) = 0$ for
+    all $\omega \in \Omega$ (rather than $B_0 = 0$ a.s.) is called a
+    {\emph{Brownian motion}} or {\emph{Wiener process}}.
+
+    \item A continuous fractional pre-Brownian motion such that $B_0 (\omega)
+    = 0$ for all $\omega \in \Omega$ (rather than $B_0 = 0$ a.s.) is called a
+    {\emph{fractional Brownian motion}}.
+  \end{enumerate}
+\end{definition}
+
+It is natural to ask under which conditions a process $X$ is continuous and if
+a Brownian motion exists. This turns out to be quite subtle, because it is not
+possible to find conditions on the finite-dimensional distributions of $X$
+which guarantee the continuity of its trajectories:
+
+\begin{example}
+  \label{ex:discontinuous modification}Let $(X_t)_{t \geqslant 0}$ be a
+  continuous stochastic process with values in $\mathbb{R}$, and let $\tau$ be
+  a random variable which is uniformly distributed on $[0, 1]$. Then
+  \[ \tilde{X}_t (\omega) = X_t (\omega) +\mathbbm{1}_{\{\tau (\omega) \}}
+     (t), \qquad t \geqslant 0, \]
+  is discontinuous for all $\omega$ and satisfies $\mathbb{P} (\tilde{X}_t =
+  X_t) = 1$ for all $t \geqslant 0$. In particular, $\tilde{X}$ and $X$ have
+  the same finite-dimensional distributions.
+
+  \begin{figure}[h]
+    \scalebox{0.35}{\includegraphics{StochAna-24-10-31-8.pdf}}
+    \caption{}
+  \end{figure}
+
+  Recall from Stochastics~II that the {\emph{law}} of $(X_t)_{t \geqslant 0}$
+  is defined as the measure $\mathbb{P}_X =\mathbb{P} \circ X^{- 1}$ on
+  $(\mathbb{R}^{\mathbb{R}_+}, \mathcal{B} (\mathbb{R})^{{\otimes
+  \mathbb{R}_+} })$, and that $\mathbb{P}_X$ is uniquely determined by the
+  finite-dimensional distributions of $X$, i.e. the family of measures
+  $(\mathbb{P} \circ (X_t)_{t \in I}^{- 1})_{I \subset \mathbb{T}, | I | <
+  \infty}$. Since $X$ and $\tilde{X}$ have the same finite-dimensional
+  distributions, they also have the same law on $(\mathbb{R}^{\mathbb{R}_+},
+  \mathcal{B} (\mathbb{R})^{{\otimes \mathbb{R}_+} })$: $\mathbb{P}_X
+  =\mathbb{P}_{\tilde{X}}$. So we have two processes with the same law, but $X
+  (\omega)$ is continuous for all $\omega \in \Omega$, while $\tilde{X}
+  (\omega)$ is discontinuous for all $\omega \in \Omega$. Consequently, we
+  cannot determine from the law of a process whether it is continuous.
+
+  In particular, the set $C (\mathbb{R}_+, \mathbb{R})$ is not in $\mathcal{B}
+  (\mathbb{R})^{\otimes \mathbb{R}_+}$: Otherwise $\mathbb{P}_X (C
+  (\mathbb{R}_+, \mathbb{R})) =\mathbb{P}_{\tilde{X}} (C (\mathbb{R}_+,
+  \mathbb{R}))$ would be defined and this would lead to the contradiction
+  \begin{eqnarray*}
+    1 & = & \mathbb{P} (\Omega)\\
+    & = & \mathbb{P} (X \in C (\mathbb{R}_+, \mathbb{R}))\\
+    & = & \mathbb{P}_X (C (\mathbb{R}_+, \mathbb{R}))\\
+    & = & \mathbb{P}_{\tilde{X}} (C (\mathbb{R}_+, \mathbb{R}))\\
+    & = & \mathbb{P} (\tilde{X} \in C (\mathbb{R}_+, \mathbb{R}))\\
+    & = & \mathbb{P} (\emptyset) = 0.
+  \end{eqnarray*}
+  Therefore, our assumption $C (\mathbb{R}_+, \mathbb{R}) \in \mathcal{B}
+  (\mathbb{R})^{\otimes \mathbb{R}_+}$ must have been wrong. Even worse, a
+  variation of the same argument shows that not even the point set $\{ 0 \}$
+  is in $\mathcal{B} (\mathbb{R})^{\otimes \mathbb{R}_+}$ (where we write $0$
+  for the function which maps every $t$ to $0$).
+\end{example}
+
+The problem is that the law of $X$ is defined on $\mathcal{B}
+(\mathbb{R})^{\otimes \mathbb{R}_+}$, and roughly speaking sets from this
+$\sigma$-algebra only depend on countably many $(X_{t_1}, X_{t_2}, \ldots)$.
+But to determine whether $X$ is continuous we need to evaluate it at
+{\underline{all}} $t \in \mathbb{R}_+$.
+
+{\noindent}\begin{tabularx}{1.0\textwidth}{@{}X@{}}
+  \tmtextbf{Structure of $\mathcal{B} (\mathbb{R})^{\otimes \mathbb{R}_+}$:}
+  The following discussion is irrelevant for our lecture. A subset $A \subset
+  \mathbb{R}^{\mathbb{R}_+}$ is in $\mathcal{B} (\mathbb{R})^{\otimes
+  \mathbb{R}_+}$ if and only if there exists $t_1, t_2, \ldots \in
+  \mathbb{R}_+$ and $B \in \mathcal{B} (\mathbb{R})^{\otimes \mathbb{N}}$ such
+  that
+  \[ A = \{ \omega \in \mathbb{R}^{\mathbb{R}_+} : (\omega (t_1), \omega
+     (t_2), \ldots) \in B \} . \]
+  Proving this amounts to showing that the family of sets of the claimed form
+  is a Dynkin system and also stable by intersection, and then to apply the
+  $\pi - \lambda$ theorem.
+\end{tabularx}
+
+\begin{definition}[Modification, indistinguishable]
+  Let $X = (X_t)_{t \in \mathbb{T}}$ and $\tilde{X} = (\tilde{X}_t)_{t \in
+  \mathbb{T}}$ be two stochastic processes with values in a measurable state
+  space $S$. We say that
+  \begin{enumerate}
+    \item $\tilde{X}$ is a {\emph{modification}} of $X$ if $\mathbb{P} (X_t =
+    \tilde{X}_t) = 1$ for all $t \in \mathbb{T}$;
+
+    \item $X$ and $\tilde{X}$ are {\emph{indistinguishable}} if there exists a
+    measurable set $A \in \mathcal{F}$ with $\mathbb{P} (A) = 1$ and such that
+    $X_t (\omega) = \tilde{X}_t (\omega)$ for all $\omega \in A$ and all $t
+    \in \mathbb{T}$. Formally, we also write $\mathbb{P} (X_t = \tilde{X}_t
+    \text{ for all } t \in \mathbb{T}) = 1$.
+  \end{enumerate}
+\end{definition}
+
+Note that $\mathbb{P} (X_t = \tilde{X}_t \text{ for all } t \in \mathbb{T})$
+might in general not be defined, because
+\[ \left\{ X_t = \tilde{X}_t \text{ for all } t \in \mathbb{T} \right\} =
+   \bigcap_{t \in \mathbb{T}} \{ X_t = \tilde{X}_t \} \]
+is an intersection of uncountably many events. Therefore, we require the
+existence of the measurable set $A \in \mathcal{F}$ in ii.
+
+The second property is much stronger than the first one. For example, if $X$
+is a continuous process and $X$ and $\tilde{X}$ are indistinguishable, then
+$\tilde{X}$ is almost surely continuous. While Example~\ref{ex:discontinuous
+modification} shows that a continuous process can have a discontinuous
+modification.
+
+\
+
+\begin{center}
+  \hrulefill\hrulefill\tmtextbf{ End of the lecture on October 23}
+  \hrulefill\hrulefill
+\end{center}
+
+\
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Let $(\tilde{X}_t)_{t \geqslant 0}$ be a modification of $(X_t)_{t \geqslant
+  0}$. Show that:
+  \begin{enumerate}
+    \item $X$ and $\tilde{X}$ have the same finite dimensional distributions
+    and therefore the same law.
+
+    \item If $X$ and $\tilde{X}$ take values in a metric space and are both
+    continuous, then they are indistinguishable.
+  \end{enumerate}
+\end{exercise*}}}{\begin{enumerate}
+  \item For $n \in \mathbb{N}$ and $t_1, \ldots, t_n \geqslant 0$ we have
+  almost surely
+  \[ (X_{t_1}, \ldots, X_{t_n}) = (\tilde{X}_{t_1}, \ldots, \tilde{X}_{t_n}) .
+  \]
+  Thus, for bounded measurable $f : S^n \rightarrow \mathbb{R}$:
+  \[ \mathbb{E} [f (X_{t_1}, \ldots, X_{t_n})] =\mathbb{E} [f
+     (\tilde{X}_{t_1}, \ldots, \tilde{X}_{t_n})] . \]
+  \item Since the countable union of null sets is still a null set, there
+  exists a null set $N$ such that for all $t \in \mathbb{Q}_+ \coloneq
+  \mathbb{Q} \cap \mathbb{R}_+$ and all $\omega \in N^c$:
+  \[ X_t (\omega) = \tilde{X}_t (\omega) . \]
+  Since $X (\omega)$ and $\tilde{X} (\omega)$ are continuous, we also have for
+  all $t \geqslant 0$:
+  \[ X_t (\omega) = \lim_{\tmscript{\begin{array}{c}
+       s \rightarrow \infty,\\
+       s \in \mathbb{Q}_+
+     \end{array}}} X_s (\omega) = \lim_{\tmscript{\begin{array}{c}
+       s \rightarrow \infty,\\
+       s \in \mathbb{Q}_+
+     \end{array}}} \tilde{X}_s (\omega) = \tilde{X}_t (\omega) . \]
+  So $X$ and $\tilde{X}$ are indistinguishable.
+\end{enumerate}}
+
+There are essentially two ways to solve these problems and to construct
+continuous processes:
+\begin{itemizeminus}
+  \item Either we construct the process of interest $X$ on a different
+  probability space than $(\mathbb{R}^{\mathbb{R}_+},
+  \mathcal{B}(\mathbb{R})^{\otimes \mathbb{R}_+})$, for example on $(C
+  (\mathbb{R}_+, \mathbb{R}), \mathcal{B}(C (\mathbb{R}_+, \mathbb{R})))$ (say
+  via Donsker's invariance principle for the Brownian motion).
+
+  \item Or we use the Kolmogorov extension problem to construct a process
+  $\tilde{X}$ on $(\mathbb{R}^{\mathbb{R}_+}, \mathcal{B}(\mathbb{R})^{\otimes
+  \mathbb{R}_+})$ which has all the prescribed finite dimensional
+  distributions that we want, and then try to construct a continuous
+  modification $X$ of $\tilde{X}$ (so in particular $X$ has the required law).
+\end{itemizeminus}
+Of course, there are also probability laws on $(\mathbb{R}^{\mathbb{R}_+},
+\mathcal{B}(\mathbb{R})^{\otimes \mathbb{R}_+})$ for which the associated
+process can never be continuous, for example the (deterministic) process $X_t
+=\mathbbm{1}_{[1, \infty)} (t)$, or the Poisson process that we will encounter
+later. But in many cases of interest, most notably for the pre-Brownian
+motion, one or both of these approaches can be used to construct a continuous
+process with the given law. Here we will follow the second approach.
+
+\begin{definition}[H{\"o}lder continuity]
+  For $\alpha \in (0, 1]$ and $T \in (0, + \infty)$, the space of
+  $\alpha$-{\emph{H{\"o}lder continuous}} functions on $[0, T]$ is defined as
+  \[ C^{\alpha} ([0, T], \mathbb{R}) = \{f : [0, T] \rightarrow \mathbb{R},
+     \|f\|_{\alpha} < \infty\}, \qquad \text{where } \|f\|_{\alpha} \coloneq
+     \sup_{0 \le s < t \le T}  \frac{|f (t) - f (s) |}{|t - s|^{\alpha}} . \]
+  In case of ambiguity of the time interval, we also write more explicitly
+  \[ \|f\|_{C^{\alpha} ([0, T])} \coloneq \sup_{0 \le s < t \le T}  \frac{|f
+     (t) - f (s) |}{|t - s|^{\alpha}} \]
+\end{definition}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  {\tmdummy}
+
+  \begin{enumerate}
+    \item Do you know another name for $1$-H{\"o}lder continuous functions?
+
+    \item Show that for $\beta \leqslant \alpha$ we have $C^{\alpha} ([0, T],
+    \mathbb{R}) \subset C^{\beta} ([0, T], \mathbb{R})$.
+  \end{enumerate}
+\end{exercise*}}}{\begin{enumerate}
+  \item Lipschitz.
+
+  \item
+  \[ \frac{|f (t) - f (s) |}{|t - s|^{\beta}} = |t - s|^{\alpha - \beta}
+     \frac{|f (t) - f (s) |}{|t - s|^{\alpha}} \leqslant T^{\alpha - \beta} \|
+     f \|_{\alpha} . \]
+\end{enumerate}}
+
+\
+
+One of the most important tools for constructing continuous stochastic
+processes is Kolmogorov's continuity criterion.
+
+\begin{theorem}[Kolmogorov's continuity criterion]
+  \label{thm:kolmogorov-continuity}Let $T \in (0, + \infty)$ and let $(X_t)_{t
+  \in [0, T]}$ be a real-valued stochastic process such that there exist $p
+  \in [1, \infty)$, $\alpha > \frac{1}{p}$ and $K \geqslant 0$ with
+  \begin{equation}
+    \label{eq:kolmogorov continuity assumption} \mathbb{E} [|X_t - X_s |^p]^{1
+    / p} \leqslant K |t - s|^{\alpha} .
+  \end{equation}
+  Then there exists a continuous modification $\tilde{X}$ of $X$. Moreover,
+  for all $\beta \in (0, \alpha - \frac{1}{p})$ there exists a constant $C = C
+  (\alpha, \beta, p, T) > 0$ such that
+  \begin{equation}
+    \label{eq:kolmogorov-continuity-conclusion} \mathbb{E} [\| \tilde{X}
+    \|_{\beta}^p]^{1 / p} \leqslant C K.
+  \end{equation}
+  In particular, $\tilde{X}$ is a.s. $\beta$-H{\"o}lder continuous.
+\end{theorem}
+
+Let us postpone the proof of Theorem~\ref{thm:kolmogorov-continuity} and first
+present some applications, to show its power. Armed with it, we can finally
+construct the Brownian motion.
+
+\begin{corollary}
+  \label{cor:Bm exists}The Brownian motion $B = (B_t)_{t \ge 0}$ exists and
+  $(B_t)_{t \in [0, T]}$ is almost surely in $C^{\alpha} ([0, T], \mathbb{R})$
+  whenever $T \in (0, \infty)$ and $\alpha < 1 / 2$. We have
+  \[ \mathbb{E} [\|B\|_{C^{\alpha} ([0, T])}^p] < \infty \qquad \forall \, p
+     \in [1, \infty) . \label{eq:holder.continuity.Bm} \]
+\end{corollary}
+
+\begin{proof}
+  Let $(\tilde{B}_t)_{t \geqslant 0}$ be a pre-Brownian motion. Since $B$ is a
+  centered Gaussian, all its $p$-moments scale in the same way and so for $p >
+  0$ we have
+  \[ \mathbb{E} [| \tilde{B}_t - \tilde{B}_s |^p]^{1 / p} = \left( c_p
+     \mathbb{E}[| \tilde{B}_t - \tilde{B}_s |^2]^{\frac{p}{2}} \right)^{1 / p}
+     = \left( c_p |t - s|^{\frac{p}{2}} \right)^{1 / p} = c_p^{1 / p} |t -
+     s|^{\frac{1}{2}} . \]
+  It follows from Corollary~\ref{cor:kolmogorov.infinite.time} below that
+  $(\tilde{B}_t)_{t \geqslant 0}$ has a continuous modification $(B_t)_{t
+  \geqslant 0}$; so here let us focus on proving the
+  statement~\eqref{eq:holder.continuity.Bm}. Applying Kolmogorov's continuity
+  criterion to $(B_t)_{t \in [0, T]}$ for $\alpha < \frac{1}{2}$ and
+  $\frac{1}{p} < \frac{1}{2} - \alpha$, we find
+  \[ \mathbb{E} [\|B\|_{C^{\alpha} ([0, T])}^p] < \infty . \]
+  The claim was that this is true for all $p \geqslant 1$, and the above shows
+  it for $p$ large enough, i.e. $p > \left( \frac{1}{2} - \alpha \right)^{-
+  1}$; instead for $p \in [1, \left( \frac{1}{2} - \alpha \right)^{- 1}]$ we
+  can find $n \in \mathbb{N}$ such that $n > \left( \frac{1}{2} - \alpha
+  \right)^{- 1} \geqslant p$ and then bound it using Jensen's inequality:
+  \[ \mathbb{E} [\|B\|_{C^{\alpha} ([0, T])}^p]^{\frac{1}{p}} \leqslant
+     \mathbb{E} [\|B\|_{C^{\alpha} ([0, T])}^n]^{\frac{1}{n}} < \infty . \]
+\end{proof}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  How big do we need to choose $p$ in the previous argument to at least be
+  able to apply Kolmogorov's continuity criterion? Does $p = 2$ work? Which
+  H{\"o}lder continuity would we get with $p = 2 + \varepsilon$?
+\end{exercise*}}}{We need $\frac{1}{p} < \frac{1}{2}$, so $p = 2$ would not
+work. For $p = 2 + \varepsilon$ we would get $\beta$-H{\"o}lder continuity for
+$\beta < \frac{1}{2} - \frac{1}{2 + \varepsilon} = \frac{\varepsilon}{2 (2 +
+\varepsilon)}$. For small $\varepsilon$ this is very close to $0$. For
+$\varepsilon \rightarrow \infty$ it converges to $\frac{1}{2}$.}
+
+\begin{corollary}
+  \label{cor:kolmogorov.infinite.time}Let $(X_t)_{t \geqslant 0}$ be a
+  real-valued stochastic process; suppose that there exist $p \in [1,
+  \infty)$, $\alpha > \frac{1}{p}$ and $K \geqslant 0$ such that
+  \[ \mathbb{E} [|X_t - X_s |^p]^{1 / p} \leqslant K |t - s|^{\alpha}  \quad
+     \forall \, s \leqslant t. \]
+  Then there exists a continuous modification $\tilde{X}$ of $X$.
+\end{corollary}
+
+\begin{proof}
+  The difference to the formulation of Theorem~\ref{thm:kolmogorov-continuity}
+  is that now $X$ is indexed by $\mathbb{R}_+$, and not by a compact interval
+  $[0, T]$. But we can apply for each $n \in \mathbb{N}$ Kolmogorov's
+  continuity criterion to obtain a continuous modification
+  $(\tilde{X}^{(n)}_t)_{t \in [0, n]}$ of $(X_t)_{t \in [0, n]}$. We would
+  like to define $\tilde{X}_t = \tilde{X}^{(n)}_t$ for $n \geqslant t$. The
+  problem is that there are infinitely many possible choices for $n \geqslant
+  t$, so we have to justify that this definition does not depend on $n$ and
+  that it leads to a continuous process.
+
+  If $m \geqslant n$, then $(\tilde{X}^{(n)}_t)_{t \in [0, n]}$ and
+  $(\tilde{X}^{(m)}_t)_{t \in [0, n]}$ are both modifications of $(X_t)_{t \in
+  [0, n]}$ and they are both continuous, so they are indistinguishable. Since
+  the countable union of null sets is a null set, we obtain $\mathbb{P} (N) =
+  0$ for
+  \[ N = \left\{ \omega \in \Omega : \, \exists m, n \in \mathbb{N} \text{ \
+     s.t. } n \leqslant m \text{ and } \tilde{X}^{(n)}_t (\omega) \neq
+     \tilde{X}^{(m)}_t \text{ for some } t \leqslant n \right\} . \]
+  We then define for $t \leqslant n$:
+  \[ \tilde{X}_t (\omega) = \left\{\begin{array}{ll}
+       \tilde{X}^{(n)}_t (\omega), & \omega \in N^c,\\
+       0, & \omega \in N.
+     \end{array}\right. \]
+  Since $N$ is a null set, $\tilde{X}$ is a modification of $X$, and it is
+  trivially continuous for $\omega \in N$. And since for $\omega \in N^c$ we
+  have
+  \[ \tilde{X}_t (\omega) = \tilde{X}_t^{(n)} (\omega) = \tilde{X}_t^{(m)}
+     (\omega) \]
+  for all $n, m \geqslant t$ and all the $(\tilde{X}^{(k)}_t)_t$ are
+  continuous, we get that $\tilde{X} (\omega)$ is continuous.
+\end{proof}
+
+We can finally present the
+
+\begin{proof*}{Proof of Theorem~\ref{thm:kolmogorov-continuity}}
+  We use the notation
+  \[ X_{s, t} \coloneq X_t - X_s . \]
+  \begin{enumeratenumeric}
+    \item By rescaling time $t \rightarrow T \cdot t$, we may assume without
+    loss of generality that $T = 1$ (convince yourself of this! See the blue
+    exercise later).
+
+    \item Assume that we already showed for a dense subset $D \subset [0, 1]$
+    that:
+    \begin{equation}
+      \label{eq:kolmog-pr1} \mathbb{E} \left[ \left( \sup_{s \neq t \in D}
+      \frac{| X_{s, t} |}{| t - s |^{\beta}} \right)^p \right]^{1 / p}
+      \leqslant C K.
+    \end{equation}
+    Then in particular $\sup_{s \neq t \in D} \frac{| X_{s, t} (\omega) |}{| t
+    - s |^{\beta}} < \infty$ for almost all $\omega$, and for such $\omega$
+    the function $X (\omega)$ is uniformly continuous on the dense subset $D
+    \subset [0, 1]$. Therefore, it has a unique continuous extension to a
+    function $\tilde{X} (\omega)$ on $[0, 1]$, which satisfies
+    \[ \sup_{s \neq t \in [0, 1]} \frac{| \tilde{X}_{s, t} (\omega) |}{| t - s
+       |^{\beta}} = \sup_{s \neq t \in D} \frac{| X_{s, t} (\omega) |}{| t - s
+       |^{\beta}} . \]
+    If $\omega$ is in the null set for which $\sup_{s \neq t \in D} \frac{|
+    X_{s, t} (\omega) |}{| t - s |^{\beta}} = \infty$, we simply define
+    $\tilde{X}_t (\omega) = 0$ for all $t \in [0, 1]$. Then $\tilde{X}$ is
+    continuous and it satisfies \eqref{eq:kolmogorov-continuity-conclusion},
+    but we still have to show that it is a modification of $X$.
+
+    For $t \in D$ we have a.s. $X_t = \tilde{X}_t$ by construction. For $t
+    \nin D$ consider a sequence $(t_n) \subset D$ with $t_n \rightarrow t$.
+    Then $\tilde{X}_{t_n} (\omega) \rightarrow \tilde{X}_t (\omega)$ for all
+    $\omega$ by continuity of $\tilde{X}$, and $X_{t_n} \rightarrow X_t$ in
+    $L^p$ because $\mathbb{E} [| X_{t_n} - X_t |^p]^{1 / p} \leqslant K | t -
+    t_n |^{\alpha}$. Therefore, the sequence $(\tilde{X}_{t_n} = X_{t_n})_n$
+    converges a.s. to $\tilde{X}_t$ and it converges in $L^p$ to $X_t$, thus
+    $\tilde{X}_t = X_t$ a.s. and $\tilde{X}$ is indeed a modification of $X$.
+
+    \item It remains to show \eqref{eq:kolmog-pr1}. For $n \in \mathbb{N}_0$,
+    consider the \tmtextit{dyadic times}
+    \[ D_n \coloneq \{ t^n_k \coloneq k 2^{- n}, 0 \leqslant k \leqslant 2^n \},
+       \qquad D \coloneq \bigcup_{n = 0}^{\infty} D_n, \]
+    and let
+    \[ \Delta_n = \{ (t^n_k, t^n_{k + 1}) : 0 \leqslant k \leqslant 2^n - 1 \}
+    \]
+    be the nearest neighbors in $D_n$. Then $D$ is dense and it suffices to
+    show \eqref{eq:kolmog-pr1} for this $D$. Let for $n \in \mathbb{N}_0$:
+    \[ M_n \coloneq \max_{k = 0, \ldots, 2^n - 1} | X_{t^n_k, t^n_{k + 1}} | =
+       \max_{(s, t) \in \Delta_n} | X_{s, t} | . \]
+    Then
+    \begin{equation}
+      \begin{array}{ll}
+        \mathbb{E} [M_n^p]^{1 / p} & =\mathbb{E} [\max_{k = 0, \ldots, 2^n -
+        1} | X_{t^n_k, t^n_{k + 1}} |^p]^{1 / p}\\
+        & \leqslant \mathbb{E} \left[ \sum_{k = 0}^{2^n - 1} | X_{t^n_k,
+        t^n_{k + 1}} |^p \right]^{1 / p} = \left( \sum_{k = 0}^{2^n - 1}
+        \mathbb{E} [| X_{t^n_k, t^n_{k + 1}} |^p] \right)^{1 / p}\\
+        & \leqslant 2^{n / p} K 2^{- n \alpha} = K 2^{- n \left( \alpha -
+        \frac{1}{p} \right)} .
+      \end{array} \label{eq:kolmog-pr2}
+    \end{equation}
+    This bound would suffice if we only wanted to compare $s, t \in \bigcup_n
+    \Delta_n$. But we also have to treat the case $s = t^n_k$ and $t =
+    t^m_{\ell}$ for arbitrary $m, n$ and $k, \ell$. We claim that
+    \begin{equation}
+      \sup_{s \neq t \in D} \frac{| X_{s, t} |}{| t - s |^{\beta}} \leqslant
+      2^{\beta + 1} M, \label{eq:kolmog-pr3}
+    \end{equation}
+    where $M \coloneq \sum_{n = 0}^{\infty} 2^{n \beta} M_n \in [0, \infty]$.
+    If this is the case, then by the triangle inequality for the $L^p$-norm
+    (``Minkowski's inequality''), we have:
+
+    \begin{align*}
+      \mathbb{E} [M^p]^{1 / p} & = \| M \|_{L^p} \leqslant \sum_{n =
+      0}^{\infty} \| 2^{n \beta} M_n \|_{L^p}\\
+      & \overset{\eqref{eq:kolmog-pr2}}{\leqslant} \sum_{n = 0}^{\infty} 2^{n
+      \beta} K 2^{- n \left( \alpha - \frac{1}{p} \right)} = K \sum_{n =
+      0}^{\infty} 2^{n \left( \beta - \left( \alpha - \frac{1}{p} \right)
+      \right)} = K \tilde{C},
+    \end{align*}
+
+    where $\tilde{C} = \sum_{n = 0}^{\infty} 2^{n \left( \beta - \left( \alpha
+    - \frac{1}{p} \right) \right)} < \infty$ because $\beta < \alpha -
+    \frac{1}{p}$, so that the geometric series converges. Combining the above
+    bound on $\| M \|_{L^p (\Omega)}$ with claim~\eqref{eq:kolmog-pr3} thus
+    yields the conclusion~\eqref{eq:kolmogorov-continuity-conclusion}.
+
+    \
+
+    \begin{center}
+      \hrulefill\hrulefill\tmtextbf{ End of the lecture on October 24}
+      \hrulefill\hrulefill
+    \end{center}
+
+    \
+
+    \item To prove the claim~\eqref{eq:kolmog-pr3}, we use a {\emph{chaining
+    argument}}: Define for $s < t \in D$:
+    \[ s_n \coloneq \min \{ r \in D_n : r \geqslant s \}, \qquad t_n \coloneq
+       \max \{ r \in D_n : r \leqslant t \} . \]
+    Since $s, t \in D = \bigcup_m D_m$ we have $s_n = s$ and $t_n = t$ from
+    some $n$ on.
+
+    \begin{figure}[h]
+      \scalebox{0.5}{\includegraphics{StochAna-24-10-31-9.pdf}}
+      \caption{Illustration of the $s_n$ and $t_n$.}
+    \end{figure}
+
+    \
+
+    Consider now $m \in \mathbb{N}_0$ such that $2^{- m - 1} < t - s
+    \leqslant 2^{- m}$. Then
+    \begin{eqnarray*}
+      | X_t - X_s | & \leqslant & | X_t - X_{t_m} | + | X_{t_m} - X_{s_m} | +
+      | X_{s_m} - X_s |\\
+      & \leqslant & \sum_{n = m}^{\infty} | X_{t_{n + 1}} - X_{t_n} | + |
+      X_{t_m} - X_{s_m} | + \sum_{n = m}^{\infty} | X_{s_n} - X_{s_{n + 1}} |,
+    \end{eqnarray*}
+    where the two series on the right hand side are actually finite sums.
+    Since $2^{- m} \geqslant t - s$ we know that either $s_m = t_m$ or $(s_m,
+    t_m) \in \Delta_m$. Moreover,
+    \[ s_n - s_{n + 1} \leqslant s_n - s < 2^{- n} \]
+    and $s_n, s_{n + 1} \in D_{n + 1}$, so either $s_n = s_{n + 1}$ or $(s_{n
+    + 1}, s_n) \in \Delta_{n + 1}$. Similarly for $(t_n, t_{n + 1})$.
+    Therefore, we can estimate
+
+    \begin{align*}
+      \frac{| X_{s, t} |}{| t - s |^{\beta}} & \leqslant | t - s |^{- \beta}
+      \left( 2 \sum_{n = m}^{\infty} \max_{(u, v) \in \Delta_{n + 1}} | X_{u,
+      v} | + \max_{(u, v) \in \Delta_m} | X_{u, v} | \right)\\
+      & \leqslant (2^{- m - 1})^{- \beta} 2 \sum_{n = m}^{\infty} M_n
+      \leqslant 2^{\beta + 1} \sum_{n = m}^{\infty} 2^{n \beta} M_n \leqslant
+      2^{\beta + 1} M,
+    \end{align*}
+
+    where $M = \sum_{n = 0}^{\infty} 2^{n \beta} M_n$. This concludes the
+    proof.
+  \end{enumeratenumeric}
+\end{proof*}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  {\tmdummy}
+
+  \begin{enumerate}
+    \item Deduce that: If $(X_t)_{t \in [0, T]}$ is such that $\mathbb{E} [|
+    X_t - X_s |^p] \leqslant K | t - s |^{\gamma}$ for some $p \geqslant 1$
+    and $\gamma > 1$, then $X$ has a continuous modification. On Sheet~2 we
+    will see that this is false for $\gamma = 1$.
+
+    \item Convince yourself that the same proof works if $X$ takes values in a
+    complete metric space (important special case: Banach space). But
+    completeness is important: where did we use the fact that $\mathbb{R}$ is
+    complete?
+
+    \item Justify Step~1 of the proof. In fact, apply scaling to get a more
+    precise statement: if $X$ satisfies~\eqref{eq:kolmogorov continuity
+    assumption} on $[0, T]$, then for all $\beta \in (0, \alpha -
+    \frac{1}{p})$ there exists a constant $\tilde{C} = \tilde{C} (\alpha,
+    \beta, p) > 0$ such that
+    \[ \mathbb{E} [\| \tilde{X} \|_{\beta}^p]^{1 / p} \leqslant \tilde{C} K
+       T^{\alpha - \beta} \]
+    where now the dependence on $T$ is explicit. Note that the r.h.s. explodes
+    as $T \rightarrow \infty$. Can you reconstruct the exact expression of
+    $\tilde{C} (\alpha, \beta, p)$ from the proof?
+  \end{enumerate}
+\end{exercise*}}}{\begin{enumerate}
+  \item If $\mathbb{E} [| X_t - X_s |^p] \leqslant K | t - s |^{\gamma}$, then
+  $\mathbb{E} [| X_t - X_s |^p]^{1 / p} \leqslant K^{1 / p} | t - s |^{\gamma
+  / p}$, and by assumption $\gamma / p > 1 / p$. So we can apply Kolmogorov's
+  continuity criterion.
+
+  \item We only used the triangle inequality for $| X_t - X_s |$, but no other
+  properties of the norm. The triangle inequality also holds for a metric $d
+  (X_s, X_t)$, so we could carry out the same proof for $X$ with values in a
+  metric space. But this space has to be complete: We used that the uniformly
+  continuous map $(X_t)_{t \in D}$ defined on the dense set $D \subset [0, 1]$
+  has a continuous extension. This is only true if the image space is
+  complete.
+
+  \item Let $Y_t = X_{T \cdot t}$, so $X_t = Y_{t / T}$. Then
+
+  \begin{align*}
+    \| X \|_{\beta} & = \sup_{s \neq t \in [0, T]} \frac{| X_t - X_s |}{| t -
+    s |^{\beta}} = \sup_{s \neq t \in [0, T]} \frac{| Y_{t / T} - Y_{s / T}
+    |}{| t - s |^{\beta}} = \sup_{s \neq t \in [0, T]} T^{- \beta} \frac{|
+    Y_{t / T} - Y_{s / T} |}{\left| \frac{t}{T} - \frac{s}{T}
+    \right|^{\beta}}\\
+    & = T^{- \beta} \sup_{s \neq t \in [0, 1]} \frac{| Y_t - Y_s |}{| t - s
+    |^{\beta}} = T^{- \beta} \| Y \|_{\beta} .
+  \end{align*}
+
+  Similarly,
+  \[ \mathbb{E} [| Y_t - Y_s |^p]^{1 / p} =\mathbb{E} [| X_{T \cdot t} - X_{T
+     \cdot s} |^p]^{1 / p} \leqslant K | T \cdot t - T \cdot s |^{\alpha} =
+     T^{\alpha} K | t - s |^{\alpha} . \]
+  Therefore, Kolmogorov's continuity criterion applied to $Y$ gives
+  \[ \mathbb{E} [\| X \|_{\beta}^p]^{1 / p} \leqslant T^{- \beta} \mathbb{E}
+     [\| Y \|_{\beta}^p]^{1 / p} \leqslant T^{- \beta} C T^{\alpha} K =
+     T^{\alpha - \beta} C K \]
+  as claimed.
+\end{enumerate}}
+
+Lemma~\ref{lem:pre-Brownian} is analogously true for Brownian motion: a
+\tmtextit{continuous} stochastic process is a Brownian motion if and only if
+the conditions i.-iii. in the lemma are satisfied.
+
+\begin{remark}
+  \label{rmk:Bm not globally hoelder}The Brownian motion is only
+  H{\"o}lder-continuous on compact intervals, but not on $\mathbb{R}_+$, i.e.
+  we a.s. have $\sup_{0 \leqslant s < t < \infty} \frac{| B_t - B_s |}{| t - s
+  |^{\alpha}} = \infty$ for all $\alpha \in \mathbb{R}$. You will show this on
+  Sheet~2.
+\end{remark}
+
+\begin{remark}
+  {\tmdummy}
+
+  \begin{enumerate}
+    \item Recall from Probability Theory~II that the Borel $\sigma$-algebra on
+    $C (\mathbb{R}_+, \mathbb{R}) = C (\mathbb{R}_+)$, equipped with the
+    topology of locally uniform convergence, is given by
+    \[ \mathcal{B} (C (\mathbb{R}_+)) =\mathcal{B} (\mathbb{R})^{\otimes
+       \mathbb{R}_+} \cap C (\mathbb{R}_+) = \{ A \cap C (\mathbb{R}_+) : A
+       \in \mathcal{B} (\mathbb{R})^{\otimes \mathbb{R}_+} \} . \]
+    Therefore, a map $X : \Omega \rightarrow C (\mathbb{R}_+)$ is
+    $\mathcal{F}-\mathcal{B} (C (\mathbb{R}_+, \mathbb{R}))$-measurable if and
+    only if $X_t : \Omega \rightarrow \mathbb{R}$ is $\mathcal{F}-\mathcal{B}
+    (\mathbb{R})$-measurable for all $t \geqslant 0$. In other words, $X$ is a
+    random variable taking values in $C (\mathbb{R}_+)$ if and only if
+    $(X_t)_{t \geqslant 0}$ is a continuous stochastic process. Therefore, any
+    continuous stochastic process induces a probability measure $\mathbb{P}_X$
+    on $(C (\mathbb{R}_+), \mathcal{B} (C (\mathbb{R}_+)))$ via $\mathbb{P}_X
+    (A) =\mathbb{P} (X \in A)$ (i.e. $\mathbb{P}_X$ is the distribution of
+    $X$).
+
+    \item The distribution $\mathbb{P}_B$ of the Brownian motion is often
+    called the {\emph{Wiener measure}} on $(C (\mathbb{R}_+), \mathcal{B} (C
+    (\mathbb{R}_+)))$; the probability space $(C (\mathbb{R}_+), \mathcal{B}
+    (C (\mathbb{R}_+)), \mathbb{P}_B)$ is called the {\emph{Wiener space}}.
+  \end{enumerate}
+\end{remark}
+
+In fact, we can extend the discussion in the previous remark to show that any
+continuous stochastic process can be realized on the space $(C (\mathbb{R}_+),
+\mathcal{B} (C (\mathbb{R}_+)))$ in a \tmtextit{canonical} way. To this end,
+we need to introduce some notation. Given $\omega \in C (\mathbb{R}_+)$ and $t
+\geqslant 0$, we define the \tmtextit{evaluation map} $e_t : C (\mathbb{R}_+)
+\rightarrow \mathbb{R}$ as $e_t (f) = f (t)$.
+
+{\tmstrong{(In the lecture, the next statement was presented in a slightly
+more informal way as part of the discussion in the previous remark)}}
+
+\begin{lemma}
+  Let $X$ be a continuous real valued stochastic process, $\mathbb{P}_X$ be
+  its law. On the probability space $(C (\mathbb{R}_+), \mathcal{B} (C
+  (\mathbb{R}_+)), \mathbb{P}_X)$, consider the collection $(e_t)_{t \geqslant
+  0}$. Then $(e_t)_{t \geqslant 0}$ is a continuous stochastic process, with
+  law $\mathbb{P}_X$.
+\end{lemma}
+
+\begin{proof}
+  It's easy to see that, for each $t$, $e_t$ is a linear, continuous map; thus
+  in particular is is measurable from $(C (\mathbb{R}_+), \mathcal{B} (C
+  (\mathbb{R}_+)))$ to $(\mathbb{R}, \mathcal{B} (\mathbb{R}))$, namely it is
+  a random variable, so that $(e_t)_{t \geqslant 0}$ is a stochastic process.
+  For any $f \in C (\mathbb{R}_+)$, the map $t \mapsto e_t (f) = f (t)$ is
+  none other than $f$ itself, which is continuous by definition, so $(e_t)_{t
+  \geqslant 0}$ is a continuous stochastic process. Now consider $n \in
+  \mathbb{N}$, $(t_1, \ldots, t_n) \in \mathbb{R}_+^n$, $A_i \in \mathcal{B}
+  (\mathbb{R})$ for $i = 1, \ldots n$, and the subset of
+  $\mathbb{R}^{\mathbb{R}_+}$ given by $\Gamma = \{ f \in
+  \mathbb{R}^{\mathbb{R}_+} : f (t_i) \in A_i \}$. Then by construction
+
+  \begin{align*}
+    \mathbb{P}_X (f \in C (\mathbb{R}_+) : e_{t_i} (f) \in A_i \tmop{for} i =
+    1, \ldots, n) & =\mathbb{P}_X ((e_t)_{t \geqslant 0} \in \Gamma \cap C
+    (\mathbb{R}_+))\\
+    & =\mathbb{P} (X \in \Gamma \cap C (\mathbb{R}_+))\\
+    & =\mathbb{P} (X_{t_i} \in A_i \tmop{for} i = 1, \ldots n)
+  \end{align*}
+
+  which shows that the finite dimensional distributions of $(e_t)_{t \geqslant
+  0}$ under $\mathbb{P}_X$ coincide with the finite dimensional distributions
+  of $X$ under $\mathbb{P}$. In particular, $(e_t)_{t \geqslant 0}$ and $X$
+  (which are possibly defined on different probability spaces!) have the same
+  law.
+\end{proof}
+
+In probability, quite often we do not really care about the underlying
+probability space $(\Omega, \mathcal{F}, \mathbb{P})$, which is treated as an
+abstract object. The above result however tells us that, in the case of
+continuous stochastic processes, if needed we can make it very explicit: we
+can take $\Omega = C (\mathbb{R}_+)$, with the associated Borel
+$\sigma$-algebra, and $\mathbb{P}$ to be the law of the process itself. This
+is sometimes referred to as the \tmtextit{canonical representation} of the
+process $X$. Notice that in this case $\Omega$ becomes a complete separable
+metric space and a vector space, so it has a very nice structure.
+
+\
+
+For a Brownian motion $B$ and $n \in \mathbb{N}$, we can consider the
+piecewise linear dyadic approximation $B^{(n)}$, which interpolates $B$
+linearly between the points $t^n_k \coloneq k 2^{- n}$, for $k \in
+\mathbb{N}_0$; namely
+\[ B^{(n)}_t : = \sum_{k = 0}^{\infty} \1_{[t^n_k, t^n_{k + 1})} (t)
+   (B_{t^n_k} + 2^n (t - t^n_k) B_{t^n_k, t^n_{k + 1}}) . \]
+By continuity of $B^{(n)}$ it is clear that $\sup_{t \leqslant T} |B^{(n)}_t
+(\omega) - B_t (\omega) |$ converges to $0$ for all $\omega \in \Omega$ and
+all $T \in (0, + \infty)$. It is also not difficult to show that for $f \in
+L^2 (\mathbb{R}_+)$ we have
+\[ \int_0^{\infty} f (t) \mathrm{d} B_t = \lim_{n \rightarrow \infty}
+   \int_0^{\infty} f (t) \mathrm{d} B_t^{(n)} = \lim_{n \rightarrow \infty}
+   \int_0^{\infty} f (t) \partial_t B^{(n)}_t \mathrm{d} t \backassign \lim_{n
+   \rightarrow \infty} \int_0^{\infty} f (t) \xi^{(n)}_t \mathrm{d} t, \]
+where the left hand side is the Wiener integral and $\xi^{(n)}_t \coloneq
+\partial_t B^{(n)}_t$ for all $t$ (this is well defined for all $t \nin \{
+t^n_k : k \in \mathbb{N}_0 \}$, and in $t^n_k$ we could for example take the
+right derivative), and the convergence is in $L^2 (\Omega)$. Since
+$\int_0^{\infty} f (t) \mathrm{d} B_t = \xi (f)$ for a white noise $\xi$, we get
+that $\xi (f) = \lim_{n \rightarrow \infty} \int_0^{\infty} f (t) \xi^{(n)}_t
+\mathrm{d} t$, so in a sense we can intepret $\xi$ as limit of $\xi^{(n)}$.
+Moreover, by construction
+\[ \xi^{(n)}_t = \sum_{k = 0}^{\infty} \1_{[t^n_k, t^n_{k + 1})} (t) 2^n
+   B_{t^n_k, t^n_{k + 1}} . \]
+By independence of the Brownian increments we get that $\xi^{(n)} |_{[t^n_k,
+t^n_{k + 1})}$ and $\xi^{(n)} |_{[t^n_{\ell}, t^n_{\ell + 1})}$ are
+independent for $k \neq \ell$. Moreover, $\mathbb{E} [\xi^{(n)}_t] = 0$ and
+$\tmop{Var} (\xi^{(n)}_t) = 2^n$ for all $t \geqslant 0$. So by letting $n
+\rightarrow \infty$ we formally obtain indeed that $(\xi_t)_{t \geqslant 0}$
+are independent and identically distributed Gaussian random variables with
+infinite variance. Of course, this is again purely formal and just intended to
+guide your intuition.
+
+\subsection{Some path properties of the Brownian motion}
+
+So far we showed that the Brownian motion exists and it is almost surely
+$\alpha$-H{\"o}lder continuous on compact subintervals of $\mathbb{R}_+$
+whenever $\alpha < 1 / 2$. Our next aim is to understand its trajectories
+better. For example a priori it is not clear whether the Brownian motion can
+be more regular than $\alpha$-H{\"o}lder continuous. Although in simulations
+it looks very rough, so we would not expect it to be a $C^1$ function, and
+indeed we will show that it is not.
+
+\begin{figure}[h]
+  \resizebox{0.5\columnwidth}{!}{\includegraphics{StochAna-24-10-31-10.pdf}}
+  \caption{Sample path of a Brownian motion.}
+\end{figure}
+
+Throughout this section we fix a Brownian motion $B$. Let us start by showing
+the invariance of the law of $B$ under certain path transformations:
+
+\begin{proposition}
+  \label{prop:brownian path transformation}{\tmdummy}
+
+  \begin{enumerate}
+    \item ($- B_t)_{t \geqslant 0}$ is a Brownian motion;
+
+    \item more generally, for any $\lambda \in \mathbb{R} \setminus \{0\}$,
+    $(\lambda^{- 1} B_{\lambda^2 t})_{t \geqslant 0}$ is a Brownian motion;
+
+    \item $(B_{t + s} - B_s)_{t \geqslant 0}$ for $s \geqslant 0$ is a
+    Brownian motion, and is independent of $(B_r)_{r \in [0, s]}$
+    ({\emph{``Markov property''}});
+
+    \item $(t \cdot B_{1 / t})_{t \geqslant 0}$, where we set $0 \cdot B_{1 /
+    0} \coloneq 0$, is indistinguishable from a Brownian motion.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  \tmtextit{i.}, \tmtextit{ii.}, \tmtextit{iii.} were shown on Sheet 1.
+
+  \tmtextit{iv.}: The process $(t \cdot B_{1 / t})_{t \geqslant 0}$ is
+  Gaussian, continuous everywhere except possibly at 0, and for $0 < s < t$ we
+  have
+  \[ \mathbb{E} [(s \cdot B_{1 / s}) (t \cdot B_{1 / t})] = s \cdot t (1 / t)
+     = s = s \wedge t. \]
+  It remains to show the (almost sure) continuity at 0. For that purpose, note
+  that by continuity of $t \mapsto t B_{1 / t}$ on $(0, 1]$, it holds
+  \[ \{ \omega : \lim_{t \rightarrow 0} t \cdot B_{1 / t} (\omega) = 0 \} =
+     \bigcap_{m \in \mathbb{N}} \bigcup_{n \in \mathbb{N}} \{\omega : |t \cdot
+     B_{1 / t} (\omega) | \leqslant 1 / m \text{for all } t \in \mathbb{Q}
+     \cap (0, 1 / n]\} . \]
+  The event on the right hand side depends only on $(t \cdot B_{1 / t})_{t \in
+  \mathbb{Q} \cap (0, 1]}$, and this process has the same law as $(B_t)_{t \in
+  \mathbb{Q} \cap (0, 1]}$ (both are centered Gaussian processes with the same
+  covariance). Therefore
+
+  \begin{align*}
+    \mathbb{P} (\lim_{t \rightarrow 0} t \cdot B_{1 / t} = 0) & =\mathbb{P}
+    \left( \bigcap_{m \in \mathbb{N}} \bigcup_{n \in \mathbb{N}} \left\{ |t
+    \cdot B_{1 / t} | \leqslant 1 / m \text{for all } t \in \mathbb{Q} \cap
+    (0, 1 / n] \right\} \right)\\
+    & =\mathbb{P} \left( \bigcap_{m \in \mathbb{N}} \bigcup_{n \in
+    \mathbb{N}} \left\{ |B_t | \leqslant 1 / m \text{for all } t \in
+    \mathbb{Q} \cap (0, 1 / n] \right\} \right)\\
+    & =\mathbb{P} (\lim_{t \rightarrow 0} B_t = 0) = 1,
+  \end{align*}
+
+  and the proof is complete.
+\end{proof}
+
+\begin{theorem}
+  \label{thm:Bm nowhere differentiable}With probability $1$ there exists no $t
+  \in [0, + \infty)$ at which $B$ is differentiable.
+\end{theorem}
+
+\begin{proof}
+  The countable union of null sets is a null set and $(B_{n + t} - B_n)_{t \in
+  [0, 1]}$ is a Brownian motion restricted to $[0, 1]$, so it suffices to show
+  that almost surely $(B_t)_{t \in [0, 1]}$ is nowhere differentiable. If $B$
+  is differentiable at $t \in [0, 1]$, then there exists a constant $\tilde{C}
+  > 0$ such that
+  \begin{equation}
+    \label{eq:Bm not differentiable pr1} |B_{t + h} - B_t | \leqslant
+    \tilde{C} h, \qquad \forall \, h \in [0, 1] .
+  \end{equation}
+  A priori, $\tilde{C}$ could be random; however, if we show that
+  \begin{equation}
+    \mathbb{P} \left( \omega \in \Omega : \exists t \in [0, 1] : |B_{t + h} -
+    B_t | \leqslant C h \quad \forall \, h \in [0, 1] \right) = 0 \label{eq:Bm
+    not differentiable pr2}
+  \end{equation}
+  for all deterministic, arbitrarily large constants $C > 0$, then the same
+  must hold for random but finite $\tilde{C} > 0$ as well. In particular, to
+  conclude it suffices to show~\eqref{eq:Bm not differentiable pr2} and from
+  now on we can assume $C$ to be deterministic and fixed. Define the event
+  \[ \Gamma = \left\{ \omega \in \Omega \, : \exists t \in [0, 1] : |B_{t + h}
+     - B_t | \leqslant C h \quad \forall \, h \in [0, 1] \right\} . \]
+  Notice that, by the order of quantifiers, $t$ here is allowed to be random,
+  i.e. depend on the fixed realization $\omega$ we are looking at; so it's
+  hard to manipulate $\Gamma$ directly, and we want to compare it to
+  ``simpler'' events.
+
+  Suppose $t \in [0, 1]$ is such that~(\ref{eq:Bm not differentiable pr1})
+  hold; let $n \in \mathbb{N}$, and let $0 \leqslant k < 2^n$ be such that $t
+  \in [k 2^{- n}, (k + 1) 2^{- n}]$. Then for all $1 \leqslant j < 2^n$ we
+  have
+
+  \begin{align*}
+    |B_{(k + j + 1) 2^{- n}} - B_{(k + j) 2^{- n}} | & \leqslant |B_{(k + j +
+    1) 2^{- n}} - B_t | + |B_t - B_{(k + j) 2^{- n}} |\\
+    & \leqslant C ( (k + j + 1) 2^{- n} - k 2^{- n}) + C ((k + j) 2^{- n} - k
+    2^{- n})\\
+    & \leqslant C (2 j + 1) 2^{- n} .
+  \end{align*}
+
+  Let us define the events
+  \[ \Omega_{n, k} = \bigcap_{j = 1, 2, 3} \{ |B_{(k + j + 1) 2^{- n}} - B_{(k
+     + j) 2^{- n}} | \leqslant C (2 j + 1) 2^{- n} \} ; \]
+  then the previous argument in fact shows that, for any $n \in \mathbb{N}$,
+  \[ \Gamma \subset \bigcup_{k = 0}^{2^n - 1} \Omega_{n, k} . \]
+  Therefore to show that $\mathbb{P} (\Gamma) = 0$, it suffices to estimate
+  the probability of the set on the r.h.s., and show that it becomes
+  infinitesimal as $n \rightarrow \infty$.
+
+  \begin{center}
+    \hrulefill\hrulefill\tmtextbf{ End of the lecture on October 30}
+    \hrulefill\hrulefill
+  \end{center}
+
+  By the independence and scaling properties of $B$
+
+  \begin{align*}
+    \mathbb{P} (\Omega_{n, k}) & = \prod_{j = 1}^3 \mathbb{P} (|B_{(k + j + 1)
+    2^{- n}} - B_{(k + j) 2^{- n}} | \leqslant C (2 j + 1) 2^{- n})\\
+    & = \prod_{j = 1}^3 \mathbb{P} (|B_1 | \leqslant C (2 j + 1) 2^{- n /
+    2})\\
+    & \leqslant \mathbb{P} (|B_1 | \leqslant C \cdot 7 \cdot 2^{- n / 2})^3\\
+    & \leqslant (C \cdot 7 \cdot 2^{- n / 2})^3,
+  \end{align*}
+
+  where in the last step we used that the density of the standard normal
+  distribution is bounded by $1 / \sqrt{2 \pi} \leqslant 1 / 2$. Thus,
+
+  \begin{align*}
+    \mathbb{P} (\Gamma) & \leqslant \mathbb{P} \left( \bigcup_{k = 0}^{2^n -
+    1} \Omega_{n, k} \right)\\
+    & \leqslant \sum_{k = 0}^{2^n - 1} \mathbb{P} (\Omega_{n, k}) \lesssim
+    2^n 2^{- 3 n / 2} = 2^{- n / 2}
+  \end{align*}
+
+  and our claim follows by sending $n \rightarrow \infty$.
+\end{proof}
+
+In fact, one can slightly improve the previous proof to obtain a stronger
+statement:
+
+\begin{proposition}
+  Let $\alpha > \frac{1}{2}$. With probability $1$ there exists no $t \in [0,
+  + \infty)$ at which $B$ is $\alpha$-H{\"o}lder continuous (i.e. such that $|
+  B_s - B_t | \leqslant C | t - s |^{\alpha}$ for all $s \geqslant 0$).
+\end{proposition}
+
+The proof is left as part of Exercise Sheet~3.
+
+\tmfoldedplain{\begin{remark}
+  \label{rmk:Bm not 1/2 hoelder}It is not true that the Brownian motion is
+  nowhere $1 / 2$-H{\"o}lder continuous: there are so-called ``slow points''
+  where it shows an exceptional behavior. This is beyond the scope of our
+  lecture. But it is not very difficult to see that if $t \geqslant 0$ is
+  fixed, then almost surely
+  \begin{equation}
+    \limsup_{s \rightarrow t}  \frac{|B_s - B_t |}{|s - t|^{1 / 2}} = \infty .
+    \label{eq:rem.bm.slow.points}
+  \end{equation}
+\end{remark}}{Without loss of generality we may take $t = 0$. If $B$ is $1 /
+2$-H{\"o}lder continuous in 0, then there exists $C > 0$ such that $|B_s |
+\leqslant C \sqrt{s}$ for all $s \in [0, 1]$. Consider the disjoint intervals
+$[1 / 2, 1]$, $[1 / 4, 1 / 2]$, $[1 / 8, 1 / 4]$, and in the $k$-th step
+$[2^{- k}, 2^{- k + 1}]$, on which then
+\[ |B_{2^{- k + 1}} - B_{2^{- k}} | \leqslant |B_{2^{- k + 1}} | + |B_{2^{-
+   k}} | \leqslant C (2^{(- k + 1) / 2} + 2^{- k / 2}) \lesssim C 2^{- k / 2}
+   . \]
+But $(2^{k / 2} (B_{2^{- k + 1}} - B_{2^{- k}}))_{k \in \mathbb{N}}$ is an
+i.i.d. family of standard normal variables, and therefore almost surely
+unbounded. Therefore, we get
+\[ \mathbb{P} \left( | B_s | \leqslant C \sqrt{s} \text{ for all } s \in [0,
+   1] \right) = 0, \]
+and since $C > 0$ was arbitrary the claim follows.}
+
+\
+
+One can combine our results on regularity of $B$ at $0$, with the fact that
+$(t B_{1 / t})_{t \geqslant 0}$ is a Brownian motion (time invertion), to
+learn something about the long time behavior of $B$:
+
+\begin{corollary}
+  \label{cor:bm-growth}For any $\alpha > 1 / 2$, with probability $1$ we have
+  \[ 0 = \lim_{t \rightarrow \infty}  \frac{|B_t |}{t^{\alpha}} < \limsup_{t
+     \rightarrow \infty}  \frac{|B_t |}{t^{1 / 2}} = \infty . \]
+\end{corollary}
+
+\begin{proof}
+  We have
+  \[ \limsup_{t \rightarrow \infty}  \frac{|B_t |}{t^{\alpha}} \overset{s =
+     \frac{1}{t}}{=} \limsup_{s \rightarrow 0}  \frac{|s B_{1 / s} |}{s \cdot
+     s^{- \alpha}} = \limsup_{s \rightarrow 0}  \frac{| \tilde{B}_s |}{s^{1 -
+     \alpha}}, \]
+  where $\tilde{B}_s = s B_{1 / s}$ is another Brownian motion by
+  Proposition~\ref{prop:brownian path transformation}-\tmtextit{iv.}; since $1
+  - \alpha < 1 / 2$, we can find $\varepsilon > 0$ small enough such that a.s.
+  $\tilde{B} \in C^{1 - \alpha + \varepsilon} ([0, 1])$, so that
+  \[ \limsup_{s \rightarrow 0}  \frac{| \tilde{B}_s |}{s^{1 - \alpha}}
+     \leqslant \limsup_{s \rightarrow 0} \| \tilde{B} \|_{C^{1 - \alpha +
+     \varepsilon}} \frac{s^{1 - \alpha + \varepsilon}}{s^{1 - \alpha}} = 0 \]
+  which implies that the limsup is a limit and equals $0$. For $\alpha = 1 /
+  2$, we similarly get
+  \[ \limsup_{t \rightarrow \infty}  \frac{|B_t |}{t^{1 / 2}} = \limsup_{s
+     \rightarrow 0}  \frac{| \tilde{B}_s |}{s^{1 / 2}} = \infty \]
+  where the last equality comes from~\eqref{eq:rem.bm.slow.points}.
+\end{proof}
+
+So far we showed: Brownian motion is almost surely $(1 / 2 -
+\varepsilon)$-H{\"o}lder continuous on every compact interval, and it is
+almost surely nowhere $(1 / 2 + \varepsilon)$-H{\"o}lder continuous. With some
+more work, it can be shown that at $\alpha = \frac{1}{2}$ there are some
+logarithmic corrections.
+
+The next statement is not examinable, but it is included here for completeness
+so that you have seen it at least once, as it's a fairly celebrated result.
+
+\begin{theorem}[L{\'e}vy's modulus of continuity \& law of the iterated
+logarithm]
+  \label{thm:law.iterated.log}
+  \begin{enumerate}
+    \item {\emph{L{\'e}vy's modulus of continuity}}: Almost surely, for any $T
+    \in (0, + \infty)$:
+    \[ \lim_{r \rightarrow 0} \sup_{\tmscript{\begin{array}{c}
+         s, t \in [0, T] :\\
+         | t - s | \leqslant r
+       \end{array}}} \frac{| B_t - B_s |}{\sqrt{2 r \log (1 / r)}} = 1. \]
+    \item {\emph{Law of the iterated logarithm}}: For any $t > 0$ we have
+    almost surely
+    \[ \limsup_{r \rightarrow 0} \frac{B_{t + r} - B_t}{\sqrt{2 r \log \log (1
+       / r)}} = 1, \qquad \liminf_{r \rightarrow 0} \frac{B_{t + r} -
+       B_t}{\sqrt{2 r \log \log (1 / r)}} = - 1. \]
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  See Revuz-Yor~{\cite{Revuz1999}}, Theorem~I.2.7 and Theorem~II.1.9.
+\end{proof}
+
+Of course, we would suspect to have
+\[ - \infty = \liminf_{t \rightarrow \infty}  \frac{B_t}{t^{1 / 2}} <
+   \limsup_{t \rightarrow \infty}  \frac{B_t}{t^{1 / 2}} = \infty, \]
+and indeed one can use Theorem~\ref{thm:law.iterated.log} and time invertion
+to prove this (and more). We will not do so, but instead obtain this later as
+a simple consequence of Blumenthal's $0$-1-law.
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Use the law of the iterated logarithm to deduce a stronger statement about
+  the long time behavior of $B$.
+\end{exercise*}}}{\begin{align*}
+  \limsup_{t \rightarrow \infty} \frac{B_t}{\sqrt{2 t \log \log (t)}} &
+  \overset{s = t^{- 1}}{=} \limsup_{s \rightarrow 0} \frac{B_{1 / s}}{\sqrt{2
+  s^{- 1} \log \log (1 / s)}}\\
+  & = \limsup_{s \rightarrow 0} \frac{s B_{1 / s}}{\sqrt{2 s \log \log (1 /
+  s)}} = 1,
+\end{align*}
+
+and similarly
+\[ \liminf_{t \rightarrow \infty} \frac{B_t}{\sqrt{2 t \log \log (t)}} = - 1.
+\]}
+
+\subsection{The Poisson process}
+
+We can interpret the Brownian motion as a continuous time random walk, because
+just like a random walk it has independent and stationary increments (i.e.
+$B_t - B_s$ is independent of what happened until time $s$, and it has the
+same distribution as $B_{r + t} - B_{r + s}$ for any~$r$). It is natural to
+ask whether there are other processes of this type. This leads to the
+following definition:
+
+\begin{definition}[L{\'e}vy process]
+  A real-valued stochastic process $(X_t)_{t \geqslant 0}$ is called a
+  {\emph{L{\'e}vy process}} if
+  \begin{enumerate}
+    \item $X_0 = 0$;
+
+    \item for all $0 \leqslant t_0 < t_1 < \cdots < t_n$ the random variables
+    $(X_{t_1} - X_{t_0}, \ldots, X_{t_n} - X_{t_{n - 1}})$ are independent
+    ({\emph{independent increments}});
+
+    \item for all $0 \leqslant s < t$ the random variable $X_t - X_s$ has the
+    same distribution as $X_{t - s}$ ({\emph{stationary increments}});
+
+    \item for all $\varepsilon > 0$ and $t \geqslant 0$ we have $\lim_{h
+    \rightarrow 0} \mathbb{P} (| X_{t + h} - X_t | > \varepsilon) = 0$
+    ({\emph{continuity in probability}}).
+  \end{enumerate}
+\end{definition}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  {\tmdummy}
+
+  \begin{enumeratealpha}
+    \item Convince yourself of the following:
+    parts~\tmtextit{i.}-\tmtextit{ii.} imply that $X_t - X_s$ is independent
+    of $(X_r)_{r \leqslant s}$; part~\tmtextit{iv.} is equivalent to $X_s$
+    converging in probability to $X_t$ as $s \rightarrow t$.
+
+    \item Show that the Brownian motion is a L{\'e}vy process.
+
+    \item Show that for all $a \in \mathbb{R}$ the linear function $X_t = a
+    \cdot t$ is a L{\'e}vy process.
+  \end{enumeratealpha}
+\end{exercise*}}}{\begin{enumeratealpha}
+  \item
+  \begin{enumerate}
+    \item $B_0 = 0$ by definition;
+
+    \item holds by Lemma~\ref{lem:pre-Brownian};
+
+    \item holds by Lemma~\ref{lem:pre-Brownian};
+
+    \item By definition, the Brownian motion is continuous and therefore the
+    continuity in probability follows from the dominated convergence theorem.
+  \end{enumerate}
+  \item
+  \begin{enumerate}
+    \item $X_0 = 0$;
+
+    \item $X$ is deterministic, so $X_t - X_s$ is independent of any random
+    variable;
+
+    \item $X_t - X_s = a \cdot t - a \cdot s = a \cdot (t - s) = X_{t - s}$;
+
+    \item As for Brownian motion.
+  \end{enumerate}
+\end{enumeratealpha}
+}
+
+If $X$ is a L{\'e}vy process, then we can write
+\[ X_1 = X_{1 / n} + (X_{2 / n} - X_{1 / n}) + \cdots + (X_1 - X_{(n - 1) /
+   n}) . \]
+Let us write $\mu_t$ for the law of $X_t$. Then the left hand side has law
+$\mu_1$, and the right hand side has law given by the {\emph{$n$-fold
+convolution}}
+\[ \mu_{1 / n}^{\ast n} \coloneq \begin{array}{l}
+     \underbrace{\mu_{1 / n} \ast \ldots \ast \mu_{1 / n}}\\
+     \hspace{1.8em} n \tmop{times}
+   \end{array} ; \]
+this is because, if $U$ and $V$ are independent random variables with
+$\tmop{law} (U) = \pi$ and $\tmop{law} (V) = \nu$, then $\tmop{law} (U + V) =
+\pi \ast \nu$, where the convolution $\pi \ast \nu$ is the measure defined by
+\[ \pi \ast \nu (A) \coloneq \int \1_A (x + y) \pi (\mathrm{d} x) \nu (\mathrm{d} y) .
+\]
+Thus, for all $n \in \mathbb{N}$ there exists a measure $\mu_{1 / n}$ such
+that $\mu_1 = \mu_{1 / n}^{\ast n}$. Any $\mu$ which has this property is
+called {\emph{infinitely divisible}}. So, if $X$ is a L{\'e}vy process, then
+$X_1$ is infinitely divisible. Conversely, one can show that for any
+infinitely divisible distribution $\mu$ there exists a unique (in law)
+L{\'e}vy process $X$ with $\tmop{law} (X_1) = \mu$. Therefore, L{\'e}vy
+processes are in one-to-one correspondence with infinitely divisible
+distributions.
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}[Difficult]
+  Show that if $X$ is a centered L{\'e}vy process such that $X_1$ is bounded
+  (i.e. there exists $C > 0$ such that a.s. $| X_1 | \leqslant C$), then $X_1
+  = 0$ a.s.
+
+  \tmtextit{Hint: Consider $\tmop{var} (X_1)$.}
+\end{exercise*}}}{We have
+\[ \tmop{var} (X_1) = n \tmop{var} (X_{1 / n}) \qquad \Rightarrow \qquad
+   \tmop{var} (X_{1 / n}) = n^{- 1} \tmop{var} (X_1), \]
+and thus
+\[ \mathbb{P} \left( | X_{1 / n} | \geqslant \sqrt{n^{- 1} \tmop{var} (X_1)}
+   \right) > 0, \]
+and then also
+\[ \mathbb{P} \left( X_{1 / n} \geqslant \sqrt{n^{- 1} \tmop{var} (X_1)}
+   \right) > 0 \qquad \infixor \qquad \mathbb{P} \left( X_{1 / n} \leqslant -
+   \sqrt{n^{- 1} \tmop{var} (X_1)} \right) > 0. \]
+Let's say the first case is true (otherwise consider $- X$). Then
+
+\begin{align*}
+  & \mathbb{P} \left( X_1 \geqslant n^{1 / 2} \sqrt{\tmop{var} (X_1)}
+  \right)\\
+  & =\mathbb{P} \left( X_{1 / n} + (X_{2 / n} - X_{1 / n}) + \cdots + (X_1 -
+  X_{(n - 1) / n}) \geqslant n^{1 / 2} \sqrt{\tmop{var} (X_1)} \right)\\
+  & \geqslant \mathbb{P} \left( \left\{ X_{1 / n} \geqslant n^{- 1 / 2}
+  \sqrt{\tmop{var} (X_1)} \right\} \cap \ldots \cap \left\{ X_1 - X_{(n - 1) /
+  n} \geqslant n^{- 1 / 2} \sqrt{\tmop{var} (X_1)} \right\} \right)\\
+  & =\mathbb{P} \left( X_{1 / n} \geqslant \sqrt{n^{- 1} \tmop{var} (X_1)}
+  \right)^n > 0.
+\end{align*}
+
+If $\tmop{var} (X_1) > 0$, then for large enough $n$ this is a contradiction
+to $| X_1 | \leqslant C$. So $\tmop{var} (X_1) = 0$ and since $X_1$ is
+centered we get $X_1 = 0$.}
+
+\tmfolded{}{\
+
+\begin{lemma*}
+  If $X$ is a L{\'e}vy process, then there exists a function $\psi :
+  \mathbb{R} \rightarrow \mathbb{C}$ such that the characteristic function of
+  $X$ satisfies
+  \[ \mathbb{E} [e^{i u X_t}] = e^{t \psi (u)}, \qquad t \geqslant 0, u \in
+     \mathbb{R}. \]
+\end{lemma*}
+
+\begin{proof}
+  Since $\mu_1 = \mu_{1 / n}^{\ast n}$, we have
+  \[ \mathbb{E} [e^{i u X_1}] =\mathbb{E} [e^{i u X_{1 / n}}]^n . \]
+  Similarly, we get for $t = m / n \in \mathbb{Q}_+$:
+  \begin{equation}
+    \label{eq:infinitely-divisible-characteristic-fct} \mathbb{E} [e^{i u
+    X_t}] =\mathbb{E} [e^{i u X_{1 / n}}]^m =\mathbb{E} [e^{i u X_1}]^{m / n}
+    =\mathbb{E} [e^{i u X_1}]^t .
+  \end{equation}
+  Since $t \mapsto X_t$ is continuous in probability, we deduce from the
+  dominated convergence theorem
+  that~\eqref{eq:infinitely-divisible-characteristic-fct} holds for all $t
+  \geqslant 0$.
+
+  We would like to take $\psi (u) = \log \mathbb{E} [e^{i u X_1}]$ (e.g.
+  principal value of the complex logarithm, although in the next theorem below
+  we will take another version of the logarithm which leads to a nicer formula
+  for $\psi$). But for the logarithm to be defined, we need $\mathbb{E} [e^{i
+  u X_1}] \neq 0$. So let us show this: Since $X_{1 / n}
+  \overset{\mathbb{P}}{\longrightarrow} 0$, we have $\mathbb{E} [e^{i u X_{1 /
+  n}}] \rightarrow 1$ for all $u \in \mathbb{R}$. This means that for all $u
+  \in \mathbb{R}$ there exists $n \in \mathbb{N}$ such that $\mathbb{E} [e^{i
+  u X_{1 / n}}] \neq 0$, and then also $\mathbb{E} [e^{i u X_1}] =\mathbb{E}
+  [e^{i u X_{1 / n}}]^n \neq 0$. This concludes the proof.
+\end{proof}
+
+In fact one can show a much stronger statement:}
+
+The infinite divisibility imposes strong structural constraints on L{\'e}vy
+processes, and every L{\'e}vy process can be characterized in terms of its
+{\emph{L{\'e}vy-Khintchine representation}}:
+
+\begin{theorem}[L{\'e}vy-Khintchine representation]
+  If $X$ is a L{\'e}vy process, then the characteristic function of $X$
+  satisfies
+  \[ \mathbb{E} [e^{i u X_t}] = e^{t \psi (u)}, \qquad t \geqslant 0, u \in
+     \mathbb{R}, \]
+  where $\psi$ is of the form
+  \[ \psi (u) = i a u - \frac{1}{2} \sigma^2 u^2 + \int_{\mathbb{R} \setminus
+     \{ 0 \}} \left( e^{i u x} - 1 - i u x \1_{\{ | x | < 1 \}} \right) \nu
+     (\mathrm{d} x), \]
+  for $a \in \mathbb{R}$, $\sigma^2 \geqslant 0$, and for a measure $\nu$ on
+  $\mathbb{R} \setminus \{ 0 \}$ such that $\int_{\mathbb{R} \setminus \{ 0
+  \}} (1 \wedge | x |^2) \nu (\mathrm{d} x) < \infty$ (a so called {\emph{L{\'e}vy
+  measure}}). We call $(a, \sigma^2, \nu)$ the {\emph{L{\'e}vy triple}} of
+  $X$.
+\end{theorem}
+
+\begin{proof}
+  See Klenke {\cite{Klenke2008}}, Theorem~16.17.
+\end{proof}
+
+\begin{remark}
+  Without further explanation, this result is not very interesting. But it has
+  a neat probabilistic interpretation: Let $X$ be a L{\'e}vy process with
+  characteristic function $\mathbb{E} [e^{i u X_t}] = e^{t \psi (u)}$ for
+  \[ \psi (u) = i a u - \frac{1}{2} \sigma^2 u^2 + \int_{\mathbb{R} \setminus
+     \{ 0 \}} \left( e^{i u x} - 1 - i u x \1_{\{ | x | < 1 \}} \right) \nu
+     (\mathrm{d} x) . \]
+  Then we can decompose $X$ into a sum of three independent processes, $X =
+  X^{(1)} + X^{(2)} + X^{(3)}$, where
+  \begin{itemizedot}
+    \item $X^{(1)}_t = a t$;
+
+    \item $X^{(2)}_t = \sigma B_t$, for a Brownian motion $B$;
+
+    \item $X^{(3)}_t$ is a ``jump process'', with jumps determined by the
+    L{\'e}vy measure $\nu$.
+  \end{itemizedot}
+\end{remark}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Show that if $\nu = 0$ and thus $X^{(3)} \equiv 0$, then for $X^{(1)}_t = a
+  t$ and $X^{(2)}_t = \sigma B_t$ we get the claimed form of the
+  characteristic function.
+\end{exercise*}}}{We have $\mathbb{E} [e^{i u X_t}] =\mathbb{E} [e^{i u
+X^1_t}] \mathbb{E} [e^{i u X^2_t}] = e^{i u a t} e^{- \frac{1}{2} u^2 \sigma^2
+t}$ as claimed.}
+
+Since $\nu$ describes jumps (namely, points where jump discontinuities arise
+in the map $t \mapsto X_t$), this implies that the Brownian motion is the only
+centered and continuous L{\'e}vy process (up to constant multiples).
+
+\begin{example}[Pre-Poisson process]
+  Let $X$ be a L{\'e}vy process such that for $\lambda > 0$:
+  \[ \psi (u) = \lambda (e^{i u} - 1), \]
+  i.e. $a = \sigma^2 = 0$ and $\nu = \lambda \delta_1$ is a multiple of the
+  Dirac measure in $x = 1$. Then
+  \[ \mathbb{E} [e^{i u X_t}] = e^{\lambda t (e^{i u} - 1)}, \]
+  which is the characteristic function of a Poisson distribution with
+  parameter $\lambda t$. We call this process the {\emph{pre-Poisson process
+  (with intensity $\lambda$)}}.
+
+  \
+
+  {\noindent}\begin{tabularx}{1.0\textwidth}{@{}X@{}}
+    \tmtextbf{Poisson distribution:} Recall that a random variable $Y$ with
+    values in $\mathbb{N}_0$ has a Poisson distribution with parameter
+    $\lambda \geqslant 0$ if $\mathbb{P} (Y = k) = \frac{\lambda^k}{k!} e^{-
+    \lambda}$, $k \in \mathbb{N}_0$. We write $Y \sim \tmop{Poi} (\lambda)$.
+  \end{tabularx}
+
+  \
+\end{example}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Show that the Poisson distribution with parameter $\lambda \geqslant 0$ has
+  the characteristic function $\mathbb{E} [e^{i u X}] = \exp (\lambda (e^{i u}
+  - 1))$.
+\end{exercise*}}}{\begin{align*}
+  \mathbb{E} [e^{i u X}] & = \sum_{k = 0}^{\infty} e^{i u k}
+  \frac{\lambda^k}{k!} e^{- \lambda} = e^{- \lambda} \sum_{k = 0}^{\infty}
+  \frac{(e^{i u} \lambda)^k}{k!} = e^{- \lambda} e^{e^{i u} \lambda} =
+  e^{\lambda (e^{i u} - 1)} .
+\end{align*}}
+
+\begin{remark}
+  \label{rmk:poisson-alternative}Alternatively, we can describe the
+  pre-Poisson process as follows: A stochastic process $(N_t)_{t \geqslant 0}$
+  is a pre-Poisson process with intensity $\lambda > 0$ if and only if the
+  following conditions are satisfied:
+  \begin{enumerate}
+    \item $N_0 = 0$ almost surely;
+
+    \item for all $0 \leqslant s < t$ the random variable $N_t - N_s$ is
+    independent of $(N_r)_{0 \leqslant r \leqslant s}$;
+
+    \item for all $0 \leqslant s < t$ we have $N_t - N_s \sim \tmop{Poi}
+    (\lambda (t - s))$.
+  \end{enumerate}
+  \tmcolor{blue}{\begin{exercise*}
+    Convince yourself of this!
+  \end{exercise*}}
+\end{remark}
+
+Hopefully it will not be a surprise to you at this point that the Poisson
+process (without ``pre-'') will be a pre-Poisson process with nice
+trajectories. But note that the Poisson distribution takes values in
+$\mathbb{N}_0$, so the Poisson process cannot be continuous. To formulate its
+path properties, we introduce the following notation for $f : \mathbb{R}_+
+\rightarrow \mathbb{R}$:
+\[ f (t +) \coloneq \lim_{s \downarrow t} f (s) \coloneq
+   \lim_{\tmscript{\begin{array}{c}
+     s \rightarrow t\\
+     s > t
+   \end{array}}} f (s), \qquad f (t -) \coloneq \lim_{s \uparrow t} f (s)
+   \coloneq \lim_{\tmscript{\begin{array}{c}
+     s \rightarrow t\\
+     s < t
+   \end{array}}} f (s), \]
+and similarly $\limsup_{s \downarrow t} f (s)$, $\liminf_{s \uparrow t} f
+(s)$, etc. Recall that a function $f$ is called {\emph{right-continuous}}
+(resp. {\emph{left-continuous}}) if $f (t +) = f (t)$ for all $t \geqslant 0$
+(resp. $f (t -) = f (t)$ for all $t > 0$).
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Which of these functions is left- and/or right-continuous?
+  \begin{enumerate}
+    \item $f = \1_{[1, \infty)}$;
+
+    \item $f = \1_{(1, \infty)}$;
+
+    \item $f = \1_{\{ 1 \}}$;
+
+    \item $f (t) = \sin \left( \frac{1}{1 - t} \right)$, $t \in [0, 1)$, and
+    $f (t) = 0$ for $t \geqslant 1$.
+  \end{enumerate}
+\end{exercise*}}}{\begin{enumerate}
+  \item Right-continuous because $\lim_{s \downarrow \downarrow t} f (s) =
+  \left\{\begin{array}{ll}
+    1, & t \geqslant 1\\
+    0, & \tmop{else}
+  \end{array}\right. = f (t)$. Not left-continuous because $\lim_{n
+  \rightarrow \infty} f (1 - 1 / n) = 0 \neq 1 = f (1)$.
+
+  \item Left-continuous because $\lim_{s \uparrow \uparrow t} f (s) =
+  \left\{\begin{array}{ll}
+    1, & t > 1\\
+    0, & \tmop{else}
+  \end{array}\right. = f (t)$. Not right-continuous because $\lim_{n
+  \rightarrow \infty} f (1 + 1 / n) = 1 \neq 0 = f (1)$.
+
+  \item Neither left- nor right-continuous because for any sequence $(t_n)
+  \subset \mathbb{R}_+ \setminus \{ 1 \}$ with $t_n \rightarrowlim 1$ we have
+  $f (t_n) = 0 \nrightarrow 1 = f (1)$.
+
+  \item Right-continuous because $f$ is continuous on $[0, 1)$ and on $[1,
+  \infty)$. But note that the limit $f (t -)$ does not exist!
+\end{enumerate}}
+
+\begin{definition}[C{\`a}dl{\`a}g]
+  A function $f : \mathbb{R}_+ \rightarrow \mathbb{R}$ is called
+  {\emph{c{\`a}dl{\`a}g}} if it is right-continuous and at every $t > 0$ the
+  limit $f (t -)$ exists (but might not be equal to $f (t)$). A c{\`a}dl{\`a}g
+  function $t \mapsto f (t)$ has a {\emph{jump}} at $t$ if
+  \[ \Delta f (t) \coloneq f (t) - f (t -) \neq 0. \]
+  The acronym c{\`a}dl{\`a}g comes from French and stands for ``continue {\`a}
+  droite, limite {\`a} gauche'', that is ``continuous from the right, limits
+  from the left''.
+\end{definition}
+
+\begin{lemma}
+  Let $f : \mathbb{R}_+ \rightarrow \mathbb{R}$ be c{\`a}dl{\`a}g; then $f$
+  has at most countably many jumps, i.e. there exist at most countably many
+  $\{ t_n \}_{n \in \mathbb{N}}$ such that $\Delta f (t_n) > 0$.
+\end{lemma}
+
+\begin{proof}
+  Exercise Sheet 3.
+\end{proof}
+
+\begin{definition}[C{\`a}dl{\`a}g process, Poisson process]
+  \begin{enumerate}
+    \item We say that a stochastic process $X = (X_t)_{t \geqslant 0}$ with
+    values in $\mathbb{R}^d$ is {\emph{c{\`a}dl{\`a}g}} if all of its
+    trajectories are {\emph{c{\`a}dl{\`a}g}}, i.e. $t \mapsto X_t (\omega)$ is
+    {\emph{c{\`a}dl{\`a}g}} for all $\omega \in \Omega$.
+
+    \item A c{\`a}dl{\`a}g pre-Poisson process is called a {\emph{Poisson
+    process}}.
+  \end{enumerate}
+\end{definition}
+
+To get a more intuitive understanding of the Poisson process, we use the
+following explicit construction:
+
+\begin{theorem}
+  \label{thm:construction.poisson}Let $(T_n)_{n \in \mathbb{N}}$ be an i.i.d.
+  sequence of exponentially distributed random variables with parameter
+  $\lambda > 0$. We define $S_n \coloneq T_1 + \cdots + T_n$ and
+  \[ N_t \coloneq \max \{ n : S_n \leqslant t \}, \qquad t \geqslant 0. \]
+  Then $(N_t)_{t \geqslant 0}$ is (indistinguishable from) a Poisson process
+  with intensity $\lambda$.
+\end{theorem}
+
+{\noindent}\begin{tabularx}{1.0\textwidth}{@{}X@{}}
+  Recall that the \tmtextbf{exponential distribution} with parameter $\lambda
+  > 0$ has density $\1_{\mathbb{R}_+} (x) \lambda e^{- \lambda x}$.
+\end{tabularx}
+
+\begin{figure}[h]
+  \resizebox{0.5\columnwidth}{0.35\columnwidth}{\includegraphics{StochAna-24-10-31-11.pdf}}
+  \caption{Poisson process constructed from $(T_n)_{n \geqslant 0}$.}
+\end{figure}
+
+Let us momentarily postpone the proof of
+Theorem~\ref{thm:construction.poisson} and discuss the insight it provides on
+the nature of the trajectories of $(N_t)_{t \geqslant 0}$ first.
+
+The Poisson process is a ``counting process'' which is piecewise constant and
+which jumps up by $1$ at random times $(S_n)_{n \in \mathbb{N}}$. The times
+between the jumps are independent, and they follow an exponential distribution
+with parameter $\lambda$.
+
+The Poisson process is used to model the (cumulative) number of customers
+arriving at a store, or the damage claims at an insurance, the number of
+clicks of a Geiger counter (which corresponds to the number of decaying
+atoms), or the number of meteorites hitting earth.
+
+The Poisson process is in some sense ``the most elementary jump process'' and
+almost all other pure jump processes can be constructed from it. On Sheet~3
+you will construct a L{\'e}vy process with a general L{\'e}vy measure $\nu$,
+provided that $\nu$ has finite mass ($\nu (\mathbb{R} \setminus \{ 0 \}) <
+\infty$). Such a process is also called {\emph{compound Poisson process}},
+because we can represent it as
+\[ X_t = \sum_{k = 1}^{N_t} Y_k, \]
+where $N = (N_t)_{t \geqslant 0}$ is a Poisson process with intensity $\lambda
+= \nu (\mathbb{R} \setminus \{ 0 \})$, and $(Y_k)_{k \in \mathbb{N}}$ is
+independent of $N$ and an i.i.d. sequence of random variables with
+distribution $Y_k \sim \frac{\nu}{\nu (\mathbb{R} \setminus \{ 0 \})}$. It
+follows from a computation that the L{\'e}vy triple of $X$ is $a = \int_{| x |
+< 1} x \nu (\mathrm{d} x)$, $\sigma^2 = 0$, $\nu$.
+
+\
+
+\begin{center}
+  \hrulefill\hrulefill\tmtextbf{ End of the lecture on October 31st}
+  \hrulefill\hrulefill
+\end{center}
+
+\
+
+One could give an alternative derivation of the Poisson process, where we
+divide $\mathbb{R}_+$ in intervals of length $\frac{1}{n}$ and consider a
+discrete time process which on each of these intervals jumps up by $1$ with a
+small probability of order $\frac{\lambda}{n}$, independently of what happened
+before. For $n \rightarrow \infty$, the finite-dimensional distributions of
+this process converge to the finite-dimensional distributions of a Poisson
+process with intensity $\lambda$ (this is sometimes referred to as the
+{\emph{law of small numbers}}); more details on this construction might appear
+later in the Exercise Sheets.
+
+Hopefully, this makes it plausible why we can model the phenomena mentioned
+above with a Poisson process: For example, each second there is a small
+probability that a customer enters our store, and at first approximation we
+can consider the different second-long intervals as independent.
+
+We can now finally conclude this section with the
+
+\begin{proof*}{Proof of Theorem~\ref{thm:construction.poisson}}
+  We show that $N$ satisfies the properties of
+  Remark~\ref{rmk:poisson-alternative}, and that it is almost surely
+  c{\`a}dl{\`a}g.
+  \begin{itemizedot}
+    \item $N$ is almost surely c{\`a}dl{\`a}g: By definition, $N$ is
+    c{\`a}dl{\`a}g on the set $ \{ \sup_n S_n = \infty \}$. But by
+    $\sigma$-continuity we have
+    \begin{eqnarray*}
+      \mathbb{P} (\sup_n S_n < \infty) & = & \lim_{m \rightarrow \infty}
+      \mathbb{P} (\sup_n S_n < m) \leqslant \lim_{m \rightarrow \infty}
+      \lim_{n \rightarrow \infty} \mathbb{P} (S_n < m)\\
+      & \leqslant & \lim_{m \rightarrow \infty} \lim_{n \rightarrow \infty}
+      \mathbb{P} (\max_{k = 1, \ldots, n} T_n < m)\\
+      & = & \lim_{m \rightarrow \infty} \lim_{n \rightarrow \infty}
+      \mathbb{P} (T_1 < m)^n = 0,
+    \end{eqnarray*}
+    because $\mathbb{P} (T_1 < m) < 1$.
+
+    \item We have $N_0 = 0$ by definition. So to verify the conditions of
+    Remark~\ref{rmk:poisson-alternative} it suffices to show that for all $n
+    \in \mathbb{N}$ and $0 = t_0 < t_1 < \cdots < t_n$ the random variables
+    $(N_{t_1} - N_{t_0}, \ldots, N_{t_n} - N_{t_{n - 1}})$ are independent,
+    and that $N_{t_{k + 1}} - N_{t_k} \sim \tmop{Poi} (\lambda (t_{k + 1} -
+    t_k))$. For simplicity we restrict our attention to the case $n = 2$. The
+    general case can be handled by similar arguments, but the notation becomes
+    much more tedious. We will show that for all $0 \leqslant s < t$ and all
+    $k, \ell \in \mathbb{N}_0$
+    \[ \mathbb{P} (N_s = k, N_t - N_s = \ell) = \frac{(\lambda s)^k}{k!} e^{-
+       \lambda s} \frac{(\lambda (t - s))^{\ell}}{\ell !} e^{- \lambda (t -
+       s)} . \]
+    By summing over $\ell \in \mathbb{N}_0$ respectively ${k \in \mathbb{N}_0}
+    $ we see that $N_s \sim \tmop{Poi} (\lambda s)$ and $N_t - N_s \sim
+    \tmop{Poi} (\lambda (t - s))$, and then that $N_s$ and $N_t - N_s$ are
+    independent.
+
+    We start by writing
+    \begin{eqnarray*}
+      \mathbb{P} (N_s = k, N_t - N_s = \ell) & = & \mathbb{P} (N_s = k, N_t =
+      k + \ell)\\
+      & = & \mathbb{P} (S_k \leqslant s < S_{k + 1}, S_{k + \ell} \leqslant t
+      < S_{k + \ell + 1}) .
+    \end{eqnarray*}
+    To handle this computation, we need a bit of notation. Note that $(T_1,
+    \ldots, T_{k + \ell + 1})$ has the density $\1_{\mathbb{R}_+^{k + \ell +
+    1}} (x) \lambda^{k + \ell + 1} e^{- \lambda \Sigma_{k + \ell + 1} (x)}$
+    with respect to Lebesgue measure on $\mathbb{R}^{k + \ell + 1}$, where for
+    $n \leqslant m$:
+    \[ \Sigma_n : \mathbb{R}^m \rightarrow \mathbb{R}, \qquad \Sigma_n (x) =
+       x_1 + \cdots + x_n . \]
+    This leads to
+    \begin{eqnarray*}
+      &  & \mathbb{P} (S_k \leqslant s < S_{k + 1}, S_{k + \ell} \leqslant t
+      < S_{k + \ell + 1})\\
+      &  & = \int_{\mathbb{R}^{k + \ell + 1}_+} \1_{\{ \Sigma_k (x) \leqslant
+      s < \Sigma_{k + 1} (x) \}} \1_{\{ \Sigma_{k + \ell} (x) \leqslant t <
+      \Sigma_{k + \ell + 1} (x) \}} \lambda^{k + \ell + 1} e^{- \lambda
+      \Sigma_{k + \ell + 1} (x)} \mathrm{d} x.
+    \end{eqnarray*}
+    All terms are positive, so we can change the order of integration at will.
+    We start by integrating out $x_{k + \ell + 1}$, and here we assume that
+    $\ell > 0$; we comment on the case $\ell = 0$ below. We apply the change
+    of variables $z = \Sigma_{k + \ell + 1} (x)$ and obtain
+    \begin{eqnarray*}
+      \int_0^{\infty} \1_{\{ \Sigma_{k + \ell} (x) \leqslant t < \Sigma_{k +
+      \ell + 1} (x) \}} \lambda e^{- \lambda \Sigma_{k + \ell + 1} (x)} \mathrm{d}
+      x_{k + \ell + 1} & = & \int_{\Sigma_{k + \ell} (x)}^{\infty} \1_{\{
+      \Sigma_{k + \ell} (x) \leqslant t < z \}} \lambda e^{- \lambda z} \mathrm{d}
+      z\\
+      & = & \1_{\{ \Sigma_{k + \ell} (x) \leqslant t \}} e^{- \lambda t},
+    \end{eqnarray*}
+    which leads to
+    \begin{eqnarray*}
+      &  & \int_{\mathbb{R}^{k + \ell + 1}_+} \1_{\{ \Sigma_k (x) \leqslant s
+      < \Sigma_{k + 1} (x) \}} \1_{\{ \Sigma_{k + \ell} (x) \leqslant t <
+      \Sigma_{k + \ell + 1} (x) \}} \lambda^{k + \ell + 1} e^{- \lambda
+      \Sigma_{k + \ell + 1} (x)} \mathrm{d} x\\
+      &  & = \lambda^{k + \ell} e^{- \lambda t} \int_{\mathbb{R}^{k +
+      \ell}_+} \1_{\{ \Sigma_k (x) \leqslant s < \Sigma_{k + 1} (x) \}} \1_{\{
+      \Sigma_{k + \ell} (x) \leqslant t \}} \mathrm{d} x.
+    \end{eqnarray*}
+    Now we perform the change of variables $y_1 = \Sigma_{k + 1} (x) - s$,
+    $y_2 = x_{k + 2}$, {\textdots}, $y_{\ell} = x_{k + \ell}$ (recall that
+    $\ell > 0$) and obtain
+    \begin{eqnarray*}
+      &  & \int_{\mathbb{R}^{k + \ell}_+} \1_{\{ \Sigma_k (x) \leqslant s <
+      \Sigma_{k + 1} (x) \}} \1_{\{ \Sigma_{k + \ell} (x) \leqslant t \}}
+      \mathrm{d} x\\
+      &  & = \int_{\mathbb{R}^k_+} \1_{\{ \Sigma_k (x) \leqslant s \}} \left(
+      \int_{\mathbb{R}^{\ell}_+} \1_{\{ y_1 + \cdots + y_{\ell} \leqslant t -
+      s \}} \mathrm{d} y \right) \mathrm{d} x\\
+      &  & = \frac{s^k}{k!} \cdot \frac{(t - s)^{\ell}}{\ell !},
+    \end{eqnarray*}
+    where we used that $\int_{\mathbb{R}_+^n} \1_{\{ x_1 + \cdots + x_n
+    \leqslant r \}} \mathrm{d} x = \frac{r^n}{n!}$ (see below).\quad Altogether,
+    we have shown that for $k \in \mathbb{N}_0$ and $\ell \in \mathbb{N}$:
+    \[ \mathbb{P} (N_s = k, N_t - N_s = \ell) = \frac{s^k}{k!} \cdot \frac{(t
+       - s)^{\ell}}{\ell !} \lambda^{k + \ell} e^{- \lambda t} =
+       \frac{(\lambda s)^k}{k!} e^{- \lambda s} \cdot \frac{(\lambda (t -
+       s))^{\ell}}{\ell !} e^{- \lambda (t - s)} . \]
+    We recover the case $\ell = 0$ by writing
+    \[ \mathbb{P} (N_s = k, N_t - N_s = 0) =\mathbb{P} (N_s = k) - \sum_{\ell
+       = 1}^{\infty} \mathbb{P} (N_s = k, N_t - N_s = \ell) = \frac{(\lambda
+       s)^k}{k!} e^{- \lambda s} e^{- \lambda (t - s)} . \]
+    \item Verification of the identity $\int_{\mathbb{R}_+^n} \1_{\{ x_1 +
+    \cdots + x_n \leqslant r \}} \mathrm{d} x = \frac{r^n}{n!}$: For $n = 1$ we
+    have $\int_{\mathbb{R}_+^1} \1_{\{ x_1 \leqslant r \}} \mathrm{d} x =
+    \frac{r^1}{1!}$ and then by induction
+    \begin{eqnarray*}
+      \int_{\mathbb{R}_+^n} \1_{\{ x_1 + \cdots + x_n \leqslant r \}} \mathrm{d} x
+      & = & \int_0^r \left( \int_{\mathbb{R}_+^{n - 1}} \1_{\{ x_1 + \cdots +
+      x_{n - 1} \leqslant r - x_n \}} \mathrm{d} x_1 \cdots \mathrm{d} x_{n - 1}
+      \right) \mathrm{d} x_n\\
+      & = & \int_0^r \frac{(r - x_n)^{n - 1}}{(n - 1) !} \mathrm{d} x_n =
+      \frac{r^n}{n!} .
+    \end{eqnarray*}
+  \end{itemizedot}
+
+\end{proof*}
+
+\tmtextit{[Comment: in Theorem~\ref{thm:construction.poisson} we verified that
+$N_t$ is a Poisson process ``by hand'', using elementary but lengthy
+manipulations. There is an alternative more elegant approach, based on the
+notion of {\emph{infinitesimal generator}} of the Markov process, but it is
+outside the scope of these lectures; see Theorem~2.4.3
+from~{\cite{Norris1998}} for more details.]}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Let $(N^1_t)_{t \geqslant 0}$ and $(N^2_t)_{t \geqslant 0}$ be independent
+  Poisson processes with intensity $\lambda_1 > 0$ respectively $\lambda_2 >
+  0$. Show that $N_t \coloneq N^1_t + N^2_t$, $t \geqslant 0$, is a Poisson
+  process with intensity $\lambda_1 + \lambda_2$.
+\end{exercise*}}}{We have
+\[ \mathbb{E} [e^{i u (N^1_t + N^2_t)}] =\mathbb{E} [e^{i u N^1_t}] \mathbb{E}
+   [e^{i u N^2_t}] = e^{t \lambda_1 (e^{i u} - 1)} e^{t \lambda_2 (e^{i u} -
+   1)} = e^{t (\lambda_1 + \lambda_2) (e^{i u} - 1)} . \]
+Moreover, $N^1 + N^2$ clearly still has independent and stationary increments,
+starts from $0$, and is continuous in probability.
+
+The same argument shows that any sum $L^1 + L^2$ of {\underline{independent}}
+Levy processes is a new Levy process with Levy triple
+\[ (a_1 + a_2, \sigma_1^2 + \sigma_2^2, \nu_1 + \nu_2) . \]}
+
+\appendix\section{Probability theory background material}
+
+\subsection{Gaussian random variables}\label{app:gaussian}
+
+We recall here several fundamental facts about Gaussian random variables. We
+start by considering the one-dimensional case.
+
+\begin{definition}[Gaussian/normal distribution]
+  A random variable $X$ is called {\emph{standard Gaussian}} or
+  {\emph{standard normal}}, and we write $X \sim \mathcal{N} (0, 1)$, if it
+  has probability density
+  \[ f (x) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}} . \]
+  Let $m \in \mathbb{R}$ and $\sigma \geqslant 0$. A random variable $Y$ has
+  the {\emph{Gaussian distribution}}, or {\emph{normal distribution}},
+  $\mathcal{N} (m, \sigma^2)$ if there exists a standard normal variable $Z$
+  (namely $Z \sim \mathcal{N} (0, 1)$) such that
+  \begin{equation}
+    \label{eq:normal characterization as sum} Y = m + \sigma Z.
+  \end{equation}
+  Equivalently, $Y \sim \mathcal{N} (m, \sigma^2)$ if and only if its
+  characteristic function is given by
+  \begin{equation}
+    \label{eq:normal characterization Fourier} \mathbb{E} [e^{iuY}] = e^{ium -
+    \sigma^2 u^2 / 2}, \qquad u \in \mathbb{R}.
+  \end{equation}
+  A random variable $Y$ is a {\emph{centered Gaussian}} (or {\emph{centered
+  normal}}) if it has distribution $\mathcal{N} (0, \sigma^2)$, namely $m =
+  0$.
+\end{definition}
+
+\tmcolor{blue}{\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Let $X \sim \mathcal{N} (0, 1)$. By direct computation, show that
+  \[ \mathbb{E} [e^{\lambda X}] = e^{\frac{\lambda^2}{2}} \quad \forall \,
+     \lambda \in \mathbb{R} \]
+  and that
+  \[ \mathbb{E} [e^{\lambda | X |^2}] = \left\{\begin{array}{l}
+       + \infty \hspace{3.2em} \tmop{if} \lambda \geqslant 1 / 2\\
+       \frac{1}{\sqrt{1 - 2 \lambda}} \qquad \tmop{if} \lambda < 1 / 2
+     \end{array}\right. . \]
+\end{exercise*}}}{\begin{proof}
+  Proof is easy by direct computations. First part requires to complete the
+  square $(\lambda x - x^2 / 2) = - \lambda^2 / 2 + (x - \lambda)^2$ and
+  change variables $y = x - \lambda$; second part instead requires the change
+  of variable $\tilde{y} = \sqrt{1 - 2 \lambda} x$.
+\end{proof}}}
+
+Let $Y \sim \mathcal{N} (m, \sigma^2)$. Recall that if $\sigma > 0$, then $Y$
+has a density
+\[ f (x) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{- \frac{x^2}{2 \sigma^2}} . \]
+For $\sigma = 0$ we have $\mathbb{P} (Y = m) = 1$. Recall also that
+\[ m =\mathbb{E} [Y], \qquad \sigma^2 = \tmop{Var} (Y) . \]
+\begin{remark}
+  \label{rmk:univariate gaussian}{\tmdummy}
+
+  \begin{enumerate}
+    \item If $Y \sim \mathcal{N} (m, \sigma^2)$ and $\tilde{Y} \sim
+    \mathcal{N} (\tilde{m}, \tilde{\sigma}^2)$ are independent Gaussian random
+    variables, then (\ref{eq:normal characterization Fourier}) yields that $Y
+    + \tilde{Y} \sim \mathcal{N} (m + \tilde{m}, \sigma^2 +
+    \tilde{\sigma}^2)$. Namely, sum of independent Gaussian variables is still
+    Gaussian.
+
+    \item If $Y \sim \mathcal{N} (m, \sigma^2)$, then $\lambda Y \sim
+    \mathcal{N} (m, \lambda^2 \sigma^2)$. Moreover if $Y \sim \mathcal{N} (0,
+    \sigma^2)$, so that $Y = \sigma Z$ for some $Z \sim \mathcal{N} (0, 1)$,
+    then for any $p > 0$ it holds:
+    \[ \mathbb{E} [| Y |^p] = \sigma^p \mathbb{E} [| Z |^p] =\mathbb{E}
+       [Y^2]^{p / 2} c_p, \]
+    for $c_p =\mathbb{E} [| Z |^p] \in (0, \infty)$. So up to a constant
+    $c_p$, the $p$-th absolute moment of $Y$ is simply the second moment
+    raised to the power $\frac{p}{2}$.
+  \end{enumerate}
+\end{remark}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  It is not true for general centered random variables that $\mathbb{E} [| Y
+  |^p] \leqslant C\mathbb{E} [| Y |^2]^{\frac{p}{2}}$. Can you find a centered
+  random variable $Y$ with $\mathbb{E} [Y^2]^{\frac{p}{2}} < \infty
+  =\mathbb{E} [| Y |^p]$ for some $p > 2$?
+\end{exercise*}}}{Take for example $a_n = | n |^{- 4}$ for $n \in \mathbb{Z}
+\setminus \{ 0 \}$ and $a_0 = 1$ and let $Z = \sum_{n \in \mathbb{Z}} a_n <
+\infty$ and $p_n = \frac{a_n}{Z}$. Then $\sum_{n \in \mathbb{Z}} a_n = 1$ by
+construction, and if $\mathbb{P} (Y = n) = p_n$, then $Y$ is centered by
+construction and
+\[ \mathbb{E} [Y^2] = \sum_{n \neq 0} n^2 \frac{1}{Z} | n |^{- 4} =
+   \frac{1}{Z} \sum_n n^{- 2} < \infty, \]
+but
+\[ \mathbb{E} [Y^4] = \sum_n n^4 \frac{1}{Z} | n |^{- 4} = \infty . \]}
+
+The following result shows that Gaussian random variables are in some sense
+very rigid: the limit in distribution of Gaussian random variables still has
+to be Gaussian.
+
+\begin{lemma}
+  \label{lem:limit.gaussians}Let $(X_n)_{n \in \mathbb{N}}$ be a sequence of
+  Gaussian random variables such that $X_n \sim \mathcal{N} (m_n,
+  \sigma_n^2)$. Then $(X_n)$ converges in distribution to a random variable
+  $X$ if and only if there exist $m \in \mathbb{R}$ and $\sigma \geqslant 0$
+  such that $m_n \rightarrow m$ and $\sigma_n \rightarrow \sigma$. In that
+  case $X \sim \mathcal{N} (m, \sigma^2)$. Moreover, if $(X_n)$ converges even
+  in probability to $X$, then $(X_n)$ also converges in $L^p$ to $X$, for any
+  $p \geqslant 1$.
+\end{lemma}
+
+\tmfoldedplain{\begin{proof}[Sketch of proof]
+  By L{\'e}vy's continuity theorem (Stochastik~1 or Theorem~15.23
+  in~{\cite{Klenke2008}}), convergence in distribution is equivalent to
+  pointwise convergence of the characteristic function. It is easy to see that
+  if $m_n \rightarrow m$ and $\sigma_n \rightarrow \sigma$, then the
+  characteristic functions converge. Conversely, assume that $X_n$ converges
+  in distriution to some $X$.
+
+  Step 1: Taking the absolute value of the characteristic function, we see
+  that $\sigma_n^2$ converges to some $\sigma^2 \in [0, \infty]$. The case
+  $\sigma^2 = \infty$ can be ruled out because then the limit of the
+  characteristic function would be $\mathbbm{1}_{u = 0}$ which is
+  discontinuous, while any characteristic function is continuous.
+
+  Step 2: Now that we know that $(\sigma_n)$ converges, we obtain that $(m_n)$
+  is bounded: Otherwise along a subsequence $(X_n)$ would converge in
+  probability to $\pm \infty$, which is incompatible with weak convergence.
+
+  Step 3: $(m_n)$ has at most one limit point in $\mathbb{R}$: If there were
+  two limits $m$ and $m'$, then along different subsequences $(X_n)$ would
+  converge weakly to different limits $\mathcal{N} (m, \sigma^2)$ resp.
+  $\mathcal{N} (m', \sigma^2)$, which is impossible because we assumed weak
+  convergence.
+
+  It remains to show that if $X_n \overset{\mathbb{P}}{\longrightarrow} X$ and
+  $p \geqslant 1$, then even $X_n \overset{L^p}{\longrightarrow} X$. From the
+  previous considerations and because convergence in probability implies
+  convergence in distribution we know that $m_n \rightarrow m$ and $\sigma_n^2
+  \rightarrow \sigma_n$. In particular, for any $q \geqslant 1$ there exists
+  $K_q > 0$ such that
+  \[ \sup_n \mathbb{E} [| X_n |^q] \leqslant \sup_n K_q (\mathbb{E} [| X_n -
+     m_n |^q] + m_n^q) = \sup_n K_q (C_q \sigma_n^q + m_n^q) < \infty . \]
+  Taking $q = 2 p$, we deduce from the de la Vall{\'e}e-Poussin criterion
+  (Stochastics II) that $(| X_n |^p)$ is uniformly integrable. By another
+  result from Stochastics II, this yields $X_n \overset{L^p}{\longrightarrow}
+  X$.
+\end{proof}}{\begin{proof}
+  By L{\'e}vy's continuity theorem (Stochastik~1 or Theorem~15.23
+  in~{\cite{Klenke2008}}), convergence in distribution is equivalent to
+  pointwise convergence of the characteristic function. It is easy to see that
+  if $m_n \rightarrow m$ and $\sigma_n \rightarrow \sigma$, then the
+  characteristic functions converge.
+
+  Conversely, assume that $X_n$ converges in distriution to some $X$.
+
+  Step 1: Taking the absolute value of the characteristic function, we see
+  that $\sigma_n^2$ converges to some $\sigma^2 \in [0, \infty]$. The case
+  $\sigma^2 = \infty$ can be ruled out because then the limit of the
+  characteristic function would be $\mathbbm{1}_{u = 0}$ which is
+  discontinuous, while any characteristic function is continuous.
+
+  Step 2: Now that we know that $(\sigma_n)$ converges we obtain that $(m_n)$
+  is bounded, because otherwise along a subsequence $(X_n)$ would converge to
+  $\pm \infty$, which is incompatible with weak convergence.
+
+  Step 3: $(m_n)$ has at most one limit point in $\mathbb{R}$: If there were
+  two limits $m$ and $m'$, then along different subsequences $(X_n)$ would
+  converge weakly to different limits $\mathcal{N} (m, \sigma^2)$ resp.
+  $\mathcal{N} (m', \sigma^2)$, which is impossible because we assumed weak
+  convergence.
+  \begin{itemizedot}
+    \item ($\Leftarrow$): So if $m_n \rightarrow m$ and $\sigma_n \rightarrow
+    \sigma$, then
+    \[ \mathbb{E} [e^{i u X_n}] = e^{i u m_n - u^2 \sigma_n^2 / 2}
+       \longrightarrow e^{i u m - u^2 \sigma^2 / 2}, \]
+    which is the characteristic function of $X \sim \mathcal{N} (m,
+    \sigma^2)$. Therefore, $X_n$ converges in distribution to $X$.
+
+    \item ($\Rightarrow$): Conversely, assume that $X_n$ converges in
+    distribution to $X$.
+
+    Step 1, $(\sigma_n)$ converges: Taking the absolute value of the
+    characteristic function of $X_n$, we get for all $u \in \mathbb{R}$
+    \[ e^{- u^2 \sigma_n^2 / 2} = | e^{i u m_n - u^2 \sigma_n^2 / 2} | =
+       |\mathbb{E}[e^{iu X_n}] | \longrightarrow |\mathbb{E}[e^{iuX}] |, \]
+    which is only possible if $(\sigma_n)_{n \in \mathbb{N}}$ converges to
+    some $\sigma \in [0, \infty]$. But the case $\sigma = \infty$ can be
+    excluded because then the limiting function $\mathbbm{1}_{u = 0}$ is
+    discontinuous, while any characteristic function is continuous.
+
+    Step 2, $(m_n)$ is bounded: We argue by contradiction and assume that the
+    sequence is unbounded, and that $m_{n_k} \rightarrow \infty$ along a
+    subsequence (the case $m_{n_k} \rightarrow - \infty$ along a subsequence
+    works analogously). Since $(\sigma_n)_{n \in \mathbb{N}}$ is bounded, we
+    deduce that $X_{n_k} \rightarrow \infty$ as $n \rightarrow \infty$ in
+    probability, in the sense that $\lim_{n \rightarrow \infty} \mathbb{P}
+    (X_{n_k} > K) = 1$ for all $K > 0$. This is a contradiction to $(X_{n_k})$
+    converging in distribution to a finite random variable $X$.
+
+    Step 3, $(m_n)$ converges: We get from Step 1 for all $u \in \mathbb{R}$
+    \[ \lim_{n \rightarrow \infty} e^{ium_n} = \lim_{n \rightarrow \infty}
+       e^{u^2 \sigma_n^2 / 2} \mathbb{E} [e^{iuX_n}] = e^{u \sigma^2 / 2}
+       \mathbb{E} [e^{iuX}] . \]
+    Since $(m_n)$ is bounded, it must converge: any two limit points $m$ and
+    $m'$ satisfy $e^{ium} = e^{ium'}$ for all $u \in \mathbb{R}$, and
+    therefore $m = m'$. \ Thus, we have shown that
+    \[ \lim_{n \rightarrow \infty} \mathbb{E} [e^{iuX_n}] = e^{ium - u^2
+       \sigma^2 / 2} =\mathbb{E} [e^{iuX}], \]
+    and thus $X \sim \mathcal{N} (m, \sigma^2)$.
+  \end{itemizedot}
+\end{proof}}
+
+Next, we study the $\mathbb{R}^d$-valued case, which in some sense can be
+reduced to the real-valued case:
+
+\begin{definition}
+  Let $d \in \mathbb{N}$ and let $X$ be a random variable with values in
+  $\mathbb{R}^d$. Then we say that $X$ is {\emph{(centered) Gaussian}} or
+  {\emph{(centered) normal}} if for any $u \in \mathbb{R}^d$ the linear
+  combination
+  \[ u \cdot X = \sum_{j = 1}^d u_j X_j \]
+  of the entries of $X$ is (centered) Gaussian. We also call $(X_1, \ldots,
+  X_d)$ {\emph{jointly Gaussian}}.
+
+  Equivalently, there exist $m \in \mathbb{R}^d$ and a symmetric positive
+  semi-definite matrix $C \in \mathbb{R}^{d \times d}$ such that $X$ has the
+  characteristic function
+  \[ \mathbb{E} [e^{iu \cdummy X}] = e^{iu \cdot m - (u^T Cu) / 2}, \qquad u
+     \in \mathbb{R}^d . \]
+  Moreover,
+  \[ \mathbb{E} [u \cdummy X] = u \cdummy m, \qquad \tmop{var} (u \cdummy X) =
+     u^T Cu. \]
+  We say that $X$ has {\emph{mean}} (or {\emph{expectation}}) $m$ and
+  {\emph{covariance}} $C$ and write $X \sim \mathcal{N} (m, C)$. $X$ is
+  centered if and only if $m = 0$.
+\end{definition}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  {\tmdummy}
+
+  \begin{enumerate}
+    \item Easy: If $X = (X_1, \ldots, X_d)$ is Gaussian, show that $X_j$ is a
+    one-dimensional Gaussian for all $j = 1, \ldots, d$.
+
+    \item Easy: ``Linear functions of Gaussians are Gaussian'': Let $X$ be an
+    $\mathbb{R}^d$-valued Gaussian random variable and let $A \in
+    \mathbb{R}^{n \times d}$. Show that $A X$ (matrix times vector) is an
+    $\mathbb{R}^n$-valued Gaussian random variable. In particular, if $X \sim
+    \mathcal{N} (m, C)$, then $A X \sim \mathcal{N} (A m, A C A^T)$.
+
+    \item Hard: If $X_1$ and $X_2$ are one-dimensional Gaussian random
+    variables, is it true that $(X_1, X_2)$ is a two-dimensional Gaussian? Or
+    can you find a counterexample?
+  \end{enumerate}
+\end{exercise*}}}{\begin{enumerate}
+  \item $X_j = e_j \cdummy X$.
+
+  \item
+  \[ u \cdummy (A X) = \sum_{j = 1}^n u_j (A X)_j = \sum_{j = 1}^n \sum_{k =
+     1}^d u_j A_{j k} X_k = \sum_{k = 1}^d \left( \sum_{j = 1}^n u_j A_{j k}
+     \right) X_k . \]
+  \item When we try to show this via the same argument, we run into a problem:
+  to compute $\mathbb{E} [e^{i \lambda (u_1 X_1 + u_2 X_2)}]$ we would need to
+  know the joint distribution of $(X_1, X_2)$. And indeed it is not true in
+  general that for Gaussians $X_1, X_2$ also $X_1 + X_2$ is Gaussian. We will
+  see a counterexample below.
+\end{enumerate}}
+
+If $m = 0 \in \mathbb{R}^d$ and $C =\mathbb{I} \in \mathbb{R}^{d \times d}$ is
+the unit matrix, $X$ is an $\mathcal{N} (0, \mathbb{I})$ variable if and only
+if $(X_1, \ldots, X_d)$ are independent standard Gaussians. Indeed, for
+independent standard Gaussians we get
+\[ \mathbb{E} [e^{i u \cdummy X}] = \prod_{j = 1}^d \mathbb{E} [e^{i u_j X_j}]
+   = \prod_{j = 1}^d e^{- \frac{1}{2} u_j^2} = e^{- \frac{1}{2} u^T
+   \mathbb{I}u} = e^{- \frac{1}{2} | u |^2} . \]
+In particular, for any $d \in \mathbb{N}$ there exists a $d$-dimensional
+$\mathcal{N} (0, \mathbb{I})$ variable.
+
+\begin{lemma}
+  \label{lemA.5}Let $m \in \mathbb{R}^d$ and let $C \in \mathbb{R}^{d \times
+  d}$ be symmetric and positive semi-definite.
+  \begin{enumerate}
+    \item There exists (a probability space with) a random variable $X \sim
+    \mathcal{N} (m, C)$: Just let $Y \sim \mathcal{N} (0, \mathbb{I})$ and
+    \[ X \coloneq m + \sqrt{C} Y, \]
+    where $\sqrt{C}$ is the square root of $C$, that is the unique symmetric
+    and positive semi-definite matrix such that $\sqrt{C} \sqrt{C} = C$ (such
+    a {\sqrt{$C$}} always exists).
+
+    \item ''Uncorrelated Gaussians are independent'': Let $X \sim \mathcal{N}
+    (m, C)$. Then the coordinates $(X_1, \ldots, X_d)$ are independent if and
+    only if $C$ is a diagonal matrix.
+
+    \item Let $X \sim \mathcal{N} (m, C)$. Then $X$ has a density $p_X$ with
+    respect to the $d$-dimensional Lebesgue measure if and only if $C$ is
+    invertible. In that case
+    \begin{equation}
+      \label{eq:gaussian density multivariate} p_X (x) = \frac{1}{(2 \pi)^{d /
+      2} (\det (C))^{1 / 2}} \exp \left( - \frac{1}{2} (x - m)^T C^{- 1} (x -
+      m) \right) .
+    \end{equation}
+  \end{enumerate}
+\end{lemma}
+
+\tmcolor{blue}{\begin{exercise*}
+  {\tmdummy}
+
+  \begin{enumerate}
+    \item Let $(X, Y)$ be {\underline{jointly}} Gaussian and such that
+    $\tmop{cov} (X, Y) = 0$. Show that $X$ and $Y$ are independent. In
+    particular, if $X$ and $Y$ are centered and jointly Gaussian, this implies
+    that orthogonality is equivalent to independence.
+
+    \item Formulate point iii. for the special case $d = 1$.
+  \end{enumerate}
+\end{exercise*}}
+
+\tmcolor{blue}{\begin{exercise*}
+  Extend point~i. of the previous exercise to the following one: if $(X_t)_{t
+  \in \mathbb{T}}$ and $(Y_s)_{s \in \mathbb{T}'}$ are jointly Gaussian
+  centered processes, then $(X_t)_{t \in \mathbb{T}}$ and $(Y_s)_{s \in
+  \mathbb{T}'}$ are independent if and only if $\mathbb{E} [X_t Y_s] = 0$ for
+  all $t \in \mathbb{T}$ and $s \in \mathbb{T}'$.
+\end{exercise*}
+
+\tmtextit{Hint: reduce to finite-dimensional distributions by Dynkin's lemma,
+cf. Lemma~\ref{lem:dynkin.independence}.}}
+
+\begin{example}
+  Let $Y, Z$ be independent with $Z \sim \mathcal{N} (0, 1)$ and $\mathbb{P}
+  (Y = 1) =\mathbb{P} (Y = - 1) = \frac{1}{2}$. Let $X_1 = Z$ and $X_2 = Y Z$.
+  Then $X_1 \sim \mathcal{N} (0, 1)$, and
+  \[ \mathbb{E} [e^{i u X_2}] =\mathbb{E} [\mathbb{E} [e^{i u Z Y} |Y]]
+     =\mathbb{E} [e^{- (u Y)^2 / 2}] = e^{- u^2 / 2}, \]
+  where we used that $Y^2 = 1$. So also $X_2 \sim \mathcal{N} (0, 1)$.
+  Moreover,
+  \[ \tmop{cov} (X_1, X_2) =\mathbb{E} [X_1 X_2] =\mathbb{E} [Y Z^2]
+     =\mathbb{E} [Y] \mathbb{E} [Z^2] = 0 \cdot 1 = 0. \]
+  But of course $(X_1, X_2)$ are not independent: Knowing $X_1$, we know $|
+  X_2 |$ with certainty.
+\end{example}
+
+\tmfoldedplain{\tmcolor{blue}{\begin{exercise*}
+  Why does this example not contradict point ii. of the previous lemma? And
+  can you solve the hard part iii. of the long blue question right before
+  Lemma~\ref{lemA.5} now?
+\end{exercise*}}}{Because $(X_1, X_2)$ is {\underline{not}} a two-dimensional
+Gaussian. Only $X_1$ and $X_2$ individually are Gaussian. This is allso the
+counterxample for question iv. above. We could compute $\mathbb{E} [e^{i u
+(X_1 + X_2)}]$ by hand, but we already know that $(X_1, X_2)$ cannot be
+Gaussian because otherwise we would get a contradiction to Corollary~1.8.}
+
+\subsection{Dynkin's lemma and monotone class theorems}\label{app:dynkin}
+
+Let us briefly discuss two versions of the monotone class theorem, which will
+be useful throughout the lecture. We will often be able to verify some
+property for particularly simple random variables, and then ask ourselves
+whether the property holds for a larger class of random variables. This can
+often be shown with the help of monotone class theorems. We follow Appendix~4
+of~{\cite{Ethier1986}}.
+
+\
+
+Let $\Omega$ be a set. We write $2^{\Omega}$ for the subsets of $\Omega$.
+Recall the following definition:
+
+\begin{definition}
+  A family $\mathcal{D} \subset 2^{\Omega}$ is called a
+  {\emph{$\lambda$-system}}, or also a {\emph{Dynkin system}}, if
+  \begin{enumerate}
+    \item $\Omega \in \mathcal{D}$;
+
+    \item if $A, B \in \mathcal{D}$ with $A \subset B$, then $B \setminus A
+    \in \mathcal{D}$;
+
+    \item if $(A_n)_{n \in \mathbb{N}} \subset \mathcal{D}$ are increasing,
+    i.e. $A_n \subset A_{n + 1}$ for all $n$, then $\bigcup_n A_n \in
+    \mathcal{D}$.
+  \end{enumerate}
+  A family $\mathcal{E} \subset 2^{\Omega}$ is called a {\emph{$\pi$-system}}
+  if it is closed under finite intersections:
+  \[ A, B \in \mathcal{E} \qquad \Rightarrow \qquad A \cap B \in \mathcal{E}.
+  \]
+\end{definition}
+
+\tmcolor{blue}{\tmfoldedplain{\begin{exercise*}[elementary, but less trivial
+then it looks!]
+  Verify that $\mathcal{D}$ is equivalently a $\lambda$-system if the
+  following hold:
+  \begin{enumeratenumeric}
+    \item $\Omega \in \mathcal{D}$;
+
+    \item if $A \in \mathcal{D}$, then $A^c \in \mathcal{D}$;
+
+    \item if $(A_n)_{n \in \mathbb{N}} \subset \mathcal{D}$ are pairwise
+    disjoint, then $\bigcup_n A_n \in \mathcal{D}$.
+  \end{enumeratenumeric}
+\end{exercise*}}{\begin{proof}
+  For the first implication, it suffices to show that
+  \tmtextit{\tmtextit{i}.-ii.-iii.}$\Rightarrow$3.; in fact, by
+  \tmtextit{iii.}, it suffices to show that under
+  \tmtextit{\tmtextit{i}.-ii.-iii.} $\mathcal{D}$ is closed under finite union
+  of disjoint sets.
+
+  Let $A_1, A_2 \in \mathcal{D}$ with $A_1 \cap A_2 = \emptyset$. This means
+  that $A_2 \subset A_1^c$ and so by~\tmtextit{ii.} $A_1^c \setminus A_2 \in
+  \mathcal{D}$. But $A_1^c \setminus A_2 = (A_1 \cup A_2)^c$ and so again
+  by~\tmtextit{ii.} (with $B = \Omega$) $A_1 \cup A_2 \in \mathcal{D}$.
+
+  For the second implication, we show how to prove that
+  1.-2.-3.$\Rightarrow$\tmtextit{ii.} and leave the rest of the details to the
+  reader. Let $A \subset B$; since $(A \setminus B)^c = B^c \cup A$ and $B^c$,
+  $A$ are disjoint, by 3. $(A \setminus B)^c \in \mathcal{D}$; but then by 2.
+  $A \setminus B \in \mathcal{D}$.
+\end{proof}}}
+
+\begin{theorem}[Dynkin's $\pi$-$\lambda$ theorem, also called Dynkin's lemma]
+  \label{thm:dynkin}Let $\mathcal{D} \subset 2^{\Omega}$ be a $\lambda$-system
+  and let $\mathcal{E} \subset \mathcal{D}$ be a $\pi$-system. Then $\sigma
+  (\mathcal{E}) \subset \mathcal{D}$.
+\end{theorem}
+
+\begin{proof}
+  Probability~I, or Theorem~4.2 from~{\cite{Ethier1986}}.
+\end{proof}
+
+\begin{definition}
+  Let $\mathcal{A}$ be a $\sigma$-algebra on $\Omega$. We say that
+  $\mathcal{E}$ is a basis for $\mathcal{A}$ if $\mathcal{E}$ is a
+  $\pi$\mbox{-}system and $\sigma (\mathcal{E}) = \mathcal{A}$.
+\end{definition}
+
+\tmtextit{[Comment: the terminology ``basis'' in this context is not fully
+standard and not adopted by many authors, but convenient for this appendix]}
+
+\tmcolor{blue}{\tmfoldedplain{\begin{exercise*}
+  Use Dynkin's lemma to prove the following fact: if $\mu$, $\nu$ are two
+  probability measures on $(\Omega, \mathcal{A})$ and $\mathcal{E}$ is a basis
+  for $\mathcal{A}$, then $\mu = \nu$ on $(\Omega, \mathcal{A})$ if and only
+  if $\mu (A) = \nu (A)$ for all $A \in \mathcal{A}$.
+\end{exercise*}}{\begin{proof}
+  One implication is obvious, we need to verify the other one. Defining
+  $\mathcal{D} \coloneq \{ A \in \mathcal{A} : \mu (A) = \nu (A) \}$, one sees
+  that $\mathcal{D}$ is a Dynkin system. By assumption $\mathcal{E} \subset
+  \mathcal{D}$ and so by Dynkin's lemma $\mathcal{A} = \sigma (\mathcal{E})
+  \subset \mathcal{D} \subset \mathcal{A}$, implying the conclusion.
+\end{proof}}}
+
+Let us quickly recall some relevant cases of bases:
+\begin{itemizedot}
+  \item On $\mathbb{R}$, the collection of closed intervals $\mathcal{R}
+  \coloneq \{ [a, b] : a < b \}$ form a basis for $\mathcal{B} (\mathbb{R})$;
+  same for open intervals $\{ (a, b) : a < b \}$, or unbouded intervals $\{ (-
+  \infty, a] : a \in \mathbb{R} \}$, etc.
+
+  \item On $\mathbb{R}^d$, the collection of closed rectangles $\mathcal{R}^d
+  \coloneq \{ A = \Pi_{i = 1}^d A_i |A_i \in \mathcal{R} \}$ are a basis for
+  $\mathcal{B} (\mathbb{R}^d)$.
+
+  \item Given a topological space $(E, \tau)$, the collection $\tau$ of open
+  sets form a basis for $\mathcal{B} (E)$; same for the collection of closed
+  sets.
+
+  \item If $(E_1, \mathcal{A}_1)$ and $(E_2, \mathcal{A}_2)$ are measurable
+  spaces, $\mathcal{E}_i$ are bases for $\mathcal{A}_i$ and we endow $E_1
+  \times E_2$ with $\mathcal{A} = \sigma (\mathcal{A}_1 \times \mathcal{A}_2)$
+  the product $\sigma$-algebra, then the ``rectangles''
+  \[ \mathcal{R}^{E_1 \times E_2} \coloneq \{ A = A_1 \times A_2 |A_1 \in
+     \mathcal{E}_1, A_2 \in \mathcal{E}_2 \} \]
+  form a basis for $\mathcal{A}$.
+
+  \item Given $n \in \mathbb{N}$, $t_1, \ldots, t_n \in \mathbb{R}_+$ and
+  $B_1, \ldots, B_n \in \mathcal{B} (\mathbb{R})$, consider the set
+  \[ E = \left\{ \omega \in \mathbb{R}^{\mathbb{R}_+} : \, \omega (t_i) \in
+     B_i  \text{ for } i = 1, \ldots, n \right\} ; \]
+  let $\mathcal{E}$ denote the collection of all such sets, upon varying $n$,
+  $t_i$ and $B_i$. Then $\mathcal{E}$ is a basis for $\mathcal{B}
+  (\mathbb{R})^{\otimes \mathbb{R}_+}$.
+\end{itemizedot}
+\tmcolor{blue}{\tmfoldedplain{\begin{exercise*}
+  Let $X_1$, $X_2$ be random variables taking values in two measurable spaces
+  $(E_1, \mathcal{A}_1)$ and $(E_2, \mathcal{A}_2)$ and let $\mathcal{E}_i$ be
+  bases for $\mathcal{A}_i$. Using Dynkin's lemma and the last point from the
+  above bullet list, show that $X_1$ and $X_2$ are independent if and only if
+  \[ \mathbb{P} (X_1 \in A_1, X_2 \in A_2) =\mathbb{P} (X_1 \in A_1)
+     \mathbb{P} (X_2 \in A_2) \]
+  for all $A_1 \in \mathcal{E}_1$ and $A_2 \in \mathcal{E}_2$.
+\end{exercise*}}{\begin{proof}
+  Easy, particular subcase of the previous exercise.
+\end{proof}}}
+
+\begin{lemma}
+  \label{lem:dynkin.independence}Let $(X_t)_{t \in \mathbb{T}}$ and $(Y_s)_{s
+  \in \mathbb{T}'}$ are (real-valued) stochastic processes, over (possibly
+  different) index sets $\mathbb{T}$ and $\mathbb{T}'$. Then $(X_t)_{t \in
+  \mathbb{T}}$ and $(Y_s)_{s \in \mathbb{T}'}$ are independent if and only if
+  $(X_{t_i})_{i = 1}^n$ and $(Y_{s_j})_{j = 1}^m$ are independent, for all $n,
+  m \in \mathbb{N}$ and all $(t_i)_{i = 1}^n \subset \mathbb{T}^n$, $(s_j)_{j
+  = 1}^m \subset (\mathbb{T}')^m$.
+\end{lemma}
+
+\tmcolor{blue}{\begin{exercise*}
+  Prove the above lemma.
+\end{exercise*}}
+
+Theorem~\ref{thm:dynkin} only concerns sets, but naturally leads to results
+concerning {\emph{monotone}} classes of functions. Such results are extremely
+useful whenever one wants to establish certains properties being true for a
+large class of functions $f$, upon only verifying them for simpler cases
+(typically $f = \mathbb{1}_A$ for some ``nicely chosen'' $A$). We present two
+versions of such results.
+
+\begin{theorem}[Monotone class theorem I]
+  \label{thm:monotone.class1}Let $H$ be a vector space of bounded real-valued
+  functions on $\Omega$ and $\mathcal{E}$ be a $\pi$-system. Assume that
+  \begin{enumerate}
+    \item $H$ contains all constant functions;
+
+    \item $\mathbb{1}_A \in H$ for all $A \in \mathcal{E}$;
+
+    \item if $(h_n)_{n \in \mathbb{N}}$ is an increasing sequence of positive
+    functions in $H$ such that $h \coloneq \lim_n h_n \ge 0$ is bounded, then
+    $h \in H$.
+  \end{enumerate}
+  Then $H$ contains all bounded $\sigma (\mathcal{E})$-measurable functions.
+\end{theorem}
+
+\begin{proof}
+  See Theorem~4.3 from~{\cite{Ethier1986}}.
+\end{proof}
+
+\tmcolor{blue}{\tmfoldedplain{\begin{exercise*}
+  Let $X, Y$ be independent random variables taking values in $\mathbb{R}^d,
+  \mathbb{R}^m$ respectively; let $f : \mathbb{R}^d \times \mathbb{R}^m
+  \rightarrow \mathbb{R}$ be a measurable bounded function. Use
+  Theorem~\ref{thm:monotone.class1} to prove that
+  \[ \mathbb{E} [f (X, Y) |Y] (\omega) = g (Y (\omega)) \quad \tmop{for} \quad
+     g (y) \coloneq \mathbb{E} [f (X, y)] \]
+  where $\mathbb{E} \left[ \, \cdot \, |Y \right]$ denotes conditional
+  expectation w.r.t. $\sigma (Y)$.
+\end{exercise*}}{\begin{proof}
+  Let $H$ be the class of measurable bounded functions $f$ such that the above
+  identity holds; then it's easy to check by monotone convergence that $H$ is
+  a linear space satisfying properties \tmtextit{i}. and \tmtextit{iii.} Now
+  take $A_1 \in \mathcal{B} (\mathbb{R}^d)$, $A_2 \in \mathcal{B}
+  (\mathbb{R}^m)$ and set $A = A_1 \times A_2$. Then by independence of $X$
+  and $Y$ it holds
+
+  \begin{align*}
+    \mathbb{E} [\mathbb{1}_{A_1 \times A_2} (X, Y) |Y] & =\mathbb{E}
+    [\mathbb{1}_{A_1} (X) \mathbb{1}_{A_2} (Y) |Y] = \mathbb{1}_{A_2} (Y)
+    \mathbb{E} [\mathbb{1}_{A_1} (X) |Y]\\
+    & = \mathbb{1}_{A_2} (Y) \mathbb{E} [\mathbb{1}_{A_1} (X)] = g (Y)
+  \end{align*}
+
+  for $g (y) = \mathbb{1}_{A_2} (y) \mathbb{E} [\mathbb{1}_{A_1} (X)]
+  =\mathbb{E} [\mathbb{1}_{A_1 \times A_2} (X, y)]$. Therefore $\mathbb{1}_A
+  \in H$ for $A = A_1 \times A_2$ as above. Since the collection of such $A$
+  is a basis for $\mathcal{B} (\mathbb{R}^d \times \mathbb{R}^m)$, conclusion
+  follows.
+\end{proof}}}
+
+In the next statement, given a family of functions $C$ from $\Omega$ to
+$\mathbb{R}$, we denote by $\sigma (C)$ the $\sigma$-algebra generated by $C$,
+i.e. the smallest $\sigma$-algebra on $\Omega$ such that $f : (\Omega, \sigma
+(C)) \rightarrow \mathbb{R}$ is measurable for all $f \in C$. Equivalently
+this is the $\sigma$-algebra generated by the sets $f^{- 1} ([a, b])$, for
+$[a, b] \subset \mathbb{R}$ and $f \in C$.
+
+\tmfoldedplain{\begin{theorem}[Monotone class theorem II]
+  \label{thm:monotone.class2}Let $H$ be a vector space of bounded real-valued
+  functions on $\Omega$ such that
+  \begin{enumerate}
+    \item $H$ contains all constant functions;
+
+    \item if $(h_n)_{n \in \mathbb{N}} \subset H$ converges uniformly to $h$,
+    then $h \in H$;
+
+    \item if $(h_n)_{n \in \mathbb{N}}$ is an increasing sequence of positive
+    functions in $H$ such that $h \coloneq \lim_n h_n \ge 0$ is bounded, then
+    $h \in H$.
+  \end{enumerate}
+  If $C \subset H$ is closed under pointwise multiplication (that is, $f g \in
+  C$ whenever $f, g \in C$), then $H$ contains all bounded $\sigma
+  (C)$-measurable functions.
+\end{theorem}}{\begin{proof}
+
+  \begin{itemizedot}
+    \item First we show that $\Phi (f) \in H$ for any continuous $\Phi :
+    \mathbb{R} \rightarrow \mathbb{R}$ and any $f \in C$. Indeed, since $f$ is
+    bounded its image is contained in a compact $K \subset \mathbb{R}$. By the
+    Weierstrass approximation theorem we can approximate $\Phi |_K$ uniformly
+    by polynomials $(\Phi_n)$. Since polynomials of $f$ are in $H$ by
+    assumption (here we need that $C$ is closed under multiplication, that $H$
+    contains constants, and that $H$ is a vector space), we get $\Phi_n (f)
+    \in H$. Since $H$ is closed under uniform convergence, we then obtain
+    $\Phi (f) \in H$.
+
+    \item Next, we show that for all $f \in C$ and all $a \in \mathbb{R}$ the
+    function $\1_{\{ f > a \}}$ is in $H$. Indeed, it suffices to note that
+    $\1_{(a, \infty)}$ is the limit of an increasing sequence of positive
+    continuous functions and to apply our third assumption on $H$.
+
+    \item Analogously we see that $\1_{\{ f_1 > a_1, \ldots, f_n > a_n \}} \in
+    H$ for all $f_1, \ldots, f_n \in C$ and $a_1, \ldots, a_n \in \mathbb{R}$.
+    Since the set system
+    \[ \mathcal{E}= \{ \{ f_1 > a_1, \ldots, f_n > a_n \} : f_1, \ldots, f_n
+       \in C, a_1, \ldots, a_n \in \mathbb{R} \} \]
+    is closed under intersections, the Monotone class theorem I shows that $H$
+    contains all $\sigma (\mathcal{E})$--measurable functions. But $\sigma
+    (\mathcal{E}) = \sigma (C)$, so the proof is complete.
+  \end{itemizedot}
+\end{proof}}
+
+\begin{proof}
+  See Corollary~4.4 from~{\cite{Ethier1986}}.
+\end{proof}
+
+\tmcolor{blue}{\tmfoldedplain{\begin{exercise*}[hard]
+  Given a probability measure $\mu$ on $\mathbb{R}_+$, we define its Laplace
+  transform by
+  \[ L_{\mu} (a) : = \int_{\mathbb{R}_+} e^{- a x} \mu (\mathrm{d} a) \quad
+     \forall \, a \geqslant 0. \]
+  Apply Theorem~\ref{thm:monotone.class2} to prove that $L_{\mu}$
+  characterizes uniquely $\mu$, in the following sense: if $\mu$ and $\nu$ are
+  two probability measures on $\mathbb{R}_+$ such that $L_{\mu} = L_{\nu}$,
+  then $\mu = \nu$.
+\end{exercise*}}{\begin{proof}
+  Let $H$ be the space of bounded measurable functions $f$ such that
+  \[ \int_{\mathbb{R}_+} f (x) \mu (\mathrm{d} x) = \int_{\mathbb{R}_+} f (x) \nu
+     (\mathrm{d} x) . \]
+  It's easy to check that $H$ is a linear subspace satisfying
+  properties~\tmtextit{i.-ii.-iii.} of Theorem~\ref{thm:monotone.class2}. By
+  assumption $C \subset H$, where $C = \{ e^{- a \cdot}, a \geqslant 0 \}$;
+  $C$ is closed under pointwise multiplication, since $e^{- a x} e^{- b x} =
+  e^{- (a + b) x}$. Therefore by Theorem~\ref{thm:monotone.class2}, $H$
+  contains all bounded $\sigma (C)$-measurable functions, in particular
+  $\mathbb{1}_A$ for all $A \in \sigma (C)$. To conclude, it remains to show
+  that $\sigma (C) = \mathcal{B} (\mathbb{R}_+)$, and to do so it suffices to
+  prove that $\sigma (C)$ contains a basis of $\mathcal{B} (\mathbb{R}_+)$.
+  Lettting $f (x) = e^{- x}$, notice that $[x, \infty) = f^{- 1} ([0, f
+  (x)])$, so that $[x, \infty) \in \sigma (C)$ for all $x \in \mathbb{R}_+$;
+  as this collection forms a basis of $\mathcal{B} (\mathbb{R}_+)$, conclusion
+  follows.
+\end{proof}}}
+
+\begin{thebibliography}{10}
+  \bibitem[1]{Durrett2010}Rick Durrett. {\newblock}\tmtextit{Probability:
+  theory and examples}. {\newblock}Cambridge Series in Statistical and
+  Probabilistic Mathematics. Cambridge University Press, Cambridge, Fourth
+  edition, 2010.{\newblock}
+
+  \bibitem[2]{Ethier1986}Stewart~N.~Ethier  and  Thomas~G.~Kurtz.
+  {\newblock}\tmtextit{Markov processes: Characterization and convergence}.
+  {\newblock}John Wiley \& Sons, 1986.{\newblock}
+
+  \bibitem[3]{TeXmacs:website}J.~van~der Hoeven et~al. {\newblock}GNU TeXmacs.
+  {\newblock}\url{https://www.texmacs.org}, 1998.{\newblock}
+
+  \bibitem[4]{Jacod2008}Jean Jacod. {\newblock}Mouvement brownien et calcul
+  stochastique. {\newblock}Unpublished lecture notes,
+  \url{https://www.lpsm.paris//cours/DEA-07.pdf}, 2008.{\newblock}
+
+  \bibitem[5]{Jacod2003}Jean Jacod  and  Albert~N.~Shiryaev.
+  {\newblock}\tmtextit{Limit theorems for stochastic processes}.
+  {\newblock}Springer, 2nd  edition, 2003.{\newblock}
+
+  \bibitem[6]{Karatzas1988}Ioannis Karatzas  and  Steven~E.~Shreve.
+  {\newblock}\tmtextit{Brownian motion and stochastic calculus}.
+  {\newblock}Springer, 1988.{\newblock}
+
+  \bibitem[7]{Klenke2008}Achim Klenke. {\newblock}\tmtextit{Probability Theory
+  - A Comprehensive Course}. {\newblock}Springer, 2008.{\newblock}
+
+  \bibitem[8]{LeGall2016}Jean-Fran{\c c}ois Le Gall.
+  {\newblock}\tmtextit{Brownian motion, martingales, and stochastic calculus},
+  volume  274  of \tmtextit{Graduate Texts in Mathematics}.
+  {\newblock}Springer, 2016.{\newblock}
+
+  \bibitem[9]{Morters2010}Peter M{\"o}rters  and  Yuval Peres.
+  {\newblock}\tmtextit{Brownian motion},  volume~30  of \tmtextit{Cambridge
+  Series in Statistical and Probabilistic Mathematics}. {\newblock}Cambridge
+  University Press, Cambridge, 2010. {\newblock}With an appendix by Oded
+  Schramm and Wendelin Werner.{\newblock}
+
+  \bibitem[10]{Norris1998}J.~R.~Norris. {\newblock}\tmtextit{Markov chains},
+  volume~2  of \tmtextit{Cambridge Series in Statistical and Probabilistic
+  Mathematics}. {\newblock}Cambridge University Press, Cambridge, 1998.
+  {\newblock}Reprint of 1997 original.{\newblock}
+
+  \bibitem[11]{Oksendal2003}Bernt {\O}ksendal. {\newblock}\tmtextit{Stochastic
+  differential equations}. {\newblock}Universitext. Springer-Verlag, Berlin,
+  Sixth  edition, 2003. {\newblock}An introduction with
+  applications.{\newblock}
+
+  \bibitem[12]{Revuz1999}Daniel Revuz  and  Marc Yor.
+  {\newblock}\tmtextit{Continuous martingales and Brownian motion}.
+  {\newblock}Springer, 3rd  edition, 1999.{\newblock}
+
+  \bibitem[13]{Stroock2011}Daniel~W.~Stroock. {\newblock}\tmtextit{Probability
+  theory}. {\newblock}Cambridge University Press, Cambridge, Second  edition,
+  2011. {\newblock}An analytic view.{\newblock}
+\end{thebibliography}
+
+\
+
+\end{document}
